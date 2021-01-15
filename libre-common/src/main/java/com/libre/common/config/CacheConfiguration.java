@@ -51,9 +51,7 @@ public class CacheConfiguration extends CachingConfigurerSupport {
             Class<?> targetClassClass = target.getClass();
 
             container.put(CLASS,targetClassClass.toGenericString());
-
             container.put(METHOD_NAME,method.getName());
-
             container.put(PACKAGE,targetClassClass.getPackage());
 
             for (int i = 0; i < params.length; i++) {
@@ -61,7 +59,6 @@ public class CacheConfiguration extends CachingConfigurerSupport {
             }
 
             ObjectMapper objectMapper = new ObjectMapper();
-
             String jsonString = null;
             try {
                 jsonString = objectMapper.writeValueAsString(container);

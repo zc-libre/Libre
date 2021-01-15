@@ -14,7 +14,6 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 @Configuration(proxyBeanMethods = false)
 public class RedisConfiguration {
 
-
     @Bean("redisTemplate")
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
