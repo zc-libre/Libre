@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * @author zhao.cheng
  * @Date 2021/1/15
  */
-
 @EnableAsync
 @EnableRateLimiter
 @SpringBootApplication

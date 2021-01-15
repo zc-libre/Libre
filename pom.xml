@@ -20,9 +20,9 @@
         <spring.boot.version>2.3.2.RELEASE</spring.boot.version>
         <security.oauth2.version>2.5.0.RELEASE</security.oauth2.version>
 
-        <mybatis.plus.version>3.4.0</mybatis.plus.version>
+        <mybatis.plus.version>3.4.2</mybatis.plus.version>
         <mybatis.plus.dynamic.version>3.2.0</mybatis.plus.dynamic.version>
-        <mysql.connector.version>8.0.17</mysql.connector.version>
+        <mysql.connector.version>8.0.22</mysql.connector.version>
 
         <protostuff.version>1.6.0</protostuff.version>
         <logstash.version>6.2</logstash.version>
