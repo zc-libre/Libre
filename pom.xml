@@ -18,7 +18,7 @@
         <maven.compiler.target>8</maven.compiler.target>
 
         <spring.boot.version>2.3.2.RELEASE</spring.boot.version>
-        <security.oauth2.version>2.5.0.RELEASE</security.oauth2.version>
+        <security.oauth.version>2.5.0.RELEASE</security.oauth.version>
 
         <mybatis.plus.version>3.4.2</mybatis.plus.version>
         <mybatis.plus.dynamic.version>3.2.0</mybatis.plus.dynamic.version>
@@ -47,12 +47,6 @@
             </dependency>
 
 
-
-            <dependency>
-                <groupId>org.springframework.security.oauth</groupId>
-                <artifactId>spring-security-oauth2</artifactId>
-                <version>${security.oauth.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>com.baomidou</groupId>
@@ -102,6 +96,8 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
             </dependency>
+
+
 
             <!--mapstruct-->
             <dependency>
