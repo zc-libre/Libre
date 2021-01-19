@@ -34,7 +34,7 @@ public class RateLimiterConfiguration {
 	@ConditionalOnMissingBean
 	public RedisRateLimiterClient redisRateLimiter(StringRedisTemplate redisTemplate,
 												   Environment environment) {
-		log.info("限流组建启动！");
+		log.info("redisRateLimiterClient init!");
 		RedisScript<List<Long>> redisRateLimiterScript = redisRateLimiterScript();
 		return new RedisRateLimiterClient(redisTemplate, redisRateLimiterScript, environment);
 	}

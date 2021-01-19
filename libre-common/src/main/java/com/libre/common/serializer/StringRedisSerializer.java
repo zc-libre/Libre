@@ -1,7 +1,7 @@
 package com.libre.common.serializer;
 
 import cn.hutool.core.util.StrUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.libre.common.tookit.JsonUtil;
 import lombok.SneakyThrows;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.lang.Nullable;
@@ -37,8 +37,8 @@ public class StringRedisSerializer implements RedisSerializer<Object> {
     @SneakyThrows
     @Override
     public byte[] serialize(@Nullable Object object) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String string = objectMapper.writeValueAsString(object);
+
+        String string = JsonUtil.toJson(object);
         if (StrUtil.isBlank(string)) {
             return null;
         }
