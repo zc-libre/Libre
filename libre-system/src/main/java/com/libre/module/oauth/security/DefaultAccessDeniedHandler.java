@@ -38,7 +38,6 @@ public class DefaultAccessDeniedHandler implements AccessDeniedHandler {
    @Override
    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
       //当用户在没有授权的情况下访问受保护的REST资源时，将调用此方法发送403 Forbidden响应
-
       response.setCharacterEncoding("utf-8");
       response.setContentType("application/json;charset=utf-8");
       response.getWriter().print(JsonUtil.toJson(R.fail("没有访问权限!")));
