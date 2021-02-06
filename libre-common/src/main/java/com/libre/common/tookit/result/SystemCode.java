@@ -103,13 +103,13 @@ public enum SystemCode implements IResultCode {
 	/**
 	 * 通用 异常 code
  	 */
-	public static final int FAILURE_CODE = -1;
-	public static final int SUCCESS_CODE = 1;
+	public static final int FAILURE_CODE = 500;
+	public static final int SUCCESS_CODE = 200;
 	public static final int PARAM_MISS_CODE = 100000;
 	public static final int PARAM_TYPE_ERROR_CODE = 100001;
 	public static final int PARAM_BIND_ERROR_CODE = 100002;
 	public static final int PARAM_VALID_ERROR_CODE = 100003;
-	public static final int NOT_FOUND_CODE = 100004;
+	public static final int NOT_FOUND_CODE = 404;
 	public static final int MSG_NOT_READABLE_CODE = 100005;
 	public static final int METHOD_NOT_SUPPORTED_CODE = 100006;
 	public static final int MEDIA_TYPE_NOT_SUPPORTED_CODE = 100007;

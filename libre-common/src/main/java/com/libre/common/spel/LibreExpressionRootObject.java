@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 @Getter
 @RequiredArgsConstructor
 public class LibreExpressionRootObject {
+
 	private final Method method;
 
 	private final Object[] args;
