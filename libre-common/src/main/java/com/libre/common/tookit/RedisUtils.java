@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 @SuppressWarnings({"unchecked", "all"})
 public class RedisUtils {
+
     private static final Logger log = LoggerFactory.getLogger(RedisUtils.class);
     private RedisTemplate<String, Object> redisTemplate;
 
