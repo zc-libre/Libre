@@ -1,6 +1,5 @@
 package com.libre.module.system.controller;
 
-import com.libre.common.annotation.AnonymousAccess;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class IndexController {
 
-    @AnonymousAccess
+
     @GetMapping({"/", "/index"})
     public String test() {
         return "THE SERVICE IS RUNNING!";

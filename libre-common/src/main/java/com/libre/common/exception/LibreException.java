@@ -22,7 +22,7 @@ public class LibreException extends RuntimeException {
 	}
 
 	public LibreException(IResultCode rCode) {
-		this(rCode, rCode.getMsg());
+		this(rCode, rCode.getMessage());
 	}
 
 	public LibreException(IResultCode rCode, String message) {

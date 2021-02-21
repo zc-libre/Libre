@@ -13,6 +13,7 @@ import java.util.function.Supplier;
 public class Builder<T> {
 
     private final Supplier<T> instantiator;
+
     private final List<Consumer<T>> modifiers = Lists.newArrayList();
 
     public Builder(Supplier<T> instantiator) {

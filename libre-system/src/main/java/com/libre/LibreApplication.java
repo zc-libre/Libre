@@ -1,9 +1,6 @@
 package com.libre;
 
-<<<<<<< HEAD
 
-=======
->>>>>>> dev
 import com.libre.common.ratelimiter.EnableRateLimiter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

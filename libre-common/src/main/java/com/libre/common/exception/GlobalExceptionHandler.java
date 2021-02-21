@@ -1,7 +1,7 @@
 package com.libre.common.exception;
 
 import com.libre.common.tookit.result.R;
-import com.libre.common.tookit.result.SystemCode;
+import com.libre.common.tookit.result.ResultCode;
 import io.undertow.util.BadRequestException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
- * @author Zheng Jie
- * @date 2018-11-23
+ * @author zhao.cheng
+ *
  */
 @Slf4j
 @RestControllerAdvice
@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
         // 打印堆栈信息
         String message = "坏的凭证".equals(e.getMessage()) ? "用户名或密码不正确" : e.getMessage();
         log.error(message);
-        return R.fail(SystemCode.REQ_REJECT);
+        return R.fail(ResultCode.REQ_REJECT, message);
     }
 
     /**
@@ -44,6 +44,6 @@ public class GlobalExceptionHandler {
 	public R badRequestException(BadRequestException e) {
         // 打印堆栈信息
         e.printStackTrace();
-        return R.fail(SystemCode.REQ_REJECT);
+        return R.fail(ResultCode.REQ_REJECT, e.getMessage());
 	}
 }
