@@ -1,12 +1,11 @@
 package com.libre.module.security.config;
 
 import com.libre.common.annotation.AnonymousAccess;
-import com.libre.module.security.prop.SecurityProperties;
-import com.libre.module.security.security.DefaultAccessDeniedHandler;
-import com.libre.module.security.security.DefaultAuthenticationEntryPoint;
+import com.libre.common.security.prop.SecurityProperties;
+import com.libre.module.security.handler.DefaultAccessDeniedHandler;
+import com.libre.module.security.handler.DefaultAuthenticationEntryPoint;
 import com.libre.module.security.service.OnlineUserService;
 import com.libre.module.security.token.TokenConfigurer;
-import com.libre.module.security.token.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
@@ -46,7 +45,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final DefaultAuthenticationEntryPoint defaultAuthenticationEntryPoint;
     private final ApplicationContext applicationContext;
     private final CorsFilter corsFilter;
-    private final TokenProvider tokenProvider;
     private final SecurityProperties properties;
     private final OnlineUserService onlineUserService;
 
@@ -125,6 +123,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().apply(securityConfigurerAdapter());
     }
     private TokenConfigurer securityConfigurerAdapter() {
-        return new TokenConfigurer(tokenProvider, properties, onlineUserService);
+        return new TokenConfigurer(properties, onlineUserService);
     }
 }

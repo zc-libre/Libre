@@ -1,6 +1,6 @@
 package com.libre.module.system.convert;
 
-import com.libre.module.system.service.dto.UserDTO;
+import com.libre.common.security.model.SecurityUser;
 import com.libre.module.system.entity.User;
 import org.mapstruct.Mapper;
 
@@ -16,5 +16,5 @@ public interface UserConvert {
      * @param user /
      * @return /
      */
-    UserDTO toUserDTO(User user);
+    SecurityUser toUserDTO(User user);
 }

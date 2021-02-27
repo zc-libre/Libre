@@ -1,7 +1,8 @@
 package com.libre.module.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.libre.module.system.service.dto.UserDTO;
+import com.libre.common.security.model.SecurityUser;
+import com.libre.module.security.vo.UserVO;
 import com.libre.module.system.entity.User;
 
 /**
@@ -15,6 +16,12 @@ public interface UserService extends IService<User>{
      * @param username /
      * @return /
      */
-    UserDTO findUserByName(String username);
+    SecurityUser findUserByName(String username);
+
+    /**
+     * 获取用户详情
+     * @return /
+     */
+    UserVO getUserInfo(Long id);
 
 }

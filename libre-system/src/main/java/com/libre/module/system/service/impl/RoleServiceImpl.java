@@ -1,10 +1,10 @@
 package com.libre.module.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.libre.common.security.model.SecurityUser;
 import com.libre.module.system.entity.Role;
 import com.libre.module.system.mapper.RoleMapper;
 import com.libre.module.system.service.RoleService;
-import com.libre.module.system.service.dto.UserDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ import java.util.List;
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
 
     @Override
-    public List<GrantedAuthority> mapToGrantedAuthorities(UserDTO user) {
+    public List<GrantedAuthority> mapToGrantedAuthorities(SecurityUser user) {
         return null;
     }
 }

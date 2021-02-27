@@ -1,29 +1,15 @@
-package com.libre.module.system.entity;
+package com.libre.module.security.vo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.libre.common.base.BaseEntity;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-import java.io.Serializable;
-
-
+import lombok.Data;
 
 /**
- * 用户表
- * @author zhaocheng
+ * @author zhao.cheng
+ * @Date 2021/2/27
  */
-@Getter
-@Setter
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
-@TableName(value = "sys_user")
-public class User extends BaseEntity implements Serializable {
+@Data
+public class UserVO {
 
-    private static final long serialVersionUID = 1L;
-
+    private Long id;
     /**
      * 账户
      */
@@ -43,8 +29,6 @@ public class User extends BaseEntity implements Serializable {
      * 部门id
      */
     private Long deptId;
-
-
 
     /**
      * 昵称
@@ -75,5 +59,4 @@ public class User extends BaseEntity implements Serializable {
      * 状态
      */
     private Integer status;
-
 }

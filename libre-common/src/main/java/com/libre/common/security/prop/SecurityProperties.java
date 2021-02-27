@@ -1,5 +1,5 @@
 
-package com.libre.module.security.prop;
+package com.libre.common.security.prop;
 
 import com.libre.common.tookit.JsonUtil;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -8,7 +8,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * Jwt参数配置
  *
  * @author zhao.cheng
- * @date 2019年11月28日
  */
 @ConfigurationProperties("security.jwt")
 public class SecurityProperties {

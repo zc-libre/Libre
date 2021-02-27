@@ -1,8 +1,8 @@
 package com.libre.module.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.libre.common.security.model.SecurityUser;
 import com.libre.module.system.entity.Role;
-import com.libre.module.system.service.dto.UserDTO;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;
@@ -18,5 +18,5 @@ public interface RoleService extends IService<Role>{
      * @param user /
      * @return /
      */
-    List<GrantedAuthority> mapToGrantedAuthorities(UserDTO user);
+    List<GrantedAuthority> mapToGrantedAuthorities(SecurityUser user);
 }

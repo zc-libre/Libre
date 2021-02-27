@@ -1,9 +1,11 @@
 package com.libre;
 
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.libre.common.ratelimiter.EnableRateLimiter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
@@ -12,6 +14,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
  */
 @EnableAsync
 @EnableRateLimiter
+@Import(SpringUtil.class)
 @SpringBootApplication
 public class LibreApplication {
 

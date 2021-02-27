@@ -9,5 +9,4 @@ import com.libre.module.system.entity.UserPost;
 */
 public interface UserPostService extends IService<UserPost>{
 
-
 }

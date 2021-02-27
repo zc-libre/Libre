@@ -1,13 +1,14 @@
 package com.libre.module.security.service;
 
-import com.libre.module.security.service.dto.JwtUserDTO;
-import com.libre.module.system.service.dto.UserDTO;
-import com.libre.module.system.service.RoleService;
+import com.libre.common.security.model.JwtUser;
+import com.libre.common.security.model.SecurityUser;
 import com.libre.module.system.service.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import static com.libre.module.security.constant.SecurityConstants.ENCODING_ID;
 
 /**
  * @author zhao.cheng
@@ -17,19 +18,16 @@ import org.springframework.stereotype.Service;
 public class UserDetailServiceImpl implements UserDetailsService {
 
     private final UserService userService;
-    private final RoleService roleService;
 
-    public UserDetailServiceImpl(UserService userService,
-                                 RoleService roleService) {
+    public UserDetailServiceImpl(UserService userService) {
         this.userService = userService;
-        this.roleService = roleService;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        SecurityUser user = userService.findUserByName(username);
+        user.setPassword(ENCODING_ID + user.getPassword());
 
-        UserDTO user = userService.findUserByName(username);
-
-        return new JwtUserDTO(user);
+        return new JwtUser(user);
     }
 }

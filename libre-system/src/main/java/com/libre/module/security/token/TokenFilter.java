@@ -1,8 +1,8 @@
 package com.libre.module.security.token;
 
 import cn.hutool.core.util.StrUtil;
-import com.libre.module.security.prop.SecurityProperties;
-
+import com.libre.common.security.prop.SecurityProperties;
+import com.libre.common.security.util.JwtUtils;
 import com.libre.module.security.service.OnlineUserService;
 import com.libre.module.security.service.dto.OnlineUserDTO;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -27,18 +27,15 @@ public class TokenFilter extends GenericFilterBean {
 
     private static final Logger log = LoggerFactory.getLogger(TokenFilter.class);
 
-    private final TokenProvider tokenProvider;
     private final SecurityProperties properties;
     private final OnlineUserService onlineUserService;
 
     /**
-     * @param tokenProvider     Token
      * @param properties        JWT
      * @param onlineUserService /
      */
-    public TokenFilter(TokenProvider tokenProvider, SecurityProperties properties, OnlineUserService onlineUserService) {
+    public TokenFilter(SecurityProperties properties, OnlineUserService onlineUserService) {
         this.properties = properties;
-        this.tokenProvider = tokenProvider;
         this.onlineUserService = onlineUserService;
     }
 
@@ -56,12 +53,13 @@ public class TokenFilter extends GenericFilterBean {
                 log.error(e.getMessage());
             }
             if (onlineUserDTO != null && StringUtils.hasText(token)) {
-                Authentication authentication = tokenProvider.getAuthentication(token);
+                Authentication authentication = JwtUtils.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 // Token 续期
-                tokenProvider.checkRenewal(token);
+                JwtUtils.checkRenewal(token);
             }
         }
+
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

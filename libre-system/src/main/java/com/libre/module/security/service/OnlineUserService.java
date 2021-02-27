@@ -1,11 +1,10 @@
 package com.libre.module.security.service;
 
+import com.libre.common.security.model.JwtUser;
+import com.libre.common.security.prop.SecurityProperties;
 import com.libre.common.tookit.RedisUtils;
-import com.libre.module.security.prop.SecurityProperties;
-import com.libre.module.security.service.dto.JwtUserDTO;
 import com.libre.module.security.service.dto.OnlineUserDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,12 +14,11 @@ import java.util.Date;
  * @author zhao.cheng
  */
 @Service
+@Slf4j
 public class OnlineUserService {
 
     private final SecurityProperties properties;
     private final RedisUtils redisUtils;
-
-    public static final Logger log = LoggerFactory.getLogger(OnlineUserService.class);
 
     public OnlineUserService(SecurityProperties properties,
                              RedisUtils redisUtils) {
@@ -30,15 +28,15 @@ public class OnlineUserService {
 
     /**
      * 保存在线用户信息
-     * @param jwtUserDto /
+     * @param jwtUser /
      * @param token /
      * @param request /
      */
-    public void save(JwtUserDTO jwtUserDto, String token, HttpServletRequest request){
+    public void save(JwtUser jwtUser, String token, HttpServletRequest request){
 
         OnlineUserDTO onlineUserDto = null;
         try {
-            onlineUserDto = new OnlineUserDTO(jwtUserDto.getUsername(), token, new Date());
+            onlineUserDto = new OnlineUserDTO(jwtUser.getUsername(), token, new Date());
         } catch (Exception e) {
             log.error(e.getMessage(),e);
         }

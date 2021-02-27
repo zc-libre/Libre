@@ -8,4 +8,6 @@ import com.libre.module.system.entity.User;
 * @Date  2021/2/21
 */
 public interface UserMapper extends BaseMapper<User> {
+
+
 }

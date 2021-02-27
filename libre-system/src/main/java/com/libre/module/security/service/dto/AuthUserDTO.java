@@ -1,7 +1,6 @@
 
 package com.libre.module.security.service.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
@@ -15,7 +14,6 @@ public class AuthUserDTO {
     @NotBlank(message = "用户名不能为空")
     private String username;
 
-    @JsonIgnore
     @NotBlank
     private String password;
 
