@@ -1,13 +1,11 @@
 package com.libre.system.entity;
 
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.libre.common.base.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
-import java.util.Date;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -6,6 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,5 +25,11 @@ public class SysUserController {
     @GetMapping
     public R list() {
         return R.data(sysUserService.list());
+    }
+
+    @ApiOperation("用户列表")
+    @GetMapping("/{id}")
+    public R info(@PathVariable Long id) {
+        return R.data(sysUserService.findUserById(id));
     }
 }

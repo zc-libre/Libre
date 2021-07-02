@@ -1,4 +1,4 @@
-package com.libre.system.entity;
+package com.libre.common.base;
 
 import cn.hutool.core.date.DatePattern;
 import com.baomidou.mybatisplus.annotation.FieldFill;

@@ -6,9 +6,6 @@ spring:
     name: Libre-Admin
   profiles:
     active: dev
-  redis:
-    host: 172.25.131.19
-    port: 6379
 
 
 mybatis-plus:
@@ -28,28 +25,7 @@ mybatis-plus:
       logic-not-delete-value: 0
     banner: false
 
-libre:
-  redis:
-    serializer-type: protostuff
 
-jetcache:
-  statIntervalMinutes: 1
-  areaInCacheName: false
-  local:
-    default:
-      type: caffeine # 还支持：linkedhashmap
-      keyConvertor: bean:jacksonKeyConvertor
-  remote:
-    default:
-      type: redis
-      keyConvertor: bean:jacksonKeyConvertor
-      valueEncoder: bean:jacksonValueEncoder # 支持：kryo、java
-      valueDecoder: bean:jacksonValueDecoder # 支持：kryo、java
-      poolConfig:
-        minIdle: 5
-        maxIdle: 20
-        maxTotal: 50
-      host: ${spring.redis.host}
-      port: ${spring.redis.port}
+
 
 

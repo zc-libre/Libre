@@ -2,6 +2,7 @@ package com.libre.system.entity;
 
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.libre.common.base.BaseEntity;
 import io.swagger.annotations.ApiModel;
 
 import lombok.Data;
