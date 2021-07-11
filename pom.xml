@@ -7,33 +7,31 @@
     <artifactId>libre</artifactId>
     <version>1.0.0</version>
     <modules>
-        <module>libre-common</module>
-        <module>libre-system</module>
-        <module>libre-log</module>
+        <module>libre-admin</module>
     </modules>
     <packaging>pom</packaging>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-
+        <libre.version>1.0.3</libre.version>
        <spring.boot.version>2.4.2</spring.boot.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring.boot.version}</version>
+                <groupId>com.zclibre</groupId>
+                <artifactId>libre-dependencies</artifactId>
+                <version>${libre.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
 
             <dependency>
-                <groupId>com.zclibre</groupId>
-                <artifactId>libre-dependencies</artifactId>
-                <version>1.0.1</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
