@@ -1,33 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.libre.system.mapper.UserMapper">
-  <resultMap id="BaseResultMap" type="com.libre.system.entity.SysUser">
-    <!--@mbg.generated-->
-    <!--@Table sys_user-->
-    <result column="id" jdbcType="BIGINT" property="id" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="role_id" jdbcType="BIGINT" property="roleId" />
-    <result column="dept_id" jdbcType="BIGINT" property="deptId" />
-    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
-    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="gender" jdbcType="TINYINT" property="gender" />
-    <result column="status" jdbcType="BOOLEAN" property="status" />
-    <result column="gmt_create_id" jdbcType="BIGINT" property="gmtCreateId" />
-    <result column="gmt_create_name" jdbcType="VARCHAR" property="gmtCreateName" />
-    <result column="gmt_modified_id" jdbcType="VARCHAR" property="gmtModifiedId" />
-    <result column="gmt_modified_name" jdbcType="VARCHAR" property="gmtModifiedName" />
-    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
-    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
-    <result column="create_dept" jdbcType="VARCHAR" property="createDept" />
-    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--@mbg.generated-->
-    id, username, `password`, role_id, dept_id, nick_name, avatar, phone, email, gender,
-    `status`, gmt_create_id, gmt_create_name, gmt_modified_id, gmt_modified_name, gmt_create,
-    gmt_modified, create_dept, is_deleted
-  </sql>
+<mapper namespace="com.libre.admin.project.system.mapper.UserMapper">
+
+
 </mapper>

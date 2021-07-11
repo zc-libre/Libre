@@ -8,7 +8,7 @@ spring:
     active: dev
 
 mybatis-plus:
-  type-aliases-package: com.libre.**.entity
+  type-aliases-package: com.libre.admin.**.entity
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false

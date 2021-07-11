@@ -6,36 +6,46 @@
         <groupId>com.libre</groupId>
         <version>1.0.0</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>libre-admin</artifactId>
-
 
     <dependencies>
         <dependency>
             <groupId>com.zclibre</groupId>
             <artifactId>libre-core</artifactId>
-            <version>1.0.3</version>
+            <version>${libre.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.zclibre</groupId>
             <artifactId>libre-spring-boot-starter</artifactId>
-            <version>1.0.3</version>
+            <version>${libre.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.zclibre</groupId>
             <artifactId>libre-redis-boot-starter</artifactId>
-            <version>1.0.3</version>
+            <version>${libre.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.zclibre</groupId>
             <artifactId>libre-mybatis-boot-starter</artifactId>
-            <version>1.0.3</version>
+            <version>${libre.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zclibre</groupId>
+            <artifactId>libre-swagger-boot-starter</artifactId>
+            <version>${libre.version}</version>
+        </dependency>
         <!-- protostuff -->
         <dependency>
             <groupId>io.protostuff</groupId>
@@ -56,4 +66,14 @@
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.boot.version}</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>

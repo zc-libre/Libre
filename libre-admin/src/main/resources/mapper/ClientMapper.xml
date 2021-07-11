@@ -1,34 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.libre.system.mapper.ClientMapper">
-  <resultMap id="BaseResultMap" type="com.libre.system.entity.Client">
-    <!--@mbg.generated-->
-    <!--@Table sys_client-->
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="client_id" jdbcType="VARCHAR" property="clientId" />
-    <result column="client_secret" jdbcType="VARCHAR" property="clientSecret" />
-    <result column="resource_ids" jdbcType="VARCHAR" property="resourceIds" />
-    <result column="scope" jdbcType="VARCHAR" property="scope" />
-    <result column="authorized_grant_types" jdbcType="VARCHAR" property="authorizedGrantTypes" />
-    <result column="web_server_redirect_uri" jdbcType="VARCHAR" property="webServerRedirectUri" />
-    <result column="authorities" jdbcType="VARCHAR" property="authorities" />
-    <result column="access_token_validity" jdbcType="INTEGER" property="accessTokenValidity" />
-    <result column="refresh_token_validity" jdbcType="INTEGER" property="refreshTokenValidity" />
-    <result column="additional_information" jdbcType="VARCHAR" property="additionalInformation" />
-    <result column="autoapprove" jdbcType="VARCHAR" property="autoapprove" />
-    <result column="create_user" jdbcType="BIGINT" property="createUser" />
-    <result column="create_dept" jdbcType="BIGINT" property="createDept" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_user" jdbcType="BIGINT" property="updateUser" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--@mbg.generated-->
-    id, client_id, client_secret, resource_ids, `scope`, authorized_grant_types, web_server_redirect_uri, 
-    authorities, access_token_validity, refresh_token_validity, additional_information, 
-    autoapprove, create_user, create_dept, create_time, update_user, update_time, `status`, 
-    is_deleted
-  </sql>
+<mapper namespace="com.libre.admin.project.system.mapper.ClientMapper">
+
 </mapper>
