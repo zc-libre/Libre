@@ -26,6 +26,12 @@
 
         <dependency>
             <groupId>com.zclibre</groupId>
+            <artifactId>libre-captcha-boot-starter</artifactId>
+            <version>${libre.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zclibre</groupId>
             <artifactId>libre-redis-boot-starter</artifactId>
             <version>${libre.version}</version>
         </dependency>
@@ -56,14 +62,31 @@
             <artifactId>protostuff-runtime</artifactId>
         </dependency>
 
+        <!-- jwt Token 生成与解析-->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.whvcse</groupId>
+            <artifactId>easy-captcha</artifactId>
+            <version>1.6.2</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
 

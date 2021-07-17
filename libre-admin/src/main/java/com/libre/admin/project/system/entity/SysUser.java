@@ -76,10 +76,20 @@ public class SysUser extends BaseEntity {
     private Integer gender;
 
     /**
-     * 状态
+     * 用户类型（0系统用户 1管理员）
      */
-    @ApiModelProperty(value = "状态")
-    private Integer status;
+    @ApiModelProperty(value = "用户类型（0系统用户 1管理员）")
+    private Boolean isAdmin;
 
+    /**
+     * 帐号状态（0停用 1正常）
+     */
+    @ApiModelProperty(value = "帐号状态（0停用 1正常）")
+    private Boolean enabled;
 
+    /**
+     * 登录状态（0:正常 1:锁定）
+     */
+    @ApiModelProperty(value = "登录状态")
+    private Boolean locked;
 }

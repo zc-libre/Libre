@@ -3,7 +3,7 @@ package com.libre.admin.project.system.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.libre.admin.project.system.service.SysUserService;
 import com.libre.core.result.R;
-import com.libre.core.toolkit.JsonUtil;
+import com.libre.core.toolkit.JSONUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ public class SysUserController {
 
     @GetMapping("/page")
     public R page(Page page) {
-        System.out.println(JsonUtil.toJson(page));
+        System.out.println(JSONUtil.toJson(page));
         return R.data(page);
     }
 }

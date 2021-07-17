@@ -15,10 +15,12 @@ libre:
     enabled: true
     mode: escape
   redis:
-    serializer-type: protostuff
-
-
-
+    serializer-type: json
+  security:
+    jwt-token:
+      secret: 669da4ca0fde3928856705c8746512daa9957b91b0bbe855790b561d9f08be80
+  captcha:
+    enabled: true
 #jetcache:
 #  statIntervalMinutes: 1
 #  areaInCacheName: false
