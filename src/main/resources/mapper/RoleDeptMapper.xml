@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.libre.admin.module.system.mapper.RoleDeptMapper">
+  <resultMap id="BaseResultMap" type="com.libre.admin.module.system.entity.SysRoleDept">
+    <!--@mbg.generated-->
+    <!--@Table sys_role_dept-->
+    <id column="role_id" jdbcType="BIGINT" property="roleId" />
+    <id column="dept_id" jdbcType="BIGINT" property="deptId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    role_id, dept_id
+  </sql>
+</mapper>

@@ -6,17 +6,13 @@
     <groupId>com.libre</groupId>
     <artifactId>libre</artifactId>
     <version>1.0.0</version>
-    <modules>
-        <module>libre-admin</module>
-    </modules>
-    <packaging>pom</packaging>
+
 
     <properties>
         <java.version>1.8</java.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <libre.version>1.0.3</libre.version>
-        <spring.boot.version>2.4.2</spring.boot.version>
         <jjwt.version>0.11.2</jjwt.version>
     </properties>
 
@@ -28,26 +24,6 @@
                 <version>${libre.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring.boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- test 排查 vintage -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
-                <version>${spring.boot.version}</version>
-                <scope>test</scope>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.junit.vintage</groupId>
-                        <artifactId>junit-vintage-engine</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <dependency>
@@ -68,5 +44,91 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>com.zclibre</groupId>
+            <artifactId>libre-core</artifactId>
+            <version>${libre.version}</version>
+        </dependency>
 
+        <dependency>
+            <groupId>com.zclibre</groupId>
+            <artifactId>libre-spring-boot-starter</artifactId>
+            <version>${libre.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.zclibre</groupId>
+            <artifactId>libre-redis-boot-starter</artifactId>
+            <version>${libre.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zclibre</groupId>
+            <artifactId>libre-mybatis-boot-starter</artifactId>
+            <version>${libre.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zclibre</groupId>
+            <artifactId>libre-swagger-boot-starter</artifactId>
+            <version>${libre.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zclibre</groupId>
+            <artifactId>libre-captcha-boot-starter</artifactId>
+        </dependency>
+        <!-- protostuff -->
+        <dependency>
+            <groupId>io.protostuff</groupId>
+            <artifactId>protostuff-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.protostuff</groupId>
+            <artifactId>protostuff-runtime</artifactId>
+        </dependency>
+
+        <!-- jwt Token 生成与解析-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>
