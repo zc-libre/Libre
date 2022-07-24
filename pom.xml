@@ -5,15 +5,28 @@
 
     <groupId>com.libre</groupId>
     <artifactId>libre</artifactId>
+    <packaging>pom</packaging>
     <version>1.0.0</version>
+    <modules>
+        <module>libre-common</module>
+        <module>libre-system</module>
+        <module>libre-logging</module>
+    </modules>
 
 
     <properties>
         <java.version>1.8</java.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <libre.version>1.0.3</libre.version>
+
+        <springboot.version>2.7.2</springboot.version>
+        <libre.version>1.0.7-SNAPSHOT</libre.version>
         <jjwt.version>0.11.2</jjwt.version>
+        <bitwalker.version>1.19</bitwalker.version>
+        <oshi.version>5.5.1</oshi.version>
+        <lombok.version>1.18.22</lombok.version>
+        <mapstruct.version>1.5.0.RC1</mapstruct.version>
+        <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
     </properties>
 
     <dependencyManagement>
@@ -22,10 +35,16 @@
                 <groupId>com.zclibre</groupId>
                 <artifactId>libre-dependencies</artifactId>
                 <version>${libre.version}</version>
-                <type>pom</type>
                 <scope>import</scope>
+                <type>pom</type>
             </dependency>
-
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${springboot.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt-impl</artifactId>
@@ -43,36 +62,39 @@
                 </exclusions>
             </dependency>
         </dependencies>
+
+
     </dependencyManagement>
     <dependencies>
-        <dependency>
-            <groupId>com.zclibre</groupId>
-            <artifactId>libre-core</artifactId>
-            <version>${libre.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>com.zclibre</groupId>
             <artifactId>libre-spring-boot-starter</artifactId>
-            <version>${libre.version}</version>
         </dependency>
-
 
         <dependency>
             <groupId>com.zclibre</groupId>
             <artifactId>libre-redis-boot-starter</artifactId>
-            <version>${libre.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.zclibre</groupId>
             <artifactId>libre-mybatis-boot-starter</artifactId>
-            <version>${libre.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zclibre</groupId>
+            <artifactId>libre-ip2region-boot-starter</artifactId>
         </dependency>
 
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
         </dependency>
 
         <dependency>
@@ -83,7 +105,6 @@
         <dependency>
             <groupId>com.zclibre</groupId>
             <artifactId>libre-swagger-boot-starter</artifactId>
-            <version>${libre.version}</version>
         </dependency>
 
         <dependency>
@@ -94,10 +115,12 @@
         <dependency>
             <groupId>io.protostuff</groupId>
             <artifactId>protostuff-core</artifactId>
+            <version>1.7.2</version>
         </dependency>
         <dependency>
             <groupId>io.protostuff</groupId>
             <artifactId>protostuff-runtime</artifactId>
+            <version>1.7.2</version>
         </dependency>
 
         <!-- jwt Token 生成与解析-->
@@ -111,6 +134,21 @@
         </dependency>
 
 
+
+        <!-- 获取系统信息 -->
+        <dependency>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-core</artifactId>
+            <version>${oshi.version}</version>
+        </dependency>
+
+        <!-- 解析客户端操作系统、浏览器等 -->
+        <dependency>
+            <groupId>eu.bitwalker</groupId>
+            <artifactId>UserAgentUtils</artifactId>
+            <version>${bitwalker.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -118,16 +156,80 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok-mapstruct-binding</artifactId>
+            <version>0.2.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.mapstruct</groupId>
+                                <artifactId>mapstruct-processor</artifactId>
+                                <version>1.5.0.RC1</version>
+                            </path>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok-mapstruct-binding</artifactId>
+                                <version>${lombok-mapstruct-binding.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.springframework.boot</groupId>
+                                <artifactId>spring-boot-configuration-processor</artifactId>
+                                <version>${springboot.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>io.spring.javaformat</groupId>
+                <artifactId>spring-javaformat-maven-plugin</artifactId>
+                <version>0.0.31</version>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${springboot.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
             </plugin>
         </plugins>
     </build>
