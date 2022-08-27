@@ -50,12 +50,7 @@ public abstract class BaseEntity {
 	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private LocalDateTime gmtModified;
 
-	/**
-	 * 创建人id
-	 */
-	@ApiModelProperty(value = "创建人id")
-	@TableField(fill = FieldFill.INSERT)
-	private Long gmtCreateId;
+
 
 	/**
 	 * 创建人
@@ -64,12 +59,7 @@ public abstract class BaseEntity {
 	@TableField(fill = FieldFill.INSERT)
 	private String gmtCreateName;
 
-	/**
-	 * 更新人id
-	 */
-	@ApiModelProperty(value = "更新人id")
-	@TableField(fill = FieldFill.INSERT_UPDATE)
-	private Long gmtModifiedId;
+
 
 	/**
 	 * 更新人
@@ -77,6 +67,7 @@ public abstract class BaseEntity {
 	@ApiModelProperty(value = "更新人")
 	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private String gmtModifiedName;
+
 
 	/**
 	 * 0删除 1未删除

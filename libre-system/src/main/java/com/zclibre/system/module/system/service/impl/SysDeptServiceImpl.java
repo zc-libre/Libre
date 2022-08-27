@@ -74,10 +74,10 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     public boolean deleteIfUnusedByIds(Collection<Long> ids) {
         SysUserService userService = SpringContext.getBean(SysUserService.class);
         Assert.notNull(userService, "userService must not be null");
-        List<SysUser> userList = userService.findListByDeptIds(ids);
-        if (CollectionUtils.isEmpty(userList)) {
-            throw new BusinessException("存在用户岗位关系");
-        }
+     //   List<SysUser> userList = userService.findListByDeptIds(ids);
+//        if (CollectionUtils.isEmpty(userList)) {
+//            throw new BusinessException("存在用户岗位关系");
+//        }
         return super.removeByIds(ids);
     }
 

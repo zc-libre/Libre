@@ -3,8 +3,8 @@ package com.zclibre.system.module.security.jwt;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 
 import com.zclibre.system.config.LibreSecurityProperties;
-import com.zclibre.system.module.security.controller.service.OnlineUserService;
-import com.zclibre.system.module.security.controller.service.dto.OnlineUserDTO;
+import com.zclibre.system.module.security.service.OnlineUserService;
+import com.zclibre.system.module.security.service.dto.OnlineUserDTO;
 import com.libre.toolkit.core.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +27,7 @@ public class TokenFilter extends GenericFilterBean {
 
 	private static final Logger log = LoggerFactory.getLogger(TokenFilter.class);
 
+	public static final String TOKEN_PREFIX = "Bearer ";
 	private final TokenProvider tokenProvider;
 
 	private final LibreSecurityProperties properties;
@@ -75,7 +76,7 @@ public class TokenFilter extends GenericFilterBean {
 		LibreSecurityProperties.JwtToken jwtToken = properties.getJwtToken();
 		String bearerToken = request.getHeader(jwtToken.getHeader());
 		if (StringUtils.hasText(bearerToken)) {
-			if (bearerToken.startsWith(jwtToken.getStorePrefix())) {
+			if (bearerToken.startsWith(TOKEN_PREFIX)) {
 				// 去掉令牌前缀
 				return bearerToken.replace(jwtToken.getStorePrefix(), StringPool.EMPTY);
 			}

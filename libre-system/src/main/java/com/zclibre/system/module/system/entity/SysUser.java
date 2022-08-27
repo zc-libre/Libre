@@ -35,17 +35,6 @@ public class SysUser extends BaseEntity {
     @ApiModelProperty(value = "密码")
     private String password;
 
-    /**
-     * 角色id
-     */
-    @ApiModelProperty(value = "角色id")
-    private Long roleId;
-
-    /**
-     * 部门id
-     */
-    @ApiModelProperty(value = "部门id")
-    private Long deptId;
 
     /**
      * 昵称
@@ -81,17 +70,17 @@ public class SysUser extends BaseEntity {
      * 用户类型（0系统用户 1管理员）
      */
     @ApiModelProperty(value = "用户类型（0系统用户 1管理员）")
-    private Boolean isAdmin;
+    private Integer isAdmin;
 
     /**
      * 帐号状态（0停用 1正常）
      */
     @ApiModelProperty(value = "帐号状态（0停用 1正常）")
-    private Boolean enabled;
+    private Integer enabled;
 
     /**
      * 登录状态（0:正常 1:锁定）
      */
     @ApiModelProperty(value = "登录状态")
-    private Boolean locked;
+    private Integer locked;
 }

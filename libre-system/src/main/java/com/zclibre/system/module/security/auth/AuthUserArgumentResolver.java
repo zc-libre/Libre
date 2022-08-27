@@ -1,6 +1,6 @@
 package com.zclibre.system.module.security.auth;
 
-import com.zclibre.system.module.security.controller.service.dto.AuthUser;
+import com.zclibre.system.module.security.service.dto.AuthUser;
 import com.zclibre.system.module.security.utils.SecurityUtil;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;

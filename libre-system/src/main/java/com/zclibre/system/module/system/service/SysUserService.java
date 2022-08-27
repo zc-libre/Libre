@@ -39,13 +39,7 @@ public interface SysUserService extends IService<SysUser> {
      */
     SysUser getByUsername(String username);
 
-    /**
-     * 查找用户集合
-     *
-     * @param deptIds 岗位id集合
-     * @return 用户集合
-     */
-    List<SysUser> findListByDeptIds(Collection<Long> deptIds);
+
 
     /**
      * 按照用户账号更新

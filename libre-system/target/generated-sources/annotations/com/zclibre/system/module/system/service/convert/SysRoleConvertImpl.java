@@ -7,12 +7,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.annotation.processing.Generated;
-
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-08-26T19:36:15+0800",
+    date = "2022-08-26T22:59:41+0800",
     comments = "version: 1.5.0.RC1, compiler: javac, environment: Java 11.0.13 (Oracle Corporation)"
 )
 @Component

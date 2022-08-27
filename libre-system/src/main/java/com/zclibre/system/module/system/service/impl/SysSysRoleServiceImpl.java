@@ -3,6 +3,7 @@ package com.zclibre.system.module.system.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zclibre.system.module.system.constant.RoleConstants;
 import com.zclibre.system.module.system.entity.SysRole;
 import com.zclibre.system.module.system.entity.SysUserRole;
 import com.zclibre.system.module.system.mapper.SysRoleMapper;
@@ -43,7 +44,7 @@ public class SysSysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> i
 
         return this.list(Wrappers.<SysRole>lambdaQuery()
                 .in(SysRole::getId, roleIds)
-                .eq(SysRole::getStatus, Boolean.FALSE));
+                .eq(SysRole::getStatus, RoleConstants.ROLE_ENABLE));
     }
 
     @Override

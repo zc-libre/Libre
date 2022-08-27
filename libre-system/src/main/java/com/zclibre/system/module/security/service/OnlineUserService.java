@@ -1,4 +1,4 @@
-package com.zclibre.system.module.security.controller.service;
+package com.zclibre.system.module.security.service;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -7,9 +7,9 @@ import com.libre.boot.toolkit.RequestUtils;
 import com.libre.ip2region.core.Ip2regionSearcher;
 import com.libre.ip2region.core.IpInfo;
 import com.zclibre.system.config.LibreSecurityProperties;
-import com.zclibre.system.module.security.controller.service.dto.AuthUser;
+import com.zclibre.system.module.security.service.dto.AuthUser;
 import com.zclibre.system.module.security.pojo.DeptInfo;
-import com.zclibre.system.module.security.controller.service.dto.OnlineUserDTO;
+import com.zclibre.system.module.security.service.dto.OnlineUserDTO;
 import com.libre.toolkit.core.CharPool;
 import com.libre.toolkit.core.DesensitizationUtil;
 import com.libre.redis.cache.RedisUtils;
@@ -50,7 +50,6 @@ public class OnlineUserService {
      * @param request   {@link HttpServletRequest}
      */
     public void save(AuthUser authUser, String token, HttpServletRequest request) {
-        String dept = getDeptName(authUser);
         String onlineKey = properties.getJwtToken().getStorePrefix();
         String ip = RequestUtils.getIp();
         UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader(HttpHeaders.USER_AGENT));
@@ -64,7 +63,6 @@ public class OnlineUserService {
         }
         onlineUserDto.setUserName(authUser.getNickName());
         onlineUserDto.setNickName(authUser.getNickName());
-        onlineUserDto.setDept(dept);
         onlineUserDto.setKey(key);
         // token 摘要，前6后8，中间4位占位符
         onlineUserDto.setSummary(DesensitizationUtil.sensitive(token, 8, 8, CharPool.DOT, 4));

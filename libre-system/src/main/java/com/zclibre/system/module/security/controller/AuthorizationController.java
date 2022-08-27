@@ -5,26 +5,27 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.zclibre.system.config.LibreSecurityProperties;
 import com.zclibre.system.module.security.jwt.TokenProvider;
 import com.zclibre.system.module.security.pojo.RoleInfo;
-import com.zclibre.system.module.security.controller.service.OnlineUserService;
-import com.zclibre.system.module.security.controller.service.UserLockService;
-import com.zclibre.system.module.security.controller.service.dto.AuthUser;
-import com.zclibre.system.module.security.controller.service.dto.AuthUserDTO;
+import com.zclibre.system.module.security.service.OnlineUserService;
+import com.zclibre.system.module.security.service.UserLockService;
+import com.zclibre.system.module.security.service.dto.AuthUser;
+import com.zclibre.system.module.security.service.dto.AuthUserDTO;
+import com.zclibre.system.module.security.service.dto.UserInfo;
 import com.zclibre.system.module.system.entity.SysMenu;
 import com.zclibre.system.module.system.service.SysMenuService;
 import com.zclibre.system.module.system.utils.MenuUtil;
-import com.zclibre.system.module.system.vo.JwtUserVO;
 import com.zclibre.system.module.system.vo.MenuVO;
 import com.libre.captcha.service.CaptchaService;
 import com.libre.captcha.vo.CaptchaVO;
-import com.libre.toolkit.exception.LibreException;
 import com.libre.toolkit.result.R;
 import com.libre.toolkit.result.ResultCode;
 import com.libre.redis.cache.RedisUtils;
+import com.zclibre.system.module.system.vo.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -68,8 +69,7 @@ public class AuthorizationController {
 
     @ApiOperation("登录")
     @PostMapping("/token")
-    public R<Boolean> login(@Validated @RequestBody AuthUserDTO authUser, HttpServletRequest request)  {
-
+    public R<UserInfo> login(@Validated @RequestBody AuthUserDTO authUser, HttpServletRequest request)  {
         String password = authUser.getPassword();
         String retryLimitCacheName = properties.getLogin().getRetryLimitCacheName();
         String username = authUser.getUsername();
@@ -77,17 +77,16 @@ public class AuthorizationController {
         Integer retryCount = redisUtils.get(retryLimitCacheName);
         if (null == retryCount) {
             retryCount = 1;
-            redisUtils.set(retryLimitCacheName, retryCount);
+            redisUtils.setEx(retryLimitCacheName, retryCount, properties.getLogin().getRetryLimitTime());
         }
         int retryLimit = properties.getLogin().getRetryLimit();
         if (retryCount > retryLimit) {
             log.warn("username: " + username + " tried to login more than " + retryLimit + " times in period");
             userLockService.updateLockUser(authUser);
-            throw new LibreException("登录错误" + retryCount + "次，账号已锁定");
+            throw new LockedException("登录错误" + retryCount + "次，账号已锁定");
         } else {
             redisUtils.incr(retryLimitCacheName);
         }
-
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(authUser.getUsername(), password);
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
@@ -98,16 +97,16 @@ public class AuthorizationController {
         // 保存在线信息
         onlineUserService.save(jwtUserDto, token, request);
         redisUtils.del(retryLimitCacheName);
-        return R.success(ResultCode.SUCCESS);
+        UserInfo userInfo = new UserInfo(username, token);
+        return R.data(userInfo);
     }
 
 
     @ApiOperation("获取用户信息")
     @GetMapping("/info")
-    public R<JwtUserVO> getUserInfo(AuthUser authUser) {
-        JwtUserVO userVO = new JwtUserVO();
-        userVO.setUserInfo(authUser.toJwtUser());
-        return R.data(userVO);
+    public R<UserVO> getUserInfo(AuthUser authUser) {
+
+      return null;
     }
 
 

@@ -61,19 +61,16 @@ public class UserVO {
     /**
      * 用户类型（0系统用户 1管理员）
      */
-    private Boolean isAdmin;
+    private Integer isAdmin;
     /**
      * 帐号状态（0停用 1正常）
      */
-    private Boolean enabled;
+    private Integer enabled;
     /**
      * 登录状态（0:正常 1:锁定）
      */
-    private Boolean locked;
-    /**
-     * 删除标志（0代表存在 1代表删除）
-     */
-    private Boolean delFlag;
+    private Integer locked;
+
     /**
      * 备注
      */

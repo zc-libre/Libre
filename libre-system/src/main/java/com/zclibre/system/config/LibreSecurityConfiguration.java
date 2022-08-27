@@ -4,7 +4,7 @@ import com.zclibre.system.module.security.auth.JwtAccessDeniedHandler;
 import com.zclibre.system.module.security.auth.JwtAuthenticationEntryPoint;
 import com.zclibre.system.module.security.jwt.TokenConfigurer;
 import com.zclibre.system.module.security.jwt.TokenProvider;
-import com.zclibre.system.module.security.controller.service.OnlineUserService;
+import com.zclibre.system.module.security.service.OnlineUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;

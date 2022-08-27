@@ -2,7 +2,7 @@ package com.zclibre.system.module.security.jwt;
 
 
 import com.zclibre.system.config.LibreSecurityProperties;
-import com.zclibre.system.module.security.controller.service.OnlineUserService;
+import com.zclibre.system.module.security.service.OnlineUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

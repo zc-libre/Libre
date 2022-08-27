@@ -1,4 +1,4 @@
-package com.zclibre.system.module.security.controller.service.dto;
+package com.zclibre.system.module.security.service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

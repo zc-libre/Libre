@@ -1,20 +1,19 @@
-package com.zclibre.system.module.security.controller.service;
+package com.zclibre.system.module.security.service;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.zclibre.system.module.security.controller.service.dto.AuthUser;
+import com.zclibre.system.module.security.service.dto.AuthUser;
 import com.zclibre.system.module.security.pojo.RoleInfo;
-import com.zclibre.system.module.security.controller.service.dto.AuthUserDTO;
+import com.zclibre.system.module.security.service.dto.AuthUserDTO;
 import com.zclibre.system.module.security.utils.SecurityUtil;
 
-import com.libre.system.module.system.service.*;
+import com.zclibre.system.module.system.constant.UserConstants;
 import com.zclibre.system.module.system.service.SysMenuService;
 import com.zclibre.system.module.system.service.SysRoleService;
 import com.zclibre.system.module.system.service.SysUserService;
 import com.zclibre.system.module.system.service.convert.SysRoleConvert;
 
 import com.libre.toolkit.core.StringUtil;
-import com.libre.system.module.system.entity.*;
 import com.zclibre.system.module.system.entity.SysMenu;
 import com.zclibre.system.module.system.entity.SysRole;
 import com.zclibre.system.module.system.entity.SysUser;
@@ -28,6 +27,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -50,7 +50,6 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 
 	private final SysRoleConvert roleConvert;
 
-
 	@Override
 	public AuthUser loadUserByUsername(String username) throws UsernameNotFoundException {
 		if (StringUtil.isBlank(username)) {
@@ -61,7 +60,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 			throw new UsernameNotFoundException("User is not found!");
 		}
 		Long userId = sysUser.getId();
-		Boolean isAdmin = sysUser.getIsAdmin();
+		Integer isAdmin = sysUser.getIsAdmin();
 		List<SysRole> roleList = sysRoleService.getListByUserId(userId);
 		Set<String> dbAuthSet = Sets.newHashSet();
 		List<RoleInfo> roleInfoList = Lists.newArrayList();
@@ -73,26 +72,26 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 			loadUserAuthorities(roleList, dbAuthSet, isAdmin);
 		}
 		String password = sysUser.getPassword();
-		Boolean enabled = sysUser.getEnabled();
-		boolean accountNonLocked = !sysUser.getLocked();
+		boolean enabled = ObjectUtils.nullSafeEquals(sysUser.getEnabled(), UserConstants.USER_ENABLE);
+		boolean accountNonLocked = ObjectUtils.nullSafeEquals(sysUser.getLocked(), UserConstants.USER_UNLOCK);
 
 		Collection<? extends GrantedAuthority> authorities = AuthorityUtils
 				.createAuthorityList(dbAuthSet.toArray(new String[0]));
 
-		AuthUser jwtUser = new AuthUser(username, PASSWORD_PREFIX + password, enabled, accountNonLocked, authorities);
-		jwtUser.setUserId(sysUser.getId());
-		jwtUser.setNickName(sysUser.getNickName());
-		jwtUser.setIsAdmin(sysUser.getIsAdmin());
-		jwtUser.setGender(sysUser.getGender());
-		jwtUser.setEmail(sysUser.getEmail());
-		jwtUser.setPhone(sysUser.getPhone());
-		jwtUser.setAvatar(sysUser.getAvatar());
+		AuthUser authuser = new AuthUser(username, PASSWORD_PREFIX + password, enabled, accountNonLocked, authorities);
+		authuser.setUserId(sysUser.getId());
+		authuser.setNickName(sysUser.getNickName());
+		authuser.setIsAdmin(sysUser.getIsAdmin());
+		authuser.setGender(sysUser.getGender());
+		authuser.setEmail(sysUser.getEmail());
+		authuser.setPhone(sysUser.getPhone());
+		authuser.setAvatar(sysUser.getAvatar());
 
 		if (CollectionUtils.isNotEmpty(roleInfoList)) {
-			jwtUser.setRoleList(roleInfoList);
+			authuser.setRoleList(roleInfoList);
 		}
 
-		return jwtUser;
+		return authuser;
 	}
 
 	@Override
@@ -109,7 +108,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 	public boolean updateLockUser(AuthUserDTO authUser) {
 		Assert.notNull(authUser.getUsername(), "username must not be null");
 		SysUser sysUser = new SysUser();
-		sysUser.setLocked(Boolean.TRUE);
+		sysUser.setLocked(UserConstants.USER_LOCK);
 		return userService.updateByUsername(authUser.getUsername(), sysUser);
 	}
 
@@ -118,10 +117,10 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 				.forEach(x -> dbAuthsSet.add(SecurityUtil.SECURITY_ROLE_PREFIX + x));
 	}
 
-	private void loadUserAuthorities(List<SysRole> roleList, Set<String> dbAuthSet, Boolean isAdmin) {
+	private void loadUserAuthorities(List<SysRole> roleList, Set<String> dbAuthSet, Integer isAdmin) {
 		List<SysMenu> menuList;
 		// 超级管理员有所有资源权限
-		if (Boolean.TRUE.equals(isAdmin)) {
+		if (ObjectUtils.nullSafeEquals(isAdmin, UserConstants.IS_ADMIN_YES)) {
 			menuList = sysMenuService.list();
 		}
 		else {

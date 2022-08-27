@@ -8,27 +8,26 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.*;
+import com.libre.mybatis.util.PageUtil;
+import com.zclibre.system.module.system.dto.UserCriteria;
+import com.zclibre.system.module.system.entity.SysRole;
+import com.zclibre.system.module.system.entity.SysUser;
 import com.zclibre.system.module.system.entity.SysUserRole;
 import com.zclibre.system.module.system.mapper.SysUserMapper;
-import com.zclibre.system.module.system.dto.UserCriteria;
-import com.libre.system.module.system.service.*;
 import com.zclibre.system.module.system.service.SysRoleService;
 import com.zclibre.system.module.system.service.SysUserRoleService;
 import com.zclibre.system.module.system.service.SysUserService;
 import com.zclibre.system.module.system.service.convert.SysUserConvert;
 import com.zclibre.system.module.system.vo.UserVO;
-
-import com.libre.mybatis.util.PageUtil;
-import com.libre.system.module.system.entity.*;
-import com.zclibre.system.module.system.entity.SysRole;
-import com.zclibre.system.module.system.entity.SysUser;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -90,7 +89,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	}
 
 	@Override
-	@Cacheable(key = "#id")
+	// @Cacheable(key = "#id")
 	public SysUser findUserById(Long id) {
 		return baseMapper.selectById(id);
 	}
@@ -98,13 +97,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Override
 	public SysUser getByUsername(String username) {
 		return this.getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, username));
-	}
-
-	@Override
-	public List<SysUser> findListByDeptIds(Collection<Long> deptIds) {
-		LambdaQueryWrapper<SysUser> wrapper = new LambdaQueryWrapper<>();
-		wrapper.in(SysUser::getDeptId, deptIds);
-		return super.list(wrapper);
 	}
 
 	@Override

@@ -2,7 +2,6 @@ package com.zclibre.system.module.system.service.convert;
 
 import com.zclibre.system.module.system.entity.SysUser;
 import com.zclibre.system.module.system.vo.UserVO;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,7 +10,7 @@ import javax.annotation.processing.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2022-08-26T19:36:15+0800",
+    date = "2022-08-26T22:59:41+0800",
     comments = "version: 1.5.0.RC1, compiler: javac, environment: Java 11.0.13 (Oracle Corporation)"
 )
 public class SysUserConvertImpl implements SysUserConvert {
@@ -25,7 +24,6 @@ public class SysUserConvertImpl implements SysUserConvert {
         UserVO userVO = new UserVO();
 
         userVO.setId( arg0.getId() );
-        userVO.setDeptId( arg0.getDeptId() );
         userVO.setUsername( arg0.getUsername() );
         userVO.setNickName( arg0.getNickName() );
         userVO.setEmail( arg0.getEmail() );
@@ -57,7 +55,6 @@ public class SysUserConvertImpl implements SysUserConvert {
         sysUser.setGmtCreateName( arg0.getGmtCreateName() );
         sysUser.setGmtModifiedName( arg0.getGmtModifiedName() );
         sysUser.setUsername( arg0.getUsername() );
-        sysUser.setDeptId( arg0.getDeptId() );
         sysUser.setNickName( arg0.getNickName() );
         sysUser.setAvatar( arg0.getAvatar() );
         sysUser.setPhone( arg0.getPhone() );

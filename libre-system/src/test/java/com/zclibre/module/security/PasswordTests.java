@@ -1,4 +1,4 @@
-package com.libre.module.security;
+package com.zclibre.module.security;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
