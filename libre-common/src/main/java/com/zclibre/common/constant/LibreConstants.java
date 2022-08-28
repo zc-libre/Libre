@@ -10,5 +10,5 @@ public interface LibreConstants {
      */
     int STATUS_ON = 0;
 
-    String PASSWORD_PREFIX = "{bcrypt}";
+
 }

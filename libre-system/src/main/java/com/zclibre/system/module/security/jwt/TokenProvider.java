@@ -3,8 +3,10 @@ package com.zclibre.system.module.security.jwt;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 
 import com.google.common.base.Charsets;
+import com.google.common.collect.Lists;
 import com.libre.redis.cache.RedisUtils;
 import com.zclibre.system.config.LibreSecurityProperties;
+import com.zclibre.system.module.security.service.dto.AuthUser;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -82,8 +84,8 @@ public class TokenProvider implements InitializingBean {
      */
     Authentication getAuthentication(String token) {
         Claims claims = getClaims(token);
-        User principal = new User(claims.getSubject(), "******", new ArrayList<>());
-        return new UsernamePasswordAuthenticationToken(principal, token, new ArrayList<>());
+        AuthUser authUser = new AuthUser(claims.getSubject(), "******", true, true, Lists.newArrayList());
+        return new UsernamePasswordAuthenticationToken(authUser, token, new ArrayList<>());
     }
 
     public Claims getClaims(String token) {

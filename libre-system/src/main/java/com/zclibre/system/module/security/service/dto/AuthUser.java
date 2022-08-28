@@ -40,6 +40,7 @@ public class AuthUser extends User {
 
 	private List<RoleInfo> roleList;
 
+
 	public AuthUser(String username, String password, boolean enabled, boolean accountNonLocked,
 			Collection<? extends GrantedAuthority> authorities) {
 		super(username, password, enabled, true, true, accountNonLocked, authorities);

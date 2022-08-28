@@ -2,6 +2,7 @@ package com.zclibre.system.module.security.service;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.zclibre.system.module.security.constant.SecurityConstant;
 import com.zclibre.system.module.security.service.dto.AuthUser;
 import com.zclibre.system.module.security.pojo.RoleInfo;
 import com.zclibre.system.module.security.service.dto.AuthUserDTO;
@@ -32,7 +33,7 @@ import org.springframework.util.ObjectUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.zclibre.common.constant.LibreConstants.PASSWORD_PREFIX;
+
 
 /**
  * @author Libre
@@ -78,7 +79,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 		Collection<? extends GrantedAuthority> authorities = AuthorityUtils
 				.createAuthorityList(dbAuthSet.toArray(new String[0]));
 
-		AuthUser authuser = new AuthUser(username, PASSWORD_PREFIX + password, enabled, accountNonLocked, authorities);
+		AuthUser authuser = new AuthUser(username, SecurityConstant.PASSWORD_PREFIX + password, enabled, accountNonLocked, authorities);
 		authuser.setUserId(sysUser.getId());
 		authuser.setNickName(sysUser.getNickName());
 		authuser.setIsAdmin(sysUser.getIsAdmin());

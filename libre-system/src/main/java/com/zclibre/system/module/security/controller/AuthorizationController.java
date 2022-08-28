@@ -2,6 +2,7 @@ package com.zclibre.system.module.security.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 
+import com.libre.toolkit.exception.LibreException;
 import com.zclibre.system.config.LibreSecurityProperties;
 import com.zclibre.system.module.security.jwt.TokenProvider;
 import com.zclibre.system.module.security.pojo.RoleInfo;
@@ -11,7 +12,9 @@ import com.zclibre.system.module.security.service.dto.AuthUser;
 import com.zclibre.system.module.security.service.dto.AuthUserDTO;
 import com.zclibre.system.module.security.service.dto.UserInfo;
 import com.zclibre.system.module.system.entity.SysMenu;
+import com.zclibre.system.module.system.entity.SysUser;
 import com.zclibre.system.module.system.service.SysMenuService;
+import com.zclibre.system.module.system.service.SysUserService;
 import com.zclibre.system.module.system.utils.MenuUtil;
 import com.zclibre.system.module.system.vo.MenuVO;
 import com.libre.captcha.service.CaptchaService;
@@ -36,6 +39,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -58,6 +62,8 @@ public class AuthorizationController {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final UserLockService userLockService;
+
+    private final SysUserService sysUserService;
 
     @GetMapping("/captcha")
     public R<CaptchaVO> captcha() {
@@ -103,10 +109,10 @@ public class AuthorizationController {
 
 
     @ApiOperation("获取用户信息")
-    @GetMapping("/info")
-    public R<UserVO> getUserInfo(AuthUser authUser) {
-
-      return null;
+    @PostMapping("/userInfo")
+    public R<UserInfo> getUserInfo(AuthUser authUser) {
+        UserInfo userInfo = sysUserService.findUserInfoByUsername(authUser.getUsername());
+        return R.data(userInfo);
     }
 
 

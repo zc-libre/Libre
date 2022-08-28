@@ -9,6 +9,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.*;
 import com.libre.mybatis.util.PageUtil;
+import com.libre.toolkit.exception.LibreException;
+import com.zclibre.system.module.security.service.dto.UserInfo;
 import com.zclibre.system.module.system.dto.UserCriteria;
 import com.zclibre.system.module.system.entity.SysRole;
 import com.zclibre.system.module.system.entity.SysUser;
@@ -24,10 +26,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -103,6 +102,22 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	public boolean updateByUsername(String username, SysUser sysUser) {
 		LambdaUpdateWrapper<SysUser> wrapper = Wrappers.<SysUser>lambdaUpdate().eq(SysUser::getUsername, username);
 		return this.update(sysUser, wrapper);
+	}
+
+	@Override
+	public UserInfo findUserInfoByUsername(String username) {
+		SysUser sysUser = Optional.ofNullable(this.getByUsername(username))
+				.orElseThrow(() -> new LibreException(String.format("用户不存在, username,: [%s]", username)));
+		List<SysRole> roles = roleService.getListByUserId(sysUser.getId());
+		List<String> permissions = Lists.newArrayList();
+		if (CollectionUtils.isNotEmpty(roles)) {
+			 permissions = roles.stream().map(SysRole::getTitle).collect(Collectors.toList());
+		}
+		UserInfo userInfo = new UserInfo();
+		userInfo.setUsername(username);
+		userInfo.setAvatar(sysUser.getAvatar());
+		userInfo.setPermissions(permissions);
+		return userInfo;
 	}
 
 	private Wrapper<SysUser> getQueryWrapper(UserCriteria param) {

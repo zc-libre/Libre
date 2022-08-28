@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author: Libre
@@ -18,4 +19,13 @@ public class UserInfo implements Serializable {
     private String username;
 
     private String token;
+
+    private String avatar;
+
+    private List<String> permissions;
+
+    public UserInfo(String username, String token) {
+        this.username = username;
+        this.token = token;
+    }
 }

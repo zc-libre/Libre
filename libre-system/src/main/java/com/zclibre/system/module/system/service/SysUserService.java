@@ -2,6 +2,7 @@ package com.zclibre.system.module.system.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zclibre.system.module.security.service.dto.UserInfo;
 import com.zclibre.system.module.system.entity.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zclibre.system.module.system.dto.UserCriteria;
@@ -46,4 +47,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param sysUser 用户
      */
     boolean updateByUsername(String username, SysUser sysUser);
+
+
+    UserInfo findUserInfoByUsername(String username);
 }

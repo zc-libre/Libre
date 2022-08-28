@@ -12,12 +12,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -55,6 +57,10 @@ public class LibreSecurityConfiguration {
 
 	private final OnlineUserService onlineUserService;
 
+	private final UserDetailsService userDetailsService;
+
+	private final AuthenticationManagerBuilder authenticationManagerBuilder;
+
 	@Bean
 	GrantedAuthorityDefaults grantedAuthorityDefaults() {
 		return new GrantedAuthorityDefaults("");
@@ -69,32 +75,37 @@ public class LibreSecurityConfiguration {
 		// 获取匿名标记
 		// Map<String, Set<String>> anonymousUrls = getAnonymousUrl(handlerMethodMap);
 		List<String> permitAll = properties.getPermitAll();
-		http
-				.csrf().disable().addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+
+		http.csrf().disable().addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
 				.exceptionHandling().authenticationEntryPoint(authenticationErrorHandler)
-				.accessDeniedHandler(jwtAccessDeniedHandler)
-				.and().headers().frameOptions().disable()
-				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-				.authorizeRequests()
+				.accessDeniedHandler(jwtAccessDeniedHandler);
+
+		http.headers().frameOptions().disable();
+
+		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+		http.authorizeRequests()
 				.antMatchers(HttpMethod.GET, "/*.html", "/**/*.html", "/**/*.css", "/**/*.js", "/webSocket/**")
-				.permitAll()
-				.antMatchers("/swagger-ui.html").permitAll().antMatchers("/swagger-resources/**").permitAll()
-				.antMatchers("/webjars/**").permitAll().antMatchers("/*/api-docs").permitAll()
-				.antMatchers("/avatar/**").permitAll().antMatchers("/file/**").permitAll()
-				.antMatchers("/druid/**").permitAll().antMatchers(permitAll.toArray(new String[0])).permitAll()
+				.permitAll().antMatchers("/swagger-ui.html").permitAll().antMatchers("/swagger-resources/**")
+				.permitAll().antMatchers("/webjars/**").permitAll().antMatchers("/*/api-docs").permitAll()
+				.antMatchers("/avatar/**").permitAll().antMatchers("/file/**").permitAll().antMatchers("/druid/**")
+				.permitAll().antMatchers(permitAll.toArray(new String[0])).permitAll()
 				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll().anyRequest().authenticated().and()
 				.apply(securityConfigurerAdapter());
 		return http.build();
 	}
 
 	private TokenConfigurer securityConfigurerAdapter() {
-		return new TokenConfigurer(tokenProvider, properties, onlineUserService);
+		return new TokenConfigurer(tokenProvider, properties, onlineUserService, userDetailsService,
+				authenticationManagerBuilder);
 	}
 
 	@Bean
-	public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+	public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration authenticationConfiguration)
+			throws Exception {
 		return authenticationConfiguration.getAuthenticationManager();
 	}
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
