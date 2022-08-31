@@ -3,6 +3,7 @@ package com.zclibre.system.module.system.vo;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 前端菜单路由
@@ -13,13 +14,23 @@ import java.io.Serializable;
 public class MenuVO implements Serializable {
 
 	private Long id;
+
 	private Long parentId;
+
 	private String name;
+
 	private String path;
-	private Boolean hidden;
+
+	private Integer hidden;
+
 	private String redirect;
+
 	private String component;
-	private Boolean alwaysShow;
+
+	private Integer alwaysShow;
+
 	private MenuMetaVO meta;
+
+	private List<MenuVO> children;
 
 }

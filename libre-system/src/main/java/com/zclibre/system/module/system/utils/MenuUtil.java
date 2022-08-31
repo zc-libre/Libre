@@ -1,6 +1,7 @@
 package com.zclibre.system.module.system.utils;
 
 import com.google.common.collect.Lists;
+import com.zclibre.system.module.system.constant.MenuConstants;
 import com.zclibre.system.module.system.vo.MenuMetaVO;
 import com.zclibre.system.module.system.vo.MenuVO;
 import com.zclibre.system.module.system.entity.SysMenu;
@@ -9,6 +10,7 @@ import com.libre.toolkit.core.StringUtil;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * 菜单处理过滤
@@ -37,7 +39,7 @@ public class MenuUtil {
 				menuVO.setPath(path);
 			}
 			menuVO.setHidden(menu.getHidden());
-			if (!menu.getIsFrame()) {
+			if (Objects.equals(MenuConstants.IS_FRAME_NO, menu.getIsFrame())) {
 				if (Objects.isNull(parentId)) {
 					menuVO.setComponent(StringUtil.isBlank(component) ? "Layout" : component);
 				}
@@ -45,10 +47,32 @@ public class MenuUtil {
 					menuVO.setComponent(component);
 				}
 			}
-			menuVO.setMeta(new MenuMetaVO(title, menu.getIcon(), !menu.getCache()));
+
+			menuVO.setMeta(new MenuMetaVO(title, menu.getIcon(), menu.getCache()));
 			menuVOList.add(menuVO);
 		}
-		return menuVOList;
+
+		return menuVOList.stream().filter(menuVO -> menuVO.getParentId() == null)
+				.peek(menuVO -> menuVO.setChildren(getChildren(menuVO, menuVOList))).collect(Collectors.toList());
 	}
+
+	private static List<MenuVO> getChildren(MenuVO menuVO, List<MenuVO> menus) {
+		return menus.stream().filter(item -> Objects.equals(item.getParentId(), menuVO.getId()))
+				.peek(menu -> menu.setChildren(getChildren(menu, menus))).collect(Collectors.toList());
+	}
+
+	// private List<MenuVO> getCategoryByParentCid(List<MenuVO> menuVOList, long l) {
+	// List<MenuVO> collect = menuVOList.stream().filter(cat -> cat.getParentId() ==
+	// l).collect(Collectors.toList());
+	// return collect;
+	// }
+
+	// private void findPath(Long categorygId, List<Long> path) {
+	// if (categorygId!=0){
+	// path.add(categorygId);
+	// MenuVO byId = getById(categorygId);
+	// findPath(byId.getParentCid(),path);
+	// }
+	// }
 
 }

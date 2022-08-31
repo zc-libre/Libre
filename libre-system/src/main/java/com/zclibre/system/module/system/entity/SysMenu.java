@@ -51,7 +51,7 @@ public class SysMenu extends BaseEntity {
     /**
      * 是否为外链（0否 1是）
      */
-    private Boolean isFrame;
+    private Integer isFrame;
     /**
      * 菜单类型（0目录 1菜单 2按钮）
      */
@@ -59,11 +59,11 @@ public class SysMenu extends BaseEntity {
     /**
      * 缓存（0否 1是）
      */
-    private Boolean cache;
+    private Integer cache;
     /**
      * 显示状态（0显示，1隐藏）
      */
-    private Boolean hidden;
+    private Integer hidden;
     /**
      * 菜单状态（0正常 1停用）
      */

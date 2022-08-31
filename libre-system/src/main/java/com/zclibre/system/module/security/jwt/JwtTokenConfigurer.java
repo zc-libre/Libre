@@ -8,16 +8,15 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.DefaultSecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 /**
  * @author /
  */
 @RequiredArgsConstructor
-public class TokenConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
+public class JwtTokenConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
-	private final TokenProvider tokenProvider;
+	private final JwtTokenProvider jwtTokenProvider;
 
 	private final LibreSecurityProperties properties;
 
@@ -29,9 +28,9 @@ public class TokenConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFi
 
 	@Override
 	public void configure(HttpSecurity http) {
-		TokenFilter tokenFilter = new TokenFilter(tokenProvider, properties, onlineUserService, userDetailsService,
+		JwtTokenFilter jwtTokenFilter = new JwtTokenFilter(jwtTokenProvider, properties, onlineUserService, userDetailsService,
 				authenticationManagerBuilder);
-		http.addFilterAt(tokenFilter, BasicAuthenticationFilter.class);
+		http.addFilterAt(jwtTokenFilter, BasicAuthenticationFilter.class);
 	}
 
 }

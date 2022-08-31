@@ -1,5 +1,6 @@
 package com.zclibre.system.module.security.service.dto;
 
+import com.zclibre.system.module.system.entity.SysRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,16 +17,21 @@ import java.util.List;
 @AllArgsConstructor
 public class UserInfo implements Serializable {
 
-    private String username;
+	private String username;
 
-    private String token;
+	private String token;
 
-    private String avatar;
+	private String avatar;
 
-    private List<String> permissions;
+	private List<SysRole> roles;
 
-    public UserInfo(String username, String token) {
-        this.username = username;
-        this.token = token;
-    }
+	private List<String> permissions;
+
+	private Integer isAdmin;
+
+	public UserInfo(String username, String token) {
+		this.username = username;
+		this.token = token;
+	}
+
 }

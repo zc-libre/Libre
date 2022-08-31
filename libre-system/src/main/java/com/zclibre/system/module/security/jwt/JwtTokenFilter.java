@@ -5,28 +5,23 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.libre.boot.toolkit.RequestUtils;
 import com.libre.toolkit.result.R;
 import com.zclibre.system.config.LibreSecurityProperties;
-import com.zclibre.system.module.security.constant.SecurityConstant;
 import com.zclibre.system.module.security.service.OnlineUserService;
-import com.zclibre.system.module.security.service.dto.AuthUser;
 import com.zclibre.system.module.security.service.dto.OnlineUserDTO;
 import com.libre.toolkit.core.StringUtil;
 import com.zclibre.system.module.security.utils.SecurityUtil;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.util.StringUtils;
-import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -34,13 +29,13 @@ import java.io.IOException;
 /**
  * @author /
  */
-public class TokenFilter extends OncePerRequestFilter {
+public class JwtTokenFilter extends OncePerRequestFilter {
 
-	private static final Logger log = LoggerFactory.getLogger(TokenFilter.class);
+	private static final Logger log = LoggerFactory.getLogger(JwtTokenFilter.class);
 
 	public static final String TOKEN_PREFIX = "Bearer ";
 
-	private final TokenProvider tokenProvider;
+	private final JwtTokenProvider jwtTokenProvider;
 
 	private final LibreSecurityProperties properties;
 
@@ -50,18 +45,17 @@ public class TokenFilter extends OncePerRequestFilter {
 
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-	public TokenFilter(TokenProvider tokenProvider, LibreSecurityProperties properties,
-					   OnlineUserService onlineUserService, UserDetailsService userDetailsService, AuthenticationManagerBuilder authenticationManagerBuilder) {
-		this.tokenProvider = tokenProvider;
+	public JwtTokenFilter(JwtTokenProvider jwtTokenProvider, LibreSecurityProperties properties,
+						  OnlineUserService onlineUserService, UserDetailsService userDetailsService, AuthenticationManagerBuilder authenticationManagerBuilder) {
+		this.jwtTokenProvider = jwtTokenProvider;
 		this.properties = properties;
 		this.onlineUserService = onlineUserService;
-
 		this.userDetailsService = userDetailsService;
 		this.authenticationManagerBuilder = authenticationManagerBuilder;
 	}
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+	protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
 
 		String token = resolveToken(request);
 		// 对于 Token 为空的不需要去查 Redis
@@ -75,9 +69,9 @@ public class TokenFilter extends OncePerRequestFilter {
 				RequestUtils.renderJson(response, R.fail("请重新登录"));
 			}
 			if (onlineUserDto != null && SecurityUtil.getAuthentication() == null) {
-				Authentication authentication = tokenProvider.getAuthentication(token);
+				Authentication authentication = jwtTokenProvider.getAuthentication(token);
 				SecurityContextHolder.getContext().setAuthentication(authentication);
-				tokenProvider.checkRenewal(token);
+				jwtTokenProvider.checkRenewal(token);
 			}
 		}
 		filterChain.doFilter(request, response);

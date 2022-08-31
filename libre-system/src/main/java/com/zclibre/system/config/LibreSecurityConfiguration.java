@@ -2,8 +2,8 @@ package com.zclibre.system.config;
 
 import com.zclibre.system.module.security.auth.JwtAccessDeniedHandler;
 import com.zclibre.system.module.security.auth.JwtAuthenticationEntryPoint;
-import com.zclibre.system.module.security.jwt.TokenConfigurer;
-import com.zclibre.system.module.security.jwt.TokenProvider;
+import com.zclibre.system.module.security.jwt.JwtTokenConfigurer;
+import com.zclibre.system.module.security.jwt.JwtTokenProvider;
 import com.zclibre.system.module.security.service.OnlineUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -53,7 +53,7 @@ public class LibreSecurityConfiguration {
 
 	private final ApplicationContext applicationContext;
 
-	private final TokenProvider tokenProvider;
+	private final JwtTokenProvider jwtTokenProvider;
 
 	private final OnlineUserService onlineUserService;
 
@@ -95,8 +95,8 @@ public class LibreSecurityConfiguration {
 		return http.build();
 	}
 
-	private TokenConfigurer securityConfigurerAdapter() {
-		return new TokenConfigurer(tokenProvider, properties, onlineUserService, userDetailsService,
+	private JwtTokenConfigurer securityConfigurerAdapter() {
+		return new JwtTokenConfigurer(jwtTokenProvider, properties, onlineUserService, userDetailsService,
 				authenticationManagerBuilder);
 	}
 

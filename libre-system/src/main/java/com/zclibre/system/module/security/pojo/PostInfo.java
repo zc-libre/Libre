@@ -1,6 +1,7 @@
 package com.zclibre.system.module.security.pojo;
 
 import lombok.Data;
+import org.springframework.lang.NonNull;
 
 import java.io.Serializable;
 
@@ -13,6 +14,7 @@ public class PostInfo implements Serializable {
 	/**
 	 * 主键ID
 	 */
+	@NonNull
 	private Long id;
 	/**
 	 * 岗位编码

@@ -8,7 +8,7 @@ public interface LibreConstants {
     /**
      * 状态：0正常
      */
-    int STATUS_ON = 0;
+    int STATUS_ON = 1;
 
 
 }

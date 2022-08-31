@@ -14,7 +14,9 @@ import java.io.Serializable;
 public class MenuMetaVO implements Serializable {
 
 	private final String title;
+
 	private final String icon;
-	private final Boolean noCache;
+
+	private final Integer noCache;
 
 }

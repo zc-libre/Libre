@@ -13,7 +13,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -30,7 +29,7 @@ import java.util.Objects;
  */
 @Slf4j
 @Component
-public class TokenProvider implements InitializingBean {
+public class JwtTokenProvider implements InitializingBean {
 
     private final LibreSecurityProperties properties;
     private final RedisUtils redisUtils;
@@ -38,7 +37,7 @@ public class TokenProvider implements InitializingBean {
     private JwtParser jwtParser;
     private JwtBuilder jwtBuilder;
 
-    public TokenProvider(LibreSecurityProperties properties, RedisUtils redisUtils) {
+    public JwtTokenProvider(LibreSecurityProperties properties, RedisUtils redisUtils) {
         this.properties = properties;
         this.redisUtils = redisUtils;
     }
