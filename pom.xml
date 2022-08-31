@@ -7,6 +7,7 @@
     <artifactId>libre</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0</version>
+
     <modules>
         <module>libre-common</module>
         <module>libre-system</module>
@@ -22,11 +23,14 @@
         <springboot.version>2.7.2</springboot.version>
         <libre.version>1.0.7-SNAPSHOT</libre.version>
         <jjwt.version>0.11.2</jjwt.version>
-        <bitwalker.version>1.19</bitwalker.version>
-        <oshi.version>6.1.6</oshi.version>
+        <bitwalker.version>1.21</bitwalker.version>
+        <oshi.version>6.2.2</oshi.version>
         <lombok.version>1.18.22</lombok.version>
         <mapstruct.version>1.5.0.RC1</mapstruct.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+        <druid.version>1.2.11</druid.version>
+        <postgres.version>42.5.0</postgres.version>
+        <p6spy.version>3.9.1</p6spy.version>
     </properties>
 
     <dependencyManagement>
@@ -95,6 +99,13 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
+            <version>${postgres.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>${druid.version}</version>
         </dependency>
 
         <dependency>
@@ -175,6 +186,11 @@
             <version>0.2.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+            <version>${p6spy.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
