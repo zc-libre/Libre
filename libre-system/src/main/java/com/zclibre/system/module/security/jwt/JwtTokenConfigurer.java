@@ -1,7 +1,7 @@
 package com.zclibre.system.module.security.jwt;
 
 import com.zclibre.system.config.LibreSecurityProperties;
-import com.zclibre.system.module.security.service.OnlineUserService;
+import com.zclibre.system.module.security.service.JwtTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,7 +20,7 @@ public class JwtTokenConfigurer extends SecurityConfigurerAdapter<DefaultSecurit
 
 	private final LibreSecurityProperties properties;
 
-	private final OnlineUserService onlineUserService;
+	private final JwtTokenService jwtTokenService;
 
 	private final UserDetailsService userDetailsService;
 
@@ -28,9 +28,9 @@ public class JwtTokenConfigurer extends SecurityConfigurerAdapter<DefaultSecurit
 
 	@Override
 	public void configure(HttpSecurity http) {
-		JwtTokenFilter jwtTokenFilter = new JwtTokenFilter(jwtTokenProvider, properties, onlineUserService, userDetailsService,
+		JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter = new JwtAuthenticationTokenFilter(jwtTokenProvider, properties, jwtTokenService, userDetailsService,
 				authenticationManagerBuilder);
-		http.addFilterAt(jwtTokenFilter, BasicAuthenticationFilter.class);
+		http.addFilterAt(jwtAuthenticationTokenFilter, BasicAuthenticationFilter.class);
 	}
 
 }

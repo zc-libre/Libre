@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 
 import com.zclibre.system.config.LibreSecurityProperties;
 import com.zclibre.system.module.security.jwt.JwtTokenProvider;
-import com.zclibre.system.module.security.service.OnlineUserService;
+import com.zclibre.system.module.security.service.JwtTokenService;
 import com.zclibre.system.module.security.service.UserLockService;
 import com.zclibre.system.module.security.service.dto.AuthUser;
 import com.zclibre.system.module.security.service.dto.AuthUserDTO;
@@ -56,7 +56,7 @@ public class AuthorizationController {
 
 	private final RedisUtils redisUtils;
 
-	private final OnlineUserService onlineUserService;
+	private final JwtTokenService jwtTokenService;
 
 	private final JwtTokenProvider jwtTokenProvider;
 
@@ -101,7 +101,7 @@ public class AuthorizationController {
 		String token = jwtTokenProvider.createToken(authentication);
 		final AuthUser jwtUserDto = (AuthUser) authentication.getPrincipal();
 		// 保存在线信息
-		onlineUserService.save(jwtUserDto, token, request);
+		jwtTokenService.save(jwtUserDto, token, request);
 		redisUtils.del(retryLimitCacheName);
 		UserInfo userInfo = new UserInfo(username, token);
 		return R.data(userInfo);
@@ -118,7 +118,7 @@ public class AuthorizationController {
 	@DeleteMapping(value = "/logout")
 	public R<Boolean> logout(HttpServletRequest request) {
 		String token = jwtTokenProvider.getToken(request);
-		onlineUserService.removeByToken(token);
+		jwtTokenService.removeByToken(token);
 		return R.data(Boolean.TRUE);
 	}
 

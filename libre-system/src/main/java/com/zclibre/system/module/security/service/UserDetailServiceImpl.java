@@ -33,8 +33,6 @@ import org.springframework.util.ObjectUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
-
-
 /**
  * @author Libre
  * @date 2021/7/12 14:09
@@ -79,7 +77,8 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 		Collection<? extends GrantedAuthority> authorities = AuthorityUtils
 				.createAuthorityList(dbAuthSet.toArray(new String[0]));
 
-		AuthUser authuser = new AuthUser(username, SecurityConstant.PASSWORD_PREFIX + password, enabled, accountNonLocked, authorities);
+		AuthUser authuser = new AuthUser(username, SecurityConstant.PASSWORD_PREFIX + password, enabled,
+				accountNonLocked, authorities);
 		authuser.setUserId(sysUser.getId());
 		authuser.setNickName(sysUser.getNickName());
 		authuser.setIsAdmin(sysUser.getIsAdmin());
@@ -115,7 +114,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 
 	private void loadRoleAuthorities(List<SysRole> roleList, Set<String> dbAuthsSet) {
 		roleList.stream().map(SysRole::getTitle).filter(StringUtil::isNotBlank)
-				.forEach(x -> dbAuthsSet.add(SecurityUtil.SECURITY_ROLE_PREFIX + x));
+				.forEach(dbAuthsSet::add);
 	}
 
 	private void loadUserAuthorities(List<SysRole> roleList, Set<String> dbAuthSet, Integer isAdmin) {

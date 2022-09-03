@@ -6,6 +6,9 @@ package com.zclibre.system.module.system.constant;
  */
 public interface RoleConstants {
 
+    /**
+     * 角色是否启用
+     */
     Integer ROLE_ENABLE = 1;
     Integer ROLE_DISABLE = 0;
 }

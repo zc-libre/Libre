@@ -8,7 +8,6 @@ import com.libre.ip2region.core.Ip2regionSearcher;
 import com.libre.ip2region.core.IpInfo;
 import com.zclibre.system.config.LibreSecurityProperties;
 import com.zclibre.system.module.security.service.dto.AuthUser;
-import com.zclibre.system.module.security.pojo.DeptInfo;
 import com.zclibre.system.module.security.service.dto.OnlineUserDTO;
 import com.libre.toolkit.core.CharPool;
 import com.libre.toolkit.core.DesensitizationUtil;
@@ -36,7 +35,7 @@ import java.util.Set;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class OnlineUserService {
+public class JwtTokenService {
 
 	private final LibreSecurityProperties properties;
 

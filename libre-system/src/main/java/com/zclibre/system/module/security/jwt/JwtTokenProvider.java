@@ -7,12 +7,16 @@ import com.google.common.collect.Lists;
 import com.libre.redis.cache.RedisUtils;
 import com.zclibre.system.config.LibreSecurityProperties;
 import com.zclibre.system.module.security.service.dto.AuthUser;
+import com.zclibre.system.module.system.service.SysUserService;
 import io.jsonwebtoken.*;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -30,16 +34,19 @@ import java.util.Objects;
 @Slf4j
 @Component
 public class JwtTokenProvider implements InitializingBean {
-
+    private static final String AUTHORITIES_KEY = "user";
     private final LibreSecurityProperties properties;
     private final RedisUtils redisUtils;
-    public static final String AUTHORITIES_KEY = "user";
+    private final UserDetailsService userDetailsService;
     private JwtParser jwtParser;
     private JwtBuilder jwtBuilder;
 
-    public JwtTokenProvider(LibreSecurityProperties properties, RedisUtils redisUtils) {
+
+
+    public JwtTokenProvider(LibreSecurityProperties properties, RedisUtils redisUtils, UserDetailsService userDetailsService) {
         this.properties = properties;
         this.redisUtils = redisUtils;
+        this.userDetailsService = userDetailsService;
     }
 
     @Override
@@ -83,9 +90,10 @@ public class JwtTokenProvider implements InitializingBean {
      */
     Authentication getAuthentication(String token) {
         Claims claims = getClaims(token);
-        AuthUser authUser = new AuthUser(claims.getSubject(), "******", true, true, Lists.newArrayList());
-        return new UsernamePasswordAuthenticationToken(authUser, token, new ArrayList<>());
+        AuthUser authUser = Objects.requireNonNull((AuthUser) userDetailsService.loadUserByUsername(claims.getSubject()));
+        return new UsernamePasswordAuthenticationToken(authUser, token, authUser.getAuthorities());
     }
+
 
     public Claims getClaims(String token) {
         return jwtParser

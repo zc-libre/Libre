@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author zhao.cheng
  */
 @MapperScan("com.zclibre.**.mapper")
-@SpringBootApplication(scanBasePackages = "com.zclibre")
+@SpringBootApplication
 public class LibreApplication {
 
 	public static void main(String[] args) {

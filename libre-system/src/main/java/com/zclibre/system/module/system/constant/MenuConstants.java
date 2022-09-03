@@ -6,6 +6,7 @@ package com.zclibre.system.module.system.constant;
  */
 public interface MenuConstants {
 
+
     Integer IS_FRAME_YES = 1;
     Integer IS_FRAME_NO = 0;
 

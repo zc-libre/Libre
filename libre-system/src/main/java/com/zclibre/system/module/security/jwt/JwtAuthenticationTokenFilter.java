@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.libre.boot.toolkit.RequestUtils;
 import com.libre.toolkit.result.R;
 import com.zclibre.system.config.LibreSecurityProperties;
-import com.zclibre.system.module.security.service.OnlineUserService;
+import com.zclibre.system.module.security.service.JwtTokenService;
 import com.zclibre.system.module.security.service.dto.OnlineUserDTO;
 import com.libre.toolkit.core.StringUtil;
 import com.zclibre.system.module.security.utils.SecurityUtil;
@@ -29,9 +29,9 @@ import java.io.IOException;
 /**
  * @author /
  */
-public class JwtTokenFilter extends OncePerRequestFilter {
+public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
-	private static final Logger log = LoggerFactory.getLogger(JwtTokenFilter.class);
+	private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationTokenFilter.class);
 
 	public static final String TOKEN_PREFIX = "Bearer ";
 
@@ -39,17 +39,17 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
 	private final LibreSecurityProperties properties;
 
-	private final OnlineUserService onlineUserService;
+	private final JwtTokenService jwtTokenService;
 
 	private final UserDetailsService userDetailsService;
 
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-	public JwtTokenFilter(JwtTokenProvider jwtTokenProvider, LibreSecurityProperties properties,
-						  OnlineUserService onlineUserService, UserDetailsService userDetailsService, AuthenticationManagerBuilder authenticationManagerBuilder) {
+	public JwtAuthenticationTokenFilter(JwtTokenProvider jwtTokenProvider, LibreSecurityProperties properties,
+										JwtTokenService jwtTokenService, UserDetailsService userDetailsService, AuthenticationManagerBuilder authenticationManagerBuilder) {
 		this.jwtTokenProvider = jwtTokenProvider;
 		this.properties = properties;
-		this.onlineUserService = onlineUserService;
+		this.jwtTokenService = jwtTokenService;
 		this.userDetailsService = userDetailsService;
 		this.authenticationManagerBuilder = authenticationManagerBuilder;
 	}
@@ -62,7 +62,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 		if (StringUtil.isNotBlank(token)) {
 			OnlineUserDTO onlineUserDto = null;
 			try {
-				onlineUserDto = onlineUserService.getOne(token);
+				onlineUserDto = jwtTokenService.getOne(token);
 			}
 			catch (Exception e) {
 				response.setStatus(HttpStatus.UNAUTHORIZED.value());
