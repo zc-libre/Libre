@@ -1,8 +1,8 @@
 package com.zclibre.system.module.system.service.convert;
 
 import com.libre.toolkit.mapstruct.BaseMapping;
-import com.zclibre.system.module.system.entity.SysUser;
-import com.zclibre.system.module.system.vo.UserVO;
+import com.zclibre.system.module.system.pojo.entity.SysUser;
+import com.zclibre.system.module.system.pojo.vo.UserVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

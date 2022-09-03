@@ -15,9 +15,9 @@ import com.zclibre.system.module.system.service.SysUserService;
 import com.zclibre.system.module.system.service.convert.SysRoleConvert;
 
 import com.libre.toolkit.core.StringUtil;
-import com.zclibre.system.module.system.entity.SysMenu;
-import com.zclibre.system.module.system.entity.SysRole;
-import com.zclibre.system.module.system.entity.SysUser;
+import com.zclibre.system.module.system.pojo.entity.SysMenu;
+import com.zclibre.system.module.system.pojo.entity.SysRole;
+import com.zclibre.system.module.system.pojo.entity.SysUser;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.core.GrantedAuthority;

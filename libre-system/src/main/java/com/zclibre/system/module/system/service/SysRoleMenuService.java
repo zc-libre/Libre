@@ -1,7 +1,7 @@
 package com.zclibre.system.module.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zclibre.system.module.system.entity.SysRoleMenu;
+import com.zclibre.system.module.system.pojo.entity.SysRoleMenu;
 
 import java.util.Collection;
 import java.util.List;

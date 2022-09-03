@@ -2,9 +2,9 @@ package com.zclibre.system.module.system.utils;
 
 import com.google.common.collect.Lists;
 import com.zclibre.system.module.system.constant.MenuConstants;
-import com.zclibre.system.module.system.vo.MenuMetaVO;
-import com.zclibre.system.module.system.vo.MenuVO;
-import com.zclibre.system.module.system.entity.SysMenu;
+import com.zclibre.system.module.system.pojo.vo.MenuMetaVO;
+import com.zclibre.system.module.system.pojo.vo.MenuVO;
+import com.zclibre.system.module.system.pojo.entity.SysMenu;
 import com.libre.toolkit.core.StringPool;
 import com.libre.toolkit.core.StringUtil;
 

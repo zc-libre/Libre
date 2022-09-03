@@ -1,4 +1,4 @@
-package com.zclibre.system.module.system.entity;
+package com.zclibre.system.module.system.pojo.entity;
 
 
 import com.baomidou.mybatisplus.annotation.TableName;

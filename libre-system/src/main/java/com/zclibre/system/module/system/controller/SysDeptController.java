@@ -1,8 +1,8 @@
 package com.zclibre.system.module.system.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zclibre.system.module.system.entity.SysDept;
-import com.zclibre.system.module.system.dto.DeptCriteria;
+import com.zclibre.system.module.system.pojo.entity.SysDept;
+import com.zclibre.system.module.system.pojo.dto.DeptCriteria;
 import com.zclibre.system.module.system.service.SysDeptService;
 import com.libre.toolkit.result.R;
 import com.libre.toolkit.validation.CreateGroup;

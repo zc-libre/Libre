@@ -1,8 +1,8 @@
-package com.zclibre.system.module.system.vo;
+package com.zclibre.system.module.system.pojo.vo;
 
-import com.zclibre.system.module.system.entity.SysDept;
-import com.zclibre.system.module.system.entity.SysPost;
-import com.zclibre.system.module.system.entity.SysRole;
+import com.zclibre.system.module.system.pojo.entity.SysDept;
+import com.zclibre.system.module.system.pojo.entity.SysPost;
+import com.zclibre.system.module.system.pojo.entity.SysRole;
 import lombok.Data;
 
 import java.time.LocalDateTime;

@@ -3,7 +3,7 @@ package com.zclibre.system.module.system.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zclibre.system.module.system.entity.SysRoleMenu;
+import com.zclibre.system.module.system.pojo.entity.SysRoleMenu;
 import com.zclibre.system.module.system.mapper.RoleMenuMapper;
 import com.zclibre.system.module.system.service.SysRoleMenuService;
 import org.apache.commons.collections4.CollectionUtils;

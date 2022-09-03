@@ -3,13 +3,10 @@ package com.zclibre.system.module.system.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zclibre.system.module.security.service.dto.UserInfo;
-import com.zclibre.system.module.system.entity.SysUser;
+import com.zclibre.system.module.system.pojo.entity.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zclibre.system.module.system.dto.UserCriteria;
-import com.zclibre.system.module.system.vo.UserVO;
-
-import java.util.Collection;
-import java.util.List;
+import com.zclibre.system.module.system.pojo.dto.UserCriteria;
+import com.zclibre.system.module.system.pojo.vo.UserVO;
 
 /**
  * @author zhao.cheng

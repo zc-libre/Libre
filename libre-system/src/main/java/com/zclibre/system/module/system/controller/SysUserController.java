@@ -2,10 +2,10 @@ package com.zclibre.system.module.system.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zclibre.system.module.system.entity.SysUser;
-import com.zclibre.system.module.system.dto.UserCriteria;
+import com.zclibre.system.module.system.pojo.entity.SysUser;
+import com.zclibre.system.module.system.pojo.dto.UserCriteria;
 import com.zclibre.system.module.system.service.SysUserService;
-import com.zclibre.system.module.system.vo.UserVO;
+import com.zclibre.system.module.system.pojo.vo.UserVO;
 import com.libre.toolkit.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

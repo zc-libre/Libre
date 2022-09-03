@@ -2,8 +2,8 @@ package com.zclibre.system.module.system.service.impl;
 
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zclibre.system.module.system.entity.SysPost;
-import com.zclibre.system.module.system.entity.SysUserPost;
+import com.zclibre.system.module.system.pojo.entity.SysPost;
+import com.zclibre.system.module.system.pojo.entity.SysUserPost;
 import com.zclibre.system.module.system.mapper.SysPostMapper;
 import com.zclibre.system.module.system.service.SysPostService;
 import com.zclibre.system.module.system.service.SysUserPostService;

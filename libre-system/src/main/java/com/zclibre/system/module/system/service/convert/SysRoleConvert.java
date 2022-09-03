@@ -2,7 +2,7 @@ package com.zclibre.system.module.system.service.convert;
 
 import com.libre.toolkit.mapstruct.BaseMapping;
 import com.zclibre.system.module.security.pojo.RoleInfo;
-import com.zclibre.system.module.system.entity.SysRole;
+import com.zclibre.system.module.system.pojo.entity.SysRole;
 import org.mapstruct.Mapper;
 
 /**

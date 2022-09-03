@@ -1,6 +1,6 @@
 package com.zclibre.system.module.system.service;
 
-import com.zclibre.system.module.system.entity.SysRoleDept;
+import com.zclibre.system.module.system.pojo.entity.SysRoleDept;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

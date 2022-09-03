@@ -2,7 +2,7 @@ package com.zclibre.system.module.system.service.convert;
 
 import com.libre.toolkit.mapstruct.BaseMapping;
 import com.zclibre.system.module.security.pojo.PostInfo;
-import com.zclibre.system.module.system.entity.SysPost;
+import com.zclibre.system.module.system.pojo.entity.SysPost;
 import org.mapstruct.Mapper;
 
 /**

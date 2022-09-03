@@ -1,4 +1,4 @@
-package com.zclibre.system.module.system.dto;
+package com.zclibre.system.module.system.pojo.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zclibre.system.module.security.pojo.DeptInfo;

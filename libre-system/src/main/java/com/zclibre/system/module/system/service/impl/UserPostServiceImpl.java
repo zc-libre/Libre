@@ -1,7 +1,7 @@
 package com.zclibre.system.module.system.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.zclibre.system.module.system.entity.SysUserPost;
+import com.zclibre.system.module.system.pojo.entity.SysUserPost;
 import com.zclibre.system.module.system.mapper.UserPostMapper;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

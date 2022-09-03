@@ -1,6 +1,6 @@
 package com.zclibre.system.module.system.service;
 
-import com.zclibre.system.module.system.entity.SysPost;
+import com.zclibre.system.module.system.pojo.entity.SysPost;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

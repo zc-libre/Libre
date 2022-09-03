@@ -3,7 +3,7 @@ package com.zclibre.system.module.system.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zclibre.common.constant.LibreConstants;
-import com.zclibre.system.module.system.entity.SysMenu;
+import com.zclibre.system.module.system.pojo.entity.SysMenu;
 import com.zclibre.system.module.system.mapper.SysMenuMapper;
 import com.zclibre.system.module.system.service.SysMenuService;
 import com.zclibre.system.module.system.service.SysRoleMenuService;

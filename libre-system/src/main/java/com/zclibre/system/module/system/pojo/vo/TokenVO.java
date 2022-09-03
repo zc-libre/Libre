@@ -1,4 +1,4 @@
-package com.zclibre.system.module.system.vo;
+package com.zclibre.system.module.system.pojo.vo;
 
 import com.libre.toolkit.json.JsonUtil;
 import lombok.Getter;

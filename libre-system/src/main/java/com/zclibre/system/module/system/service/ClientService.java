@@ -1,6 +1,6 @@
 package com.zclibre.system.module.system.service;
 
-import com.zclibre.system.module.system.entity.Client;
+import com.zclibre.system.module.system.pojo.entity.Client;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

@@ -1,6 +1,6 @@
 package com.zclibre.system.module.security.service.dto;
 
-import com.zclibre.system.module.system.entity.SysRole;
+import com.zclibre.system.module.system.pojo.entity.SysRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

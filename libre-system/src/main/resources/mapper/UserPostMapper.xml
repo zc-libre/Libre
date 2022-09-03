@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zclibre.system.module.system.mapper.UserPostMapper">
-  <resultMap id="BaseResultMap" type="com.zclibre.system.module.system.entity.SysUserPost">
+  <resultMap id="BaseResultMap" type="com.zclibre.system.module.system.pojo.entity.SysUserPost">
     <!--@mbg.generated-->
     <!--@Table sys_user_post-->
     <id column="user_id" jdbcType="BIGINT" property="userId" />

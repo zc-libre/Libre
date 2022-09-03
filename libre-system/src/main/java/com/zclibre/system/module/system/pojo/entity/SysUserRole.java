@@ -1,4 +1,4 @@
-package com.zclibre.system.module.system.entity;
+package com.zclibre.system.module.system.pojo.entity;
 
 
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -8,14 +8,14 @@ import lombok.Data;
 
 
 /**
- * 用户岗位表
+ * 用户角色表
  *
  * @author zhao.cheng
  */
-@ApiModel(value = "用户岗位表")
+@ApiModel(value = "用户角色表")
 @Data
-@TableName(value = "sys_user_post")
-public class SysUserPost {
+@TableName(value = "sys_user_role")
+public class SysUserRole {
     /**
      * 用户id
      */
@@ -23,8 +23,8 @@ public class SysUserPost {
     private Long userId;
 
     /**
-     * 岗位id
+     * 角色id
      */
-    @ApiModelProperty(value = "岗位id")
-    private Long postId;
+    @ApiModelProperty(value = "角色id")
+    private Long roleId;
 }

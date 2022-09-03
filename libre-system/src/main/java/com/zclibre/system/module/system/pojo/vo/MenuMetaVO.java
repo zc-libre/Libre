@@ -1,4 +1,4 @@
-package com.zclibre.system.module.system.vo;
+package com.zclibre.system.module.system.pojo.vo;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

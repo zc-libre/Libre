@@ -1,9 +1,9 @@
 package com.zclibre.system.module.system.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zclibre.system.module.system.entity.SysDept;
+import com.zclibre.system.module.system.pojo.entity.SysDept;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zclibre.system.module.system.dto.DeptCriteria;
+import com.zclibre.system.module.system.pojo.dto.DeptCriteria;
 
 import java.util.Collection;
 import java.util.List;

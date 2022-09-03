@@ -1,4 +1,4 @@
-package com.zclibre.system.module.system.dto;
+package com.zclibre.system.module.system.pojo.dto;
 
 import com.zclibre.common.base.BaseCriteria;
 import lombok.Data;
