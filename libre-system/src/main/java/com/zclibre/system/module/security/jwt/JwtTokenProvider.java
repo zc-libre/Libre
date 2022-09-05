@@ -3,19 +3,15 @@ package com.zclibre.system.module.security.jwt;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 
 import com.google.common.base.Charsets;
-import com.google.common.collect.Lists;
 import com.libre.redis.cache.RedisUtils;
 import com.zclibre.system.config.LibreSecurityProperties;
-import com.zclibre.system.module.security.service.dto.AuthUser;
-import com.zclibre.system.module.system.service.SysUserService;
+import com.zclibre.system.module.security.pojo.dto.AuthUser;
 import io.jsonwebtoken.*;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +21,6 @@ import java.security.Key;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Objects;
 
 /**

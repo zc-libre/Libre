@@ -6,7 +6,7 @@ import com.libre.boot.toolkit.RequestUtils;
 import com.libre.toolkit.result.R;
 import com.zclibre.system.config.LibreSecurityProperties;
 import com.zclibre.system.module.security.service.JwtTokenService;
-import com.zclibre.system.module.security.service.dto.OnlineUserDTO;
+import com.zclibre.system.module.security.pojo.dto.OnlineUserDTO;
 import com.libre.toolkit.core.StringUtil;
 import com.zclibre.system.module.security.utils.SecurityUtil;
 import org.jetbrains.annotations.NotNull;

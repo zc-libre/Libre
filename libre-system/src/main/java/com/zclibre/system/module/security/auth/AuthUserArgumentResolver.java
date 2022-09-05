@@ -1,6 +1,6 @@
 package com.zclibre.system.module.security.auth;
 
-import com.zclibre.system.module.security.service.dto.AuthUser;
+import com.zclibre.system.module.security.pojo.dto.AuthUser;
 import com.zclibre.system.module.security.utils.SecurityUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.MethodParameter;
