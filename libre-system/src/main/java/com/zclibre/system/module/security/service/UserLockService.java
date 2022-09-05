@@ -1,6 +1,6 @@
 package com.zclibre.system.module.security.service;
 
-import com.zclibre.system.module.security.service.dto.AuthUserDTO;
+import com.zclibre.system.module.security.pojo.dto.AuthUserDTO;
 
 public interface UserLockService {
 

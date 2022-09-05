@@ -34,6 +34,9 @@ public class UserVO {
      * 角色信息 [{id: 2, name: "普通用户", level: 2, dataScope: "自定义"}, {id: 1, name: "超级管理员", level: 1, dataScope: "全部"}]
      */
     private List<SysRole> roles;
+
+
+    private List<String> permissions;
     /**
      * 用户账号
      */

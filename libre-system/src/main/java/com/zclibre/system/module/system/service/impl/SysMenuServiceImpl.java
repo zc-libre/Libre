@@ -3,6 +3,7 @@ package com.zclibre.system.module.system.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zclibre.common.constant.LibreConstants;
+import com.zclibre.system.module.system.constant.MenuConstants;
 import com.zclibre.system.module.system.pojo.entity.SysMenu;
 import com.zclibre.system.module.system.mapper.SysMenuMapper;
 import com.zclibre.system.module.system.service.SysMenuService;
@@ -55,7 +56,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 .in(SysMenu::getId, roleMenuIdList)
                 // 菜单类型（0目录 1菜单 2按钮）
                 .in(SysMenu::getType, 0, 1)
-                .eq(SysMenu::getHidden, Boolean.FALSE)
+                .eq(SysMenu::getHidden, MenuConstants.IS_HIDDEN_NO)
                 .eq(SysMenu::getStatus, LibreConstants.STATUS_ON));
     }
 }

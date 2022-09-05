@@ -9,4 +9,5 @@ public interface CacheConstants {
      * 用户缓存名
      */
     String SYS_USER_CACHE = "user";
+    String SYS_ROLE_CACHE = "role";
 }

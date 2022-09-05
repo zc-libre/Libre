@@ -2,6 +2,7 @@ package com.zclibre.system.module.system.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.zclibre.system.module.system.pojo.entity.SysUser;
 import com.zclibre.system.module.system.pojo.dto.UserCriteria;
 import com.zclibre.system.module.system.service.SysUserService;
@@ -10,10 +11,7 @@ import com.libre.toolkit.result.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author zhao.cheng
@@ -27,9 +25,9 @@ public class SysUserController {
     private final SysUserService sysUserService;
 
     @ApiOperation("用户列表")
-    @GetMapping
-    public R<IPage<UserVO>> list(Page<SysUser> page, UserCriteria param) {
-        IPage<UserVO> userPage = sysUserService.findByPage(page, param);
+    @PostMapping("/list")
+    public R<PageDTO<UserVO>> list(Page<SysUser> page, UserCriteria param) {
+        PageDTO<UserVO> userPage = sysUserService.findByPage(page, param);
         return R.data(userPage);
     }
 

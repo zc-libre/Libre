@@ -2,7 +2,8 @@ package com.zclibre.system.module.system.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zclibre.system.module.security.service.dto.UserInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
+import com.zclibre.system.module.security.pojo.dto.UserInfo;
 import com.zclibre.system.module.system.pojo.entity.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zclibre.system.module.system.pojo.dto.UserCriteria;
@@ -19,7 +20,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param userParam userParam
      * @return IPage<UserVO>
      */
-    IPage<UserVO> findByPage(Page<SysUser> page, UserCriteria userParam);
+    PageDTO<UserVO> findByPage(Page<SysUser> page, UserCriteria userParam);
 
     /**
      * 通过id查找用户

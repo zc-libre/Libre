@@ -3,16 +3,16 @@ package com.zclibre.system.module.security.service;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.zclibre.system.module.security.constant.SecurityConstant;
-import com.zclibre.system.module.security.service.dto.AuthUser;
+import com.zclibre.system.module.security.pojo.dto.AuthUser;
 import com.zclibre.system.module.security.pojo.RoleInfo;
-import com.zclibre.system.module.security.service.dto.AuthUserDTO;
+import com.zclibre.system.module.security.pojo.dto.AuthUserDTO;
 import com.zclibre.system.module.security.utils.SecurityUtil;
 
 import com.zclibre.system.module.system.constant.UserConstants;
 import com.zclibre.system.module.system.service.SysMenuService;
 import com.zclibre.system.module.system.service.SysRoleService;
 import com.zclibre.system.module.system.service.SysUserService;
-import com.zclibre.system.module.system.service.convert.SysRoleConvert;
+import com.zclibre.system.module.system.service.mapstruct.SysRoleMapping;
 
 import com.libre.toolkit.core.StringUtil;
 import com.zclibre.system.module.system.pojo.entity.SysMenu;
@@ -33,6 +33,8 @@ import org.springframework.util.ObjectUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
+
+
 /**
  * @author Libre
  * @date 2021/7/12 14:09
@@ -47,7 +49,6 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 
 	private final SysMenuService sysMenuService;
 
-	private final SysRoleConvert roleConvert;
 
 	@Override
 	public AuthUser loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -60,16 +61,19 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 		}
 		Long userId = sysUser.getId();
 		Integer isAdmin = sysUser.getIsAdmin();
+
 		List<SysRole> roleList = sysRoleService.getListByUserId(userId);
 		Set<String> dbAuthSet = Sets.newHashSet();
 		List<RoleInfo> roleInfoList = Lists.newArrayList();
+		SysRoleMapping roleMapping = SysRoleMapping.INSTANCE;
 		if (CollectionUtils.isNotEmpty(roleList)) {
-			roleInfoList.addAll(roleConvert.sourceToTarget(roleList));
+			roleInfoList.addAll(roleMapping.sourceToTarget(roleList));
 			// 获取角色
 			loadRoleAuthorities(roleList, dbAuthSet);
 			// 获取资源，超级管理员有所有资源
 			loadUserAuthorities(roleList, dbAuthSet, isAdmin);
 		}
+
 		String password = sysUser.getPassword();
 		boolean enabled = ObjectUtils.nullSafeEquals(sysUser.getEnabled(), UserConstants.USER_ENABLE);
 		boolean accountNonLocked = ObjectUtils.nullSafeEquals(sysUser.getLocked(), UserConstants.USER_UNLOCK);
@@ -77,8 +81,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 		Collection<? extends GrantedAuthority> authorities = AuthorityUtils
 				.createAuthorityList(dbAuthSet.toArray(new String[0]));
 
-		AuthUser authuser = new AuthUser(username, SecurityConstant.PASSWORD_PREFIX + password, enabled,
-				accountNonLocked, authorities);
+		AuthUser authuser = new AuthUser(username, SecurityConstant.PASSWORD_PREFIX + password, enabled, accountNonLocked, authorities);
 		authuser.setUserId(sysUser.getId());
 		authuser.setNickName(sysUser.getNickName());
 		authuser.setIsAdmin(sysUser.getIsAdmin());
@@ -113,8 +116,8 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 	}
 
 	private void loadRoleAuthorities(List<SysRole> roleList, Set<String> dbAuthsSet) {
-		roleList.stream().map(SysRole::getTitle).filter(StringUtil::isNotBlank)
-				.forEach(dbAuthsSet::add);
+		roleList.stream().map(SysRole::getPermission).filter(StringUtil::isNotBlank)
+				.forEach(x -> dbAuthsSet.add(SecurityUtil.SECURITY_ROLE_PREFIX + x));
 	}
 
 	private void loadUserAuthorities(List<SysRole> roleList, Set<String> dbAuthSet, Integer isAdmin) {

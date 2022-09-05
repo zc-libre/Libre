@@ -3,14 +3,14 @@ package com.zclibre.system.module.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.*;
 import com.libre.mybatis.util.PageUtil;
 import com.libre.toolkit.exception.LibreException;
-import com.zclibre.system.module.security.service.dto.UserInfo;
+import com.zclibre.system.module.security.pojo.dto.UserInfo;
 import com.zclibre.system.module.system.pojo.dto.UserCriteria;
 import com.zclibre.system.module.system.pojo.entity.SysRole;
 import com.zclibre.system.module.system.pojo.entity.SysUser;
@@ -19,11 +19,13 @@ import com.zclibre.system.module.system.mapper.SysUserMapper;
 import com.zclibre.system.module.system.service.SysRoleService;
 import com.zclibre.system.module.system.service.SysUserRoleService;
 import com.zclibre.system.module.system.service.SysUserService;
-import com.zclibre.system.module.system.service.convert.SysUserConvert;
+import com.zclibre.system.module.system.service.mapstruct.SysUserMapping;
 import com.zclibre.system.module.system.pojo.vo.UserVO;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,7 +48,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	private final SysUserRoleService userRoleService;
 
 	@Override
-	public IPage<UserVO> findByPage(Page<SysUser> page, UserCriteria userParam) {
+	public PageDTO<UserVO> findByPage(Page<SysUser> page, UserCriteria userParam) {
 		Page<SysUser> userPage = this.page(page, getQueryWrapper(userParam));
 		List<SysUser> records = userPage.getRecords();
 		if (CollectionUtils.isEmpty(records)) {
@@ -75,7 +77,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 		List<UserVO> vos = Lists.newArrayList();
 		for (SysUser sysUser : records) {
-			UserVO userVO = SysUserConvert.INSTANCE.sourceToTarget(sysUser);
+			UserVO userVO = SysUserMapping.INSTANCE.sourceToTarget(sysUser);
+
 			// 角色
 			Collection<Long> roleIds = userIdRoleMap.get(sysUser.getId());
 			List<SysRole> roleList = Lists.newArrayList();
@@ -83,13 +86,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 				roleIds.forEach(roleId -> roleList.add(roleMap.get(roleId)));
 			}
 			userVO.setRoles(roleList);
+
+			// 权限
+			List<String> permissions = roleList.stream().map(SysRole::getRoleName).collect(Collectors.toList());
+			userVO.setPermissions(permissions);
+
 			vos.add(userVO);
 		}
 		return PageUtil.toPage(userPage, vos);
 	}
 
 	@Override
-	// @Cacheable(key = "#id")
+	@Cacheable(key = "#id")
 	public SysUser findUserById(Long id) {
 		return baseMapper.selectById(id);
 	}
@@ -101,6 +109,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
+	@CacheEvict(allEntries = true)
 	public boolean updateByUsername(String username, SysUser sysUser) {
 		LambdaUpdateWrapper<SysUser> wrapper = Wrappers.<SysUser>lambdaUpdate().eq(SysUser::getUsername, username);
 		return this.update(sysUser, wrapper);
@@ -113,12 +122,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		List<SysRole> roles = roleService.getListByUserId(sysUser.getId());
 		List<String> permissions = Lists.newArrayList();
 		if (CollectionUtils.isNotEmpty(roles)) {
-			 permissions = roles.stream().map(SysRole::getTitle).collect(Collectors.toList());
+			 permissions = roles.stream().map(SysRole::getPermission).collect(Collectors.toList());
 		}
 		UserInfo userInfo = new UserInfo();
 		userInfo.setUsername(username);
 		userInfo.setAvatar(sysUser.getAvatar());
 		userInfo.setPermissions(permissions);
+		userInfo.setRoles(roles);
 		return userInfo;
 	}
 

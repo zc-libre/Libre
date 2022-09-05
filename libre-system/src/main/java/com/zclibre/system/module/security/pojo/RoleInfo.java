@@ -26,6 +26,6 @@ public class RoleInfo implements Serializable {
 	/**
 	 * 角色权限字符串
 	 */
-	private String title;
+	private String permission;
 
 }

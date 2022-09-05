@@ -1,4 +1,4 @@
-package com.zclibre.system.module.system.service.convert;
+package com.zclibre.system.module.system.service.mapstruct;
 
 import com.libre.toolkit.mapstruct.BaseMapping;
 import com.zclibre.system.module.system.pojo.entity.SysUser;
@@ -11,7 +11,7 @@ import org.mapstruct.factory.Mappers;
  * @date 2022/1/1 18:34
  */
 @Mapper
-public interface SysUserConvert extends BaseMapping<SysUser, UserVO> {
+public interface SysUserMapping extends BaseMapping<SysUser, UserVO> {
 
-     SysUserConvert INSTANCE = Mappers.getMapper(SysUserConvert.class);
+     SysUserMapping INSTANCE = Mappers.getMapper(SysUserMapping.class);
 }

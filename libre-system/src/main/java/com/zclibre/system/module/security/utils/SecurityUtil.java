@@ -1,7 +1,7 @@
 package com.zclibre.system.module.security.utils;
 
 import com.libre.boot.toolkit.RequestUtils;
-import com.zclibre.system.module.security.service.dto.AuthUser;
+import com.zclibre.system.module.security.pojo.dto.AuthUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;

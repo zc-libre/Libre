@@ -1,7 +1,7 @@
 package com.zclibre.system.config;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.zclibre.system.module.security.service.dto.AuthUser;
+import com.zclibre.system.module.security.pojo.dto.AuthUser;
 import com.zclibre.system.module.security.utils.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;

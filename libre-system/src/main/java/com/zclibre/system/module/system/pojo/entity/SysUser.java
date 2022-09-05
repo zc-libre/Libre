@@ -31,7 +31,6 @@ public class SysUser extends BaseEntity {
     /**
      * 密码
      */
-    @JsonIgnore
     @ApiModelProperty(value = "密码")
     private String password;
 

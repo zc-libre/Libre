@@ -1,7 +1,11 @@
 package com.zclibre.system.module.system.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
+import com.zclibre.system.module.system.pojo.dto.RoleCriteria;
 import com.zclibre.system.module.system.pojo.entity.SysRole;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zclibre.system.module.system.pojo.vo.RoleVO;
 
 import java.util.Collection;
 import java.util.List;
@@ -9,51 +13,36 @@ import java.util.List;
 /**
  * @author zhao.cheng
  */
-public interface SysRoleService extends IService<SysRole>{
+public interface SysRoleService extends IService<SysRole> {
 
-    /**
-     * 根据用户 id 获取角色列表
-     *
-     * @param userId 用户id
-     * @return 角色列表
-     */
-    List<SysRole> getListByUserId(Long userId);
+	/**
+	 * 分页查询
+	 * @param page 分页对象
+	 * @param roleCriteria 查询对象
+	 * @return PageDTO
+	 */
+	PageDTO<RoleVO> findByPage(Page<SysRole> page, RoleCriteria roleCriteria);
 
+	/**
+	 * 根据用户 id 获取角色列表
+	 * @param userId 用户id
+	 * @return 角色列表
+	 */
+	List<SysRole> getListByUserId(Long userId);
 
-    /**
-     * 更新角色菜单
-     *
-     * @param role    角色
-     * @param menuIds 菜单列表
-     * @return 是否成功
-     */
-    boolean updateMenus(SysRole role, List<Long> menuIds);
+	/**
+	 * 更新角色菜单
+	 * @param role 角色
+	 * @param menuIds 菜单列表
+	 * @return 是否成功
+	 */
+	boolean updateMenus(SysRole role, List<Long> menuIds);
 
-    /**
-     * 如果没有使用，删除
-     *
-     * @param ids id 集合
-     * @return 是否成功
-     */
-    boolean deleteIfUnusedByIds(Collection<Long> ids);
+	/**
+	 * 如果没有使用，删除
+	 * @param ids id 集合
+	 * @return 是否成功
+	 */
+	boolean deleteIfUnusedByIds(Collection<Long> ids);
 
-    /**
-     * 保存角色
-     *
-     * @param entity            实体
-     * @param isDataScopeCustom 是否自定义数据权限
-     * @param deptList          部门列表
-     * @return 是否成功
-     */
-    boolean saveRole(SysRole entity, boolean isDataScopeCustom, List<Long> deptList);
-
-    /**
-     * 更新角色
-     *
-     * @param entity            实体
-     * @param isDataScopeCustom 是否自定义数据权限
-     * @param deptList          部门列表
-     * @return 是否成功
-     */
-    boolean updateRoleById(SysRole entity, boolean isDataScopeCustom, List<Long> deptList);
 }
