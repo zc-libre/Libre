@@ -17,7 +17,7 @@ public interface SysMenuService extends IService<SysMenu> {
      * @param roleIds 角色id
      * @return 菜单列表
      */
-    List<SysMenu> getListByRoleIds(Set<Long> roleIds);
+    List<SysMenu> getListByRoleIds(Collection<Long> roleIds);
 
     /**
      * 超级管理员获取所有菜单

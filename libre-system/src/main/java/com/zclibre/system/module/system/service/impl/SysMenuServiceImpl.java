@@ -28,7 +28,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     private final SysRoleMenuService roleMenuService;
 
     @Override
-    public List<SysMenu> getListByRoleIds(Set<Long> roleIds) {
+    public List<SysMenu> getListByRoleIds(Collection<Long> roleIds) {
         List<Long> roleMenuIdList = roleMenuService.getIdListByRoleIds(roleIds);
         if (CollectionUtils.isEmpty(roleMenuIdList)) {
             return Collections.emptyList();

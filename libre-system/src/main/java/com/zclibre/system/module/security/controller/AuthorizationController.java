@@ -74,7 +74,7 @@ public class AuthorizationController {
 
 	@ApiOperation("登录")
 	@PostMapping("/token")
-	public R<UserInfo> login(@Validated @RequestBody AuthUserDTO authUser, HttpServletRequest request) {
+	public R<UserInfo> login(@Validated AuthUserDTO authUser, HttpServletRequest request) {
 		String password = authUser.getPassword();
 		String retryLimitCacheName = properties.getLogin().getRetryLimitCacheName();
 		String username = authUser.getUsername();

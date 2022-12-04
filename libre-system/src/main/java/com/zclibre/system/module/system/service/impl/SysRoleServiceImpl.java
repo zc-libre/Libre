@@ -8,18 +8,15 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.libre.mybatis.util.PageUtil;
 import com.libre.toolkit.exception.LibreException;
-import com.libre.toolkit.result.R;
 import com.zclibre.common.constant.CacheConstants;
 import com.zclibre.system.module.system.constant.RoleConstants;
 import com.zclibre.system.module.system.pojo.dto.RoleCriteria;
-import com.zclibre.system.module.system.pojo.dto.UserCriteria;
+import com.zclibre.system.module.system.pojo.dto.RoleDTO;
 import com.zclibre.system.module.system.pojo.entity.SysRole;
 import com.zclibre.system.module.system.pojo.entity.SysRoleMenu;
-import com.zclibre.system.module.system.pojo.entity.SysUser;
 import com.zclibre.system.module.system.pojo.entity.SysUserRole;
 import com.zclibre.system.module.system.mapper.SysRoleMapper;
 import com.zclibre.system.module.system.pojo.vo.RoleVO;
-import com.zclibre.system.module.system.service.SysRoleDeptService;
 import com.zclibre.system.module.system.service.SysRoleMenuService;
 import com.zclibre.system.module.system.service.SysRoleService;
 import com.zclibre.system.module.system.service.SysUserRoleService;
@@ -29,6 +26,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,7 +37,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @CacheConfig(cacheNames = CacheConstants.SYS_ROLE_CACHE)
-public class SysSysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
+public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
 
 	private final SysUserRoleService userRoleService;
 
@@ -67,6 +65,7 @@ public class SysSysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> i
 	}
 
 	@Override
+	@Transactional(rollbackFor = Throwable.class)
 	public boolean updateMenus(SysRole role, List<Long> menuIds) {
 		Long roleId = role.getId();
 		// 1. 清空角色菜单
@@ -83,6 +82,7 @@ public class SysSysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> i
 	}
 
 	@Override
+	@Transactional(rollbackFor = Throwable.class)
 	public boolean deleteIfUnusedByIds(Collection<Long> ids) {
 		List<SysUserRole> userRoleList = userRoleService.getListByRoleIds(ids);
 		if (userRoleList != null && !userRoleList.isEmpty()) {
@@ -93,6 +93,14 @@ public class SysSysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> i
 			throw new LibreException("存在菜单角色关系");
 		}
 		return super.removeByIds(ids);
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public boolean edit(RoleDTO roleDTO) {
+		SysRoleMapping mapping = SysRoleMapping.INSTANCE;
+		SysRole sysRole = mapping.convertToRole(roleDTO);
+		return super.updateById(sysRole);
 	}
 
 	private Wrapper<SysRole> getQueryWrapper(RoleCriteria roleCriteria) {

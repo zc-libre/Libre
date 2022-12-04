@@ -3,6 +3,7 @@ package com.zclibre.system.module.system.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.zclibre.system.module.system.pojo.dto.RoleCriteria;
+import com.zclibre.system.module.system.pojo.dto.RoleDTO;
 import com.zclibre.system.module.system.pojo.entity.SysRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zclibre.system.module.system.pojo.vo.RoleVO;
@@ -45,4 +46,10 @@ public interface SysRoleService extends IService<SysRole> {
 	 */
 	boolean deleteIfUnusedByIds(Collection<Long> ids);
 
+	/**
+	 * 编辑
+	 * @param roleDTO /
+	 * @return /
+	 */
+    boolean edit(RoleDTO roleDTO);
 }
