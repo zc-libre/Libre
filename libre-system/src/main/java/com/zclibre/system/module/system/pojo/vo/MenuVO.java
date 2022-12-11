@@ -1,6 +1,8 @@
 package com.zclibre.system.module.system.pojo.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,6 +23,8 @@ public class MenuVO implements Serializable {
 
 	private String path;
 
+	private Integer type;
+
 	private Integer hidden;
 
 	private String redirect;
@@ -29,8 +33,15 @@ public class MenuVO implements Serializable {
 
 	private Integer alwaysShow;
 
+	private Integer isFrame;
+
+	private Integer seq;
+
+	private Integer cache;
+
 	private MenuMetaVO meta;
 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private List<MenuVO> children;
 
 }

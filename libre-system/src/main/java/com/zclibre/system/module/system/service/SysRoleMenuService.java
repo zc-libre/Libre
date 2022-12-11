@@ -31,4 +31,7 @@ public interface SysRoleMenuService extends IService<SysRoleMenu>{
      * @param roleId 角色Id
      */
     boolean deleteByRoleId(Long roleId);
+
+
+    List<SysRoleMenu> getListByMenuIds(List<Long> ids);
 }

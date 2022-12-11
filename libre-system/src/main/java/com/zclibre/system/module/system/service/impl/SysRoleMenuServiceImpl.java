@@ -41,4 +41,10 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, SysRoleM
 		return super.remove(wrapper);
 	}
 
+	@Override
+	public List<SysRoleMenu> getListByMenuIds(List<Long> ids) {
+		Wrapper<SysRoleMenu> wrapper = new LambdaQueryWrapper<SysRoleMenu>()
+				.in(SysRoleMenu::getMenuId, ids);
+		return super.list(wrapper);
+	}
 }

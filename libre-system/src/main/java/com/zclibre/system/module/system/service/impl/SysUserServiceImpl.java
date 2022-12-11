@@ -23,12 +23,14 @@ import com.zclibre.system.module.system.service.mapstruct.SysUserMapping;
 import com.zclibre.system.module.system.pojo.vo.UserVO;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -39,13 +41,14 @@ import static com.zclibre.common.constant.CacheConstants.SYS_USER_CACHE;
  * @author zhao.cheng
  */
 @Service
-@CacheConfig(cacheNames = SYS_USER_CACHE)
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = SYS_USER_CACHE)
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
 	private final SysRoleService roleService;
 
 	private final SysUserRoleService userRoleService;
+
 
 	@Override
 	public PageDTO<UserVO> findByPage(Page<SysUser> page, UserCriteria userParam) {
@@ -103,6 +106,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	}
 
 	@Override
+	@Cacheable(key = "#username")
 	public SysUser getByUsername(String username) {
 		return this.getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, username));
 	}
@@ -116,6 +120,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	}
 
 	@Override
+	@Cacheable(key = "'info-'+ #username")
 	public UserInfo findUserInfoByUsername(String username) {
 		SysUser sysUser = Optional.ofNullable(this.getByUsername(username))
 				.orElseThrow(() -> new LibreException(String.format("用户不存在, username,: [%s]", username)));
@@ -128,9 +133,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		userInfo.setUsername(username);
 		userInfo.setAvatar(sysUser.getAvatar());
 		userInfo.setPermissions(permissions);
+		userInfo.setIsAdmin(sysUser.getIsAdmin());
 		userInfo.setRoles(roles);
 		return userInfo;
 	}
+
+	@Override
+	@CacheEvict(allEntries = true)
+	public boolean removeById(Serializable id) {
+		return super.removeById(id);
+	}
+
 
 	private Wrapper<SysUser> getQueryWrapper(UserCriteria param) {
 		String blurry = param.getBlurry();

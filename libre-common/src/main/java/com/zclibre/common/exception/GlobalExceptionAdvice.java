@@ -1,5 +1,6 @@
 package com.zclibre.common.exception;
 
+import com.libre.toolkit.exception.LibreException;
 import com.libre.toolkit.result.R;
 import com.libre.toolkit.result.ResultCode;
 import lombok.extern.slf4j.Slf4j;
@@ -22,5 +23,12 @@ public class GlobalExceptionAdvice {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public R<Object> handleError(LockedException e) {
         return R.fail(ResultCode.UN_AUTHORIZED, e.getMessage());
+    }
+
+
+    @ExceptionHandler(LibreException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public R<Object> handle(LibreException e) {
+        return R.fail(ResultCode.FAILURE, e.getMessage());
     }
 }

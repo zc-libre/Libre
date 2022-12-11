@@ -7,6 +7,7 @@ import com.zclibre.system.module.system.pojo.vo.MenuVO;
 import com.zclibre.system.module.system.pojo.entity.SysMenu;
 import com.libre.toolkit.core.StringPool;
 import com.libre.toolkit.core.StringUtil;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -31,8 +32,9 @@ public class MenuUtil {
 			menuVO.setId(menu.getId());
 			menuVO.setParentId(menu.getParentId());
 			menuVO.setName(StringUtil.isNotBlank(name) ? name : title);
+			menuVO.setType(menu.getType());
 			Long parentId = menu.getParentId();
-			if (parentId == null && !path.startsWith("http")) {
+			if (parentId == null && StringUtil.isNotBlank(path) && !path.startsWith("http")) {
 				menuVO.setPath(StringPool.SLASH + path);
 			}
 			else {
@@ -49,30 +51,24 @@ public class MenuUtil {
 			}
 
 			menuVO.setMeta(new MenuMetaVO(title, menu.getIcon(), menu.getCache()));
+			menuVO.setIsFrame(menu.getIsFrame());
+			menuVO.setSeq(menu.getSeq());
+			menuVO.setCache(menu.getCache());
 			menuVOList.add(menuVO);
 		}
 
-		return menuVOList.stream().filter(menuVO -> menuVO.getParentId() == null)
-				.peek(menuVO -> menuVO.setChildren(getChildren(menuVO, menuVOList))).collect(Collectors.toList());
+		return menuVOList.stream().filter(menuVO -> menuVO.getParentId() == 0)
+				.peek(menuVO -> {
+					List<MenuVO> children = getChildren(menuVO, menuVOList);
+					if (CollectionUtils.isNotEmpty(children)) {
+						menuVO.setChildren(children);
+					}
+				}).collect(Collectors.toList());
 	}
 
 	private static List<MenuVO> getChildren(MenuVO menuVO, List<MenuVO> menus) {
 		return menus.stream().filter(item -> Objects.equals(item.getParentId(), menuVO.getId()))
 				.peek(menu -> menu.setChildren(getChildren(menu, menus))).collect(Collectors.toList());
 	}
-
-	// private List<MenuVO> getCategoryByParentCid(List<MenuVO> menuVOList, long l) {
-	// List<MenuVO> collect = menuVOList.stream().filter(cat -> cat.getParentId() ==
-	// l).collect(Collectors.toList());
-	// return collect;
-	// }
-
-	// private void findPath(Long categorygId, List<Long> path) {
-	// if (categorygId!=0){
-	// path.add(categorygId);
-	// MenuVO byId = getById(categorygId);
-	// findPath(byId.getParentCid(),path);
-	// }
-	// }
 
 }
