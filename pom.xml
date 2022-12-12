@@ -4,14 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.libre</groupId>
-    <artifactId>libre</artifactId>
+    <artifactId>libre-framework</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0</version>
 
     <modules>
-        <module>libre-common</module>
-        <module>libre-system</module>
-        <module>libre-logging</module>
+        <module>libre-framework-common</module>
+        <module>libre-framework-system</module>
+        <module>libre-framework-logging</module>
     </modules>
 
 
@@ -165,7 +165,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
