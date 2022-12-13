@@ -123,6 +123,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	public UserInfo findUserInfoByUsername(String username) {
 		SysUser sysUser = Optional.ofNullable(this.getByUsername(username))
 				.orElseThrow(() -> new LibreException(String.format("用户不存在, username,: [%s]", username)));
+
 		List<SysRole> roles = roleService.getListByUserId(sysUser.getId());
 		List<String> permissions = Lists.newArrayList();
 		if (CollectionUtils.isNotEmpty(roles)) {

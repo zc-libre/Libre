@@ -124,17 +124,8 @@ public class AuthorizationController {
 
 	@GetMapping("/menus")
 	public R<List<MenuVO>> getMenus(AuthUser user) {
-		UserInfo userInfo = sysUserService.findUserInfoByUsername(user.getUsername());
-		if (Objects.equals(UserConstants.IS_ADMIN_YES, userInfo.getIsAdmin())) {
-			List<SysMenu> menuList = menuService.getAllMenu();
-			return R.data(MenuUtil.transform(menuList));
-		}
-		List<SysRole> roleList = userInfo.getRoles();
-		if (CollectionUtils.isEmpty(roleList)) {
-			return R.data(Collections.emptyList());
-		}
-		Set<Long> roleIds = roleList.stream().map(SysRole::getId).collect(Collectors.toSet());
-		List<SysMenu> menuList = menuService.getNavByRoleIds(roleIds);
+
+		List<SysMenu> menuList = menuService.getMenuListByUsername(user.getUsername());
 		return R.data(MenuUtil.transform(menuList));
 	}
 

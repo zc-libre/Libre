@@ -24,6 +24,7 @@ import com.libre.framework.system.module.system.service.mapstruct.SysRoleMapping
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,13 +60,14 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 		if (CollectionUtils.isEmpty(userRoleList)) {
 			return Collections.emptyList();
 		}
-
 		Set<Long> roleIds = userRoleList.stream().map(SysUserRole::getRoleId).collect(Collectors.toSet());
-		return this.list(Wrappers.<SysRole>lambdaQuery().in(SysRole::getId, roleIds).eq(SysRole::getStatus, RoleConstants.ROLE_ENABLE));
+		return this.list(Wrappers.<SysRole>lambdaQuery().in(SysRole::getId, roleIds).eq(SysRole::getStatus,
+				RoleConstants.ROLE_ENABLE));
 	}
 
 	@Override
 	@Transactional(rollbackFor = Throwable.class)
+	@CacheEvict(allEntries = true)
 	public boolean updateMenus(SysRole role, List<Long> menuIds) {
 		Long roleId = role.getId();
 		// 1. 清空角色菜单
@@ -83,6 +85,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
 	@Override
 	@Transactional(rollbackFor = Throwable.class)
+	@CacheEvict(allEntries = true)
 	public boolean deleteIfUnusedByIds(Collection<Long> ids) {
 		List<SysUserRole> userRoleList = userRoleService.getListByRoleIds(ids);
 		if (userRoleList != null && !userRoleList.isEmpty()) {
@@ -95,13 +98,17 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 		return super.removeByIds(ids);
 	}
 
+
+
 	@Override
 	@Transactional(rollbackFor = Exception.class)
+	@CacheEvict(allEntries = true)
 	public boolean edit(RoleDTO roleDTO) {
 		SysRoleMapping mapping = SysRoleMapping.INSTANCE;
 		SysRole sysRole = mapping.convertToRole(roleDTO);
 		return super.updateById(sysRole);
 	}
+
 
 	private Wrapper<SysRole> getQueryWrapper(RoleCriteria roleCriteria) {
 		String blurry = roleCriteria.getBlurry();

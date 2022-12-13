@@ -10,39 +10,38 @@ import java.util.List;
  * @author zhao.cheng
  */
 public interface SysMenuService extends IService<SysMenu> {
-    /**
-     * 根据角色 id 列表查找菜单
-     *
-     * @param roleIds 角色id
-     * @return 菜单列表
-     */
-    List<SysMenu> getListByRoleIds(Collection<Long> roleIds);
 
-    /**
-     * 超级管理员获取所有菜单
-     *
-     * @return 菜单列表
-     */
-    List<SysMenu> getAllMenu();
+	/**
+	 * 根据角色 id 列表查找菜单
+	 * @param roleIds 角色id
+	 * @return 菜单列表
+	 */
+	List<SysMenu> getListByRoleIds(Collection<Long> roleIds);
 
-    /**
-     * 根据角色 id 列表查找导航的菜单
-     *
-     * @param roleIds 角色id
-     * @return 菜单列表
-     */
-    List<SysMenu> getNavByRoleIds(Collection<Long> roleIds);
+	/**
+	 * 超级管理员获取所有菜单
+	 * @return 菜单列表
+	 */
+	List<SysMenu> getAllMenu();
 
-    /**
-     * 添加菜单
-     * @param menu menu
-     * @return /
-     */
-    boolean add(SysMenu menu);
+	/**
+	 * 根据角色 id 列表查找导航的菜单
+	 * @param roleIds 角色id
+	 * @return 菜单列表
+	 */
+	List<SysMenu> getNavByRoleIds(Collection<Long> roleIds);
 
-    List<SysMenu> getSuperior(List<Long> ids);
+	/**
+	 * 添加菜单
+	 * @param menu menu
+	 * @return /
+	 */
+	boolean add(SysMenu menu);
 
+	List<SysMenu> getSuperior(List<Long> ids);
 
-    boolean deleteByIds(List<Long> ids);
+	boolean deleteByIds(List<Long> ids);
+
+	List<SysMenu> getMenuListByUsername(String username);
 
 }
