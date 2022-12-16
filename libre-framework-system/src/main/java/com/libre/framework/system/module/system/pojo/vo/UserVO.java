@@ -79,17 +79,10 @@ public class UserVO {
      */
     private String remark;
     /**
-     * 创建者
-     */
-    private String gmtCreateName;
-    /**
      * 创建时间
      */
     private LocalDateTime gmtCreate;
-    /**
-     * 更新者
-     */
-    private String gmtModifiedName;
+
     /**
      * 更新时间
      */

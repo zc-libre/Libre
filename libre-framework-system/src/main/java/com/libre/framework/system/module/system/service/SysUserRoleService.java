@@ -59,4 +59,6 @@ public interface SysUserRoleService extends IService<SysUserRole> {
 	 * @return 是否成功
 	 */
 	boolean deleteByUserIds(Set<Long> userIds);
+
+
 }

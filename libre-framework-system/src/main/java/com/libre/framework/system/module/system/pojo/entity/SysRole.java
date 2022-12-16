@@ -42,4 +42,7 @@ public class SysRole extends BaseEntity {
      */
     private String permission;
 
+
+    private Integer seq;
+
 }

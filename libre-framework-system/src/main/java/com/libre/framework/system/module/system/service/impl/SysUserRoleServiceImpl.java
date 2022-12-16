@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.libre.framework.system.module.system.mapper.UserRoleMapper;
 import com.libre.framework.system.module.system.pojo.entity.SysUserRole;
 import com.libre.framework.system.module.system.service.SysUserRoleService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;

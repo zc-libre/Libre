@@ -3,10 +3,13 @@ package com.libre.framework.system.module.system.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.libre.framework.system.module.security.pojo.dto.UserInfo;
+import com.libre.framework.system.module.system.pojo.dto.UserDTO;
 import com.libre.framework.system.module.system.pojo.entity.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.libre.framework.system.module.system.pojo.dto.UserCriteria;
 import com.libre.framework.system.module.system.pojo.vo.UserVO;
+
+import java.util.Set;
 
 /**
  * @author zhao.cheng
@@ -47,4 +50,10 @@ public interface SysUserService extends IService<SysUser> {
 
 
     UserInfo findUserInfoByUsername(String username);
+
+    boolean createUser(UserDTO user);
+
+    boolean updateUser(UserDTO user);
+
+    boolean deleteUserByIds(Set<Long> ids);
 }

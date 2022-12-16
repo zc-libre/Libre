@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +22,5 @@ public class RoleMenuDTO {
     /**
      * 菜单id列表
      */
-    @NotEmpty
-    private List<Long> menuIds;
+    private List<Long> menuIds = new ArrayList<>();
 }

@@ -73,14 +73,17 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 		// 1. 清空角色菜单
 		roleMenuService.deleteByRoleId(roleId);
 		// 2. 批量保存
-		List<SysRoleMenu> entityList = new ArrayList<>(menuIds.size());
-		for (Long menuId : menuIds) {
-			SysRoleMenu roleMenu = new SysRoleMenu();
-			roleMenu.setRoleId(roleId);
-			roleMenu.setMenuId(menuId);
-			entityList.add(roleMenu);
-		}
-		return roleMenuService.saveBatch(entityList);
+       if (CollectionUtils.isNotEmpty(menuIds)) {
+		   List<SysRoleMenu> entityList = new ArrayList<>(menuIds.size());
+		   for (Long menuId : menuIds) {
+			   SysRoleMenu roleMenu = new SysRoleMenu();
+			   roleMenu.setRoleId(roleId);
+			   roleMenu.setMenuId(menuId);
+			   entityList.add(roleMenu);
+		   }
+		   roleMenuService.saveBatch(entityList);
+	   }
+		return true;
 	}
 
 	@Override

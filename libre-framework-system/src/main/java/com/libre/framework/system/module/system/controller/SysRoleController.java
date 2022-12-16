@@ -37,12 +37,19 @@ public class SysRoleController {
 	private final SysMenuService menuService;
 
 
-	@ApiOperation("角色列表")
-	@PostMapping("/list")
-	public R<PageDTO<RoleVO>> list(Page<SysRole> page, RoleCriteria roleCriteria) {
+	@ApiOperation("角色分页列表")
+	@PostMapping("/page")
+	public R<PageDTO<RoleVO>> page(Page<SysRole> page, RoleCriteria roleCriteria) {
 		PageDTO<RoleVO> rolePage = roleService.findByPage(page, roleCriteria);
 		return R.data(rolePage);
 	}
+
+	@GetMapping("/list")
+	public R<List<SysRole>> list() {
+		List<SysRole> list = roleService.list();
+		return R.data(list);
+	}
+
 
 	@Operation(summary = "获取单个role")
 	@GetMapping("{id}")
@@ -61,13 +68,14 @@ public class SysRoleController {
 	@PostMapping("/edit_menu")
 	public R<Boolean> updateMenu(@Validated @RequestBody RoleMenuDTO roleMenu) {
 		SysRole role = roleService.getById(roleMenu.getId());
+
 		boolean res = roleService.updateMenus(role, roleMenu.getMenuIds());
 		return R.status(res);
 	}
 
 	@PostMapping("/edit")
-	public R<Boolean> edit(RoleDTO roleDTO) {
-		boolean res = roleService.edit(roleDTO);
+	public R<Boolean> edit(SysRole sysRole) {
+		boolean res = roleService.saveOrUpdate(sysRole);
 		return R.status(res);
 	}
 

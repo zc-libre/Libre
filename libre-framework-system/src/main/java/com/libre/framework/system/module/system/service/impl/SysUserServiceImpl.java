@@ -8,19 +8,23 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.*;
+import com.libre.boot.autoconfigure.SpringContext;
 import com.libre.framework.system.module.security.pojo.dto.UserInfo;
-import com.libre.framework.system.module.system.pojo.entity.SysUser;
-import com.libre.framework.system.module.system.service.SysUserService;
-import com.libre.mybatis.util.PageUtil;
-import com.libre.toolkit.exception.LibreException;
-import com.libre.framework.system.module.system.pojo.dto.UserCriteria;
-import com.libre.framework.system.module.system.pojo.entity.SysRole;
-import com.libre.framework.system.module.system.pojo.entity.SysUserRole;
+import com.libre.framework.system.module.system.constant.UserConstants;
 import com.libre.framework.system.module.system.mapper.SysUserMapper;
+import com.libre.framework.system.module.system.pojo.dto.UserCriteria;
+import com.libre.framework.system.module.system.pojo.dto.UserDTO;
+import com.libre.framework.system.module.system.pojo.entity.SysRole;
+import com.libre.framework.system.module.system.pojo.entity.SysUser;
+import com.libre.framework.system.module.system.pojo.entity.SysUserRole;
+import com.libre.framework.system.module.system.pojo.vo.UserVO;
 import com.libre.framework.system.module.system.service.SysRoleService;
 import com.libre.framework.system.module.system.service.SysUserRoleService;
+import com.libre.framework.system.module.system.service.SysUserService;
 import com.libre.framework.system.module.system.service.mapstruct.SysUserMapping;
-import com.libre.framework.system.module.system.pojo.vo.UserVO;
+import com.libre.mybatis.util.PageUtil;
+import com.libre.toolkit.core.StringUtil;
+import com.libre.toolkit.exception.LibreException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.cache.annotation.CacheConfig;
@@ -47,7 +51,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	private final SysRoleService roleService;
 
 	private final SysUserRoleService userRoleService;
-
 
 	@Override
 	public PageDTO<UserVO> findByPage(Page<SysUser> page, UserCriteria userParam) {
@@ -127,7 +130,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		List<SysRole> roles = roleService.getListByUserId(sysUser.getId());
 		List<String> permissions = Lists.newArrayList();
 		if (CollectionUtils.isNotEmpty(roles)) {
-			 permissions = roles.stream().map(SysRole::getPermission).collect(Collectors.toList());
+			permissions = roles.stream().map(SysRole::getPermission).collect(Collectors.toList());
 		}
 		UserInfo userInfo = new UserInfo();
 		userInfo.setUsername(username);
@@ -139,11 +142,67 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	}
 
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(allEntries = true)
+	public boolean createUser(UserDTO user) {
+		String username = user.getUsername();
+
+		if (StringUtil.isBlank(username)) {
+			throw new LibreException("用户名不能为空");
+		}
+		SysUser dbUser = this.getByUsername(username);
+		if (Objects.nonNull(dbUser)) {
+			throw new LibreException("用户名已存在");
+		}
+		List<Long> roleIds = user.getRoleIds();
+		if (CollectionUtils.isEmpty(roleIds)) {
+			throw new LibreException("角色列表为空");
+		}
+
+		SysUserMapping userMapping = SysUserMapping.INSTANCE;
+		SysUser sysUser = userMapping.convertToUser(user);
+		sysUser.setLocked(UserConstants.USER_UNLOCK);
+		this.save(sysUser);
+		return userRoleService.saveByUserIdAndRoleIds(sysUser.getId(), roleIds);
+	}
+
+	@Override
+	@CacheEvict(allEntries = true)
+	@Transactional(rollbackFor = Exception.class)
+	public boolean updateUser(UserDTO user) {
+		String userName = user.getUsername();
+		SysUserServiceImpl userService = SpringContext.getCurrentProxy();
+		Optional.ofNullable(userService.getByUsername(userName)).orElseThrow(() -> new LibreException("用户不存在"));
+		SysUserMapping mapping = SysUserMapping.INSTANCE;
+		SysUser sysUser = mapping.convertToUser(user);
+		List<Long> roleIds = user.getRoleIds();
+		// 1. 更新用户
+		super.updateById(sysUser);
+		Long userId = sysUser.getId();
+		// 2. 清除用户角色
+		userRoleService.deleteByUserId(userId);
+		// 4. 保存用户角色
+		return userRoleService.saveByUserIdAndRoleIds(userId, roleIds);
+	}
+
+	@Override
+	@CacheEvict(allEntries = true)
+	@Transactional(rollbackFor = Exception.class)
+	public boolean deleteUserByIds(Set<Long> ids) {
+		List<SysUserRole> userRoleList = userRoleService.getListByUserIds(ids);
+		if (CollectionUtils.isNotEmpty(userRoleList)) {
+			userRoleService.deleteByUserIds(ids);
+		}
+		this.removeBatchByIds(ids);
+		return true;
+	}
+
+	@Override
+	@CacheEvict(allEntries = true)
+	@Transactional(rollbackFor = Exception.class)
 	public boolean removeById(Serializable id) {
 		return super.removeById(id);
 	}
-
 
 	private Wrapper<SysUser> getQueryWrapper(UserCriteria param) {
 		String blurry = param.getBlurry();
