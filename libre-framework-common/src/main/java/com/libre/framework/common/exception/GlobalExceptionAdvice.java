@@ -1,5 +1,6 @@
 package com.libre.framework.common.exception;
 
+import com.libre.boot.exception.ErrorUtil;
 import com.libre.toolkit.exception.LibreException;
 import com.libre.toolkit.result.R;
 import com.libre.toolkit.result.ResultCode;
@@ -28,6 +29,7 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler(LibreException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public R<Object> handle(LibreException e) {
+        ErrorUtil.publishEvent(e);
         return R.fail(ResultCode.FAILURE, e.getMessage());
     }
 }

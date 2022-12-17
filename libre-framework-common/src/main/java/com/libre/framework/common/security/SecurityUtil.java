@@ -1,7 +1,7 @@
-package com.libre.framework.system.module.security.utils;
+package com.libre.framework.common.security;
 
 import com.libre.boot.toolkit.RequestUtils;
-import com.libre.framework.system.module.security.pojo.dto.AuthUser;
+import com.libre.framework.common.security.AuthUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;

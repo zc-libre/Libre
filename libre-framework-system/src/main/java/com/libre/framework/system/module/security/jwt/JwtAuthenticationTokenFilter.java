@@ -8,7 +8,7 @@ import com.libre.framework.system.module.security.service.JwtTokenService;
 import com.libre.toolkit.result.R;
 import com.libre.framework.system.module.security.pojo.dto.OnlineUserDTO;
 import com.libre.toolkit.core.StringUtil;
-import com.libre.framework.system.module.security.utils.SecurityUtil;
+import com.libre.framework.common.security.SecurityUtil;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +46,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
 	public JwtAuthenticationTokenFilter(JwtTokenProvider jwtTokenProvider, LibreSecurityProperties properties,
-										JwtTokenService jwtTokenService, UserDetailsService userDetailsService, AuthenticationManagerBuilder authenticationManagerBuilder) {
+			JwtTokenService jwtTokenService, UserDetailsService userDetailsService,
+			AuthenticationManagerBuilder authenticationManagerBuilder) {
 		this.jwtTokenProvider = jwtTokenProvider;
 		this.properties = properties;
 		this.jwtTokenService = jwtTokenService;
@@ -55,8 +56,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 	}
 
 	@Override
-	protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
-
+	protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response,
+			@NotNull FilterChain filterChain) throws ServletException, IOException {
 		String token = resolveToken(request);
 		// 对于 Token 为空的不需要去查 Redis
 		if (StringUtil.isNotBlank(token)) {

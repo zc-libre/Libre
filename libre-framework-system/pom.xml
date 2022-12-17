@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>com.libre</groupId>
-            <artifactId>libre-framework-common</artifactId>
+            <artifactId>libre-framework-logging</artifactId>
             <version>1.0.0</version>
         </dependency>
     </dependencies>

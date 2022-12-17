@@ -1,8 +1,5 @@
-package com.libre.framework.system.module.security.pojo.dto;
+package com.libre.framework.common.security;
 
-import com.libre.framework.system.module.security.pojo.DeptInfo;
-import com.libre.framework.system.module.security.pojo.RoleInfo;
-import com.libre.framework.system.module.security.pojo.PostInfo;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -34,9 +31,6 @@ public class AuthUser extends User {
 
 	private String phone;
 
-	private DeptInfo dept;
-
-	private List<PostInfo> postList;
 
 	private List<RoleInfo> roleList;
 
@@ -56,8 +50,6 @@ public class AuthUser extends User {
 		authUser.setAvatar(user.getAvatar());
 		authUser.setEmail(user.getEmail());
 		authUser.setPhone(user.getPhone());
-		authUser.setDept(user.getDept());
-		authUser.setPostList(user.getPostList());
 		authUser.setRoleList(user.getRoleList());
 		return authUser;
 	}

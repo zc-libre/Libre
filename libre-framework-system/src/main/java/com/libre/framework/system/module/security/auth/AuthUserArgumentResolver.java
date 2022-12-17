@@ -1,7 +1,7 @@
 package com.libre.framework.system.module.security.auth;
 
-import com.libre.framework.system.module.security.pojo.dto.AuthUser;
-import com.libre.framework.system.module.security.utils.SecurityUtil;
+import com.libre.framework.common.security.AuthUser;
+import com.libre.framework.common.security.SecurityUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;

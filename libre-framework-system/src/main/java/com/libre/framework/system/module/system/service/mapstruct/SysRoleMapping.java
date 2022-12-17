@@ -1,6 +1,6 @@
 package com.libre.framework.system.module.system.service.mapstruct;
 
-import com.libre.framework.system.module.security.pojo.RoleInfo;
+import com.libre.framework.common.security.RoleInfo;
 import com.libre.framework.system.module.system.pojo.dto.RoleDTO;
 import com.libre.toolkit.mapstruct.BaseMapping;
 import com.libre.framework.system.module.system.pojo.entity.SysRole;

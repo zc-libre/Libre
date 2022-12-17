@@ -2,20 +2,19 @@ package com.libre.framework.system.module.security.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 
+import com.libre.framework.logging.annotation.ApiLog;
 import com.libre.framework.system.config.LibreSecurityProperties;
 import com.libre.framework.system.module.security.jwt.JwtTokenProvider;
-import com.libre.framework.system.module.security.pojo.dto.AuthUser;
+import com.libre.framework.common.security.AuthUser;
 import com.libre.framework.system.module.security.pojo.dto.AuthUserDTO;
 import com.libre.framework.system.module.security.pojo.dto.UserInfo;
 import com.libre.framework.system.module.security.service.JwtTokenService;
 import com.libre.framework.system.module.security.service.UserLockService;
 import com.libre.framework.system.module.system.pojo.entity.SysMenu;
-import com.libre.framework.system.module.system.pojo.entity.SysRole;
 import com.libre.framework.system.module.system.pojo.vo.MenuVO;
 import com.libre.framework.system.module.system.service.SysMenuService;
 import com.libre.framework.system.module.system.service.SysUserService;
 import com.libre.framework.system.module.system.utils.MenuUtil;
-import com.libre.framework.system.module.system.constant.UserConstants;
 import com.libre.captcha.service.CaptchaService;
 import com.libre.captcha.vo.CaptchaVO;
 import com.libre.toolkit.result.R;
@@ -24,7 +23,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -35,7 +33,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author Libre
@@ -72,6 +69,7 @@ public class AuthorizationController {
 		return R.data(captchaVO);
 	}
 
+	@ApiLog("登录")
 	@ApiOperation("登录")
 	@PostMapping("/token")
 	public R<UserInfo> login(@Validated AuthUserDTO authUser, HttpServletRequest request) {

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.google.common.base.Charsets;
 import com.libre.framework.system.config.LibreSecurityProperties;
 import com.libre.redis.cache.RedisUtils;
-import com.libre.framework.system.module.security.pojo.dto.AuthUser;
+import com.libre.framework.common.security.AuthUser;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;

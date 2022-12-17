@@ -4,10 +4,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.libre.framework.system.module.system.service.SysUserService;
 import com.libre.framework.system.module.security.constant.SecurityConstant;
-import com.libre.framework.system.module.security.pojo.dto.AuthUser;
-import com.libre.framework.system.module.security.pojo.RoleInfo;
+import com.libre.framework.common.security.AuthUser;
+import com.libre.framework.common.security.RoleInfo;
 import com.libre.framework.system.module.security.pojo.dto.AuthUserDTO;
-import com.libre.framework.system.module.security.utils.SecurityUtil;
+import com.libre.framework.common.security.SecurityUtil;
 
 import com.libre.framework.system.module.system.constant.UserConstants;
 import com.libre.framework.system.module.system.service.SysMenuService;

@@ -1,8 +1,8 @@
 package com.libre.framework.system.config;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.libre.framework.system.module.security.pojo.dto.AuthUser;
-import com.libre.framework.system.module.security.utils.SecurityUtil;
+import com.libre.framework.common.security.AuthUser;
+import com.libre.framework.common.security.SecurityUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;

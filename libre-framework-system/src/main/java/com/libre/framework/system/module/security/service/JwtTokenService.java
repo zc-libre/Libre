@@ -7,7 +7,7 @@ import com.libre.boot.toolkit.RequestUtils;
 import com.libre.ip2region.core.Ip2regionSearcher;
 import com.libre.ip2region.core.IpInfo;
 import com.libre.framework.system.config.LibreSecurityProperties;
-import com.libre.framework.system.module.security.pojo.dto.AuthUser;
+import com.libre.framework.common.security.AuthUser;
 import com.libre.framework.system.module.security.pojo.dto.OnlineUserDTO;
 import com.libre.toolkit.core.CharPool;
 import com.libre.toolkit.core.DesensitizationUtil;

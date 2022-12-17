@@ -1,4 +1,4 @@
-package com.libre.framework.system.module.security.pojo;
+package com.libre.framework.common.security;
 
 import lombok.Data;
 
