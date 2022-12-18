@@ -21,7 +21,18 @@ import java.util.stream.Collectors;
  */
 public class MenuUtil {
 
-	public static List<MenuVO> transform(List<SysMenu> menuList) {
+	public static List<MenuVO> transformTree(List<SysMenu> menuList) {
+		List<MenuVO> menuVOList = transformList(menuList);
+		return menuVOList.stream().filter(menuVO -> menuVO.getParentId() == 0)
+				.peek(menuVO -> {
+					List<MenuVO> children = getChildren(menuVO, menuVOList);
+					if (CollectionUtils.isNotEmpty(children)) {
+						menuVO.setChildren(children);
+					}
+				}).collect(Collectors.toList());
+	}
+
+	public static List<MenuVO> transformList(List<SysMenu> menuList) {
 		List<MenuVO> menuVOList = Lists.newArrayList();
 		for (SysMenu menu : menuList) {
 			String name = menu.getName();
@@ -56,14 +67,7 @@ public class MenuUtil {
 			menuVO.setCache(menu.getCache());
 			menuVOList.add(menuVO);
 		}
-
-		return menuVOList.stream().filter(menuVO -> menuVO.getParentId() == 0)
-				.peek(menuVO -> {
-					List<MenuVO> children = getChildren(menuVO, menuVOList);
-					if (CollectionUtils.isNotEmpty(children)) {
-						menuVO.setChildren(children);
-					}
-				}).collect(Collectors.toList());
+		return menuVOList;
 	}
 
 	private static List<MenuVO> getChildren(MenuVO menuVO, List<MenuVO> menus) {

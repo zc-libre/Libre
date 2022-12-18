@@ -17,4 +17,7 @@ public interface SysLogMapping extends BaseMapping<SysLogEvent, SysLog> {
 
 
     SysLog convertToSysLog(LibreErrorEvent event);
+
+
+
 }

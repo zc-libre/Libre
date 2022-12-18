@@ -2,6 +2,7 @@ package com.libre.framework.system.module.system.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
+import com.libre.framework.logging.annotation.ApiLog;
 import com.libre.framework.system.module.system.pojo.dto.RoleDTO;
 import com.libre.framework.system.module.system.pojo.dto.RoleMenuDTO;
 import com.libre.framework.system.module.system.pojo.entity.SysRole;
@@ -64,6 +65,7 @@ public class SysRoleController {
 		return R.data(menuService.getListByRoleIds(Collections.singletonList(id)));
 	}
 
+	@ApiLog("修改角色菜单")
 	@Operation(summary = "修改角色菜单")
 	@PostMapping("/edit_menu")
 	public R<Boolean> updateMenu(@Validated @RequestBody RoleMenuDTO roleMenu) {
@@ -73,6 +75,8 @@ public class SysRoleController {
 		return R.status(res);
 	}
 
+
+	@ApiLog("修改角色")
 	@PostMapping("/edit")
 	public R<Boolean> edit(SysRole sysRole) {
 		boolean res = roleService.saveOrUpdate(sysRole);
@@ -80,6 +84,7 @@ public class SysRoleController {
 	}
 
 
+	@ApiLog("删除角色")
 	@Operation(summary = "删除角色")
 	@DeleteMapping
 	public R<Boolean> delete(@NotEmpty @RequestBody Set<Long> ids) {

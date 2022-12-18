@@ -6,6 +6,7 @@ import com.libre.toolkit.time.DatePattern;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -67,10 +68,6 @@ public class SysLog implements Serializable {
 	 */
 	private String classMethod;
 
-	/**
-	 * 异常信息
-	 */
-	private String exceptionDetail;
 
 	/**
 	 * 请求ip
@@ -81,6 +78,9 @@ public class SysLog implements Serializable {
 	 * 请求耗时
 	 */
 	private Long requestTime;
+
+
+	private String requestMethod;
 
 	/**
 	 * 系统
@@ -96,6 +96,40 @@ public class SysLog implements Serializable {
 	 * 请求者地址
 	 */
 	private String address;
+
+
+	private String stackTrace;
+	/**
+	 * 异常名
+	 */
+	
+	private String exceptionName;
+	/**
+	 * 异常消息
+	 */
+	@Nullable
+	private String message;
+	/**
+	 * 类名
+	 */
+	@Nullable
+	private String className;
+	/**
+	 * 文件名
+	 */
+	@Nullable
+	private String fileName;
+	/**
+	 * 方法名
+	 */
+	@Nullable
+	private String methodName;
+	/**
+	 * 代码行数
+	 */
+	@Nullable
+	private Integer lineNumber;
+
 
 	/**
 	 * 创建时间

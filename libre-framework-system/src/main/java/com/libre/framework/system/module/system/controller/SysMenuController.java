@@ -47,7 +47,7 @@ public class SysMenuController {
 	@GetMapping("tree")
 	public R<List<MenuVO>> tree() {
 		List<SysMenu> menuList = menuService.list();
-		List<MenuVO> vos = MenuUtil.transform(menuList);
+		List<MenuVO> vos = MenuUtil.transformTree(menuList);
 		return R.data(vos);
 	}
 

@@ -3,6 +3,7 @@ package com.libre.framework.system.module.security.controller;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 
 import com.libre.framework.logging.annotation.ApiLog;
+import com.libre.framework.logging.support.SysLogType;
 import com.libre.framework.system.config.LibreSecurityProperties;
 import com.libre.framework.system.module.security.jwt.JwtTokenProvider;
 import com.libre.framework.common.security.AuthUser;
@@ -69,7 +70,7 @@ public class AuthorizationController {
 		return R.data(captchaVO);
 	}
 
-	@ApiLog("登录")
+	@ApiLog(value = "登录", type = SysLogType.Login)
 	@ApiOperation("登录")
 	@PostMapping("/token")
 	public R<UserInfo> login(@Validated AuthUserDTO authUser, HttpServletRequest request) {
@@ -112,19 +113,21 @@ public class AuthorizationController {
 		return R.data(userInfo);
 	}
 
+
 	@ApiOperation("退出登录")
 	@DeleteMapping(value = "/logout")
+	@ApiLog(value = "登出", type = SysLogType.Logout)
 	public R<Boolean> logout(HttpServletRequest request) {
 		String token = jwtTokenProvider.getToken(request);
 		jwtTokenService.removeByToken(token);
 		return R.data(Boolean.TRUE);
 	}
 
+
 	@GetMapping("/menus")
 	public R<List<MenuVO>> getMenus(AuthUser user) {
-
 		List<SysMenu> menuList = menuService.getMenuListByUsername(user.getUsername());
-		return R.data(MenuUtil.transform(menuList));
+		return R.data(MenuUtil.transformList(menuList));
 	}
 
 }

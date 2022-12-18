@@ -1,5 +1,7 @@
 package com.libre.framework.logging.annotation;
 
+import com.libre.framework.logging.support.SysLogType;
+
 import java.lang.annotation.*;
 
 /**
@@ -17,4 +19,6 @@ public @interface ApiLog {
 	 * @return {String}
 	 */
 	String value();
+
+	SysLogType type() default SysLogType.Api;
 }

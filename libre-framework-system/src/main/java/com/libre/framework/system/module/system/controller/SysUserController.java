@@ -2,6 +2,7 @@ package com.libre.framework.system.module.system.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
+import com.libre.framework.logging.annotation.ApiLog;
 import com.libre.framework.system.module.security.constant.SecurityConstant;
 import com.libre.framework.system.module.system.pojo.dto.UserDTO;
 import com.libre.framework.system.module.system.pojo.entity.SysUser;
@@ -29,41 +30,44 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class SysUserController {
 
-    private final SysUserService sysUserService;
+	private final SysUserService sysUserService;
 
-    private final PasswordEncoder passwordEncoder;
+	private final PasswordEncoder passwordEncoder;
 
-    @ApiOperation("用户列表")
-    @PostMapping("/list")
-    public R<PageDTO<UserVO>> list(Page<SysUser> page, UserCriteria param) {
-        PageDTO<UserVO> userPage = sysUserService.findByPage(page, param);
-        return R.data(userPage);
-    }
+	@ApiOperation("用户列表")
+	@PostMapping("/list")
+	public R<PageDTO<UserVO>> list(Page<SysUser> page, UserCriteria param) {
+		PageDTO<UserVO> userPage = sysUserService.findByPage(page, param);
+		return R.data(userPage);
+	}
 
+	@ApiOperation("获取用户")
+	@GetMapping("/{id}")
+	public R<SysUser> info(@PathVariable Long id) {
+		return R.data(sysUserService.findUserById(id));
+	}
 
-    @ApiOperation("获取用户")
-    @GetMapping("/{id}")
-    public R<SysUser> info(@PathVariable Long id) {
-        return R.data(sysUserService.findUserById(id));
-    }
+	@ApiLog("创建用户")
+	@PutMapping("/save")
+	public R<Boolean> save(UserDTO user) {
+		String password = passwordEncoder.encode("123456");
+		user.setPassword(password.replace(SecurityConstant.PASSWORD_PREFIX, StringPool.EMPTY));
+		boolean res = sysUserService.createUser(user);
+		return R.status(res);
+	}
 
-    @PutMapping("/save")
-    public R<Boolean> save(UserDTO user) {
-        String password = passwordEncoder.encode("123456");
+	@ApiLog("修改用户")
+	@PostMapping("edit")
+	public R<Boolean> update(UserDTO user) {
+		boolean res = sysUserService.updateUser(user);
+		return R.status(res);
+	}
 
-        user.setPassword(password.replace(SecurityConstant.PASSWORD_PREFIX, StringPool.EMPTY));
-        boolean res = sysUserService.createUser(user);
-        return R.status(res);
-    }
+	@ApiLog("删除用户")
+	@DeleteMapping
+	public R<Boolean> delete(@NotEmpty @RequestBody Set<Long> ids) {
+		boolean res = sysUserService.deleteUserByIds(ids);
+		return R.status(res);
+	}
 
-    @PostMapping("edit")
-    public R<Boolean> update(UserDTO user) {
-        boolean res = sysUserService.updateUser(user);
-        return R.status(res);
-    }
-    @DeleteMapping
-    public R<Boolean> delete(@NotEmpty @RequestBody Set<Long> ids) {
-        boolean res = sysUserService.deleteUserByIds(ids);
-        return R.status(res);
-    }
 }

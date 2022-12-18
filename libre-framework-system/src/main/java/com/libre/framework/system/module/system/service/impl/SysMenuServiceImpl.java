@@ -131,6 +131,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 		}
 		path.add(parentId);
 		SysMenu menu = getById(parentId);
+		if (Objects.isNull(menu)) {
+			return;
+		}
 		findPath(menu.getParentId(), path);
 	}
 

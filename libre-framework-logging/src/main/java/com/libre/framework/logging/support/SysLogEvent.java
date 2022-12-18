@@ -18,6 +18,7 @@ package com.libre.framework.logging.support;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 /**
  * SysLog 数据承载
@@ -32,10 +33,12 @@ public class SysLogEvent {
 	 * 用户id
 	 */
 	private Long userId;
+
+	private String appName;
 	/**
 	 * 登陆名
 	 */
-	private String userName;
+	private String username;
 	/**
 	 * 日志类别
 	 */
@@ -56,18 +59,14 @@ public class SysLogEvent {
 	 * 是否成功[0失败,1成功]
 	 */
 	private Integer success;
-	/**
-	 * 类-方法
-	 */
-	private String classMethod;
-	/**
-	 * 异常信息
-	 */
-	private String exceptionDetail;
+
 	/**
 	 * 请求ip
 	 */
 	private String requestIp;
+
+
+	private String requestMethod;
 	/**
 	 * 请求耗时
 	 */
@@ -76,4 +75,37 @@ public class SysLogEvent {
 	 * ua 信息
 	 */
 	private String userAgent;
+
+
+	private String stackTrace;
+	/**
+	 * 异常名
+	 */
+
+	private String exceptionName;
+	/**
+	 * 异常消息
+	 */
+	@Nullable
+	private String message;
+	/**
+	 * 类名
+	 */
+	@Nullable
+	private String className;
+	/**
+	 * 文件名
+	 */
+	@Nullable
+	private String fileName;
+	/**
+	 * 方法名
+	 */
+	@Nullable
+	private String methodName;
+	/**
+	 * 代码行数
+	 */
+	@Nullable
+	private Integer lineNumber;
 }

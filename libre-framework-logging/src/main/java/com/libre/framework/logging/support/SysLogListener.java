@@ -18,6 +18,8 @@ package com.libre.framework.logging.support;
 
 import com.libre.boot.exception.ErrorUtil;
 import com.libre.boot.exception.LibreErrorEvent;
+import com.libre.framework.common.security.AuthUser;
+import com.libre.framework.common.security.SecurityUtil;
 import com.libre.framework.logging.pojo.SysLog;
 import com.libre.framework.logging.service.SysLogService;
 import com.libre.ip2region.core.Ip2regionSearcher;
@@ -31,6 +33,8 @@ import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Async;
 
+import java.util.Optional;
+
 /**
  * 监听系统日志事件，系统日志入库
  *
@@ -39,6 +43,7 @@ import org.springframework.scheduling.annotation.Async;
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
 public class SysLogListener {
+
 	private final SysLogService sysLogService;
 	private final Ip2regionSearcher searcher;
 
@@ -57,7 +62,11 @@ public class SysLogListener {
 		String requestIp = event.getRequestIp();
 		// ip 不为空，查找 ip 的地理信息
 		if (StringUtil.isNotBlank(requestIp)) {
-			sysLog.setAddress(searcher.getAddress(requestIp));
+			String address = searcher.getAddress(requestIp);
+			if (StringUtil.isBlank(address) && StringUtil.equals(requestIp, "127.0.0.1")) {
+				address = "内网IP";
+			}
+			sysLog.setAddress(address);
 		}
 		sysLogService.save(sysLog);
 	}
@@ -67,7 +76,15 @@ public class SysLogListener {
 	@Order
 	@EventListener(LibreErrorEvent.class)
 	public void saveErrorEvent(LibreErrorEvent event) {
-
+//		SysLogMapping mapping = SysLogMapping.INSTANCE;
+//		SysLog sysLog = mapping.convertToSysLog(event);
+//		AuthUser authUser = SecurityUtil.getUser();
+//		Optional.ofNullable(SecurityUtil.getUser()).ifPresent(user -> {
+//			sysLog.setUserId(user.getUserId());
+//			sysLog.setUsername(user.getUsername());
+//		});
+//		sysLog.setSuccess(SysLogConstant.FAILED);
+//		sysLogService.save(sysLog);
 	}
 
 }

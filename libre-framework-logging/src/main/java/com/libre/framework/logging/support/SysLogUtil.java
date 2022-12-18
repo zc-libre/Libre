@@ -1,15 +1,15 @@
 package com.libre.framework.logging.support;
 
+import com.libre.boot.exception.LibreErrorEvent;
 import com.libre.boot.toolkit.RequestUtils;
 import com.libre.framework.common.security.AuthUser;
 import com.libre.framework.common.security.SecurityUtil;
-import com.libre.toolkit.core.CharPool;
-import com.libre.toolkit.core.StringPool;
-import com.libre.toolkit.core.StringUtil;
+import com.libre.toolkit.core.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Objects;
 
@@ -28,6 +28,7 @@ public class SysLogUtil {
 		event.setLogType(logType.name());
 		HttpServletRequest request = RequestUtils.getRequest();
 		String method = request.getMethod();
+		event.setRequestMethod(method);
 		// 请求信息 GET /api/test/xx
 		String requestInfo = method + StringPool.SPACE + request.getRequestURI();
 		// paraMap
@@ -57,9 +58,25 @@ public class SysLogUtil {
 		AuthUser authUser = SecurityUtil.getUser();
 		if (Objects.nonNull(authUser)) {
 			event.setUserId(authUser.getUserId());
-			event.setUserName(authUser.getUsername());
+			event.setUsername(authUser.getUsername());
 		}
 		return event;
+	}
+
+	public static void initErrorInfo(Throwable error, SysLogEvent event) {
+		// 堆栈信息
+		event.setStackTrace(Exceptions.getStackTraceAsString(error));
+		event.setExceptionName(error.getClass().getSimpleName());
+		event.setMessage(error.getMessage());
+		StackTraceElement[] elements = error.getStackTrace();
+		if (ObjectUtil.isNotEmpty(elements)) {
+			// 报错的类信息
+			StackTraceElement element = elements[0];
+			event.setClassName(element.getClassName());
+			event.setFileName(element.getFileName());
+			event.setMethodName(element.getMethodName());
+			event.setLineNumber(element.getLineNumber());
+		}
 	}
 
 }

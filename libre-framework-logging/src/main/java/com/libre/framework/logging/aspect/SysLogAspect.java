@@ -1,6 +1,8 @@
 package com.libre.framework.logging.aspect;
 
-import com.libre.boot.autoconfigure.SpringContext;
+import com.libre.boot.exception.ErrorUtil;
+import com.libre.framework.common.security.AuthUser;
+import com.libre.framework.common.security.SecurityUtil;
 import com.libre.framework.logging.annotation.ApiLog;
 import com.libre.framework.logging.support.*;
 import com.libre.toolkit.core.Exceptions;
@@ -19,6 +21,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.lang.reflect.Method;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -37,8 +40,7 @@ public class SysLogAspect {
 
 	/**
 	 * 环绕融资
-	 *
-	 * @param point  ProceedingJoinPoint
+	 * @param point ProceedingJoinPoint
 	 * @param apiLog ApiLog
 	 * @return Object
 	 * @throws Throwable
@@ -50,14 +52,22 @@ public class SysLogAspect {
 		MethodSignature ms = (MethodSignature) point.getSignature();
 		String strMethodName = ms.getName();
 		log.info("[class]:{},[method]:{}", strClassName, strMethodName);
-		SysLogEvent event = SysLogUtil.buildSysLogEvent(SysLogType.Api);
+		SysLogEvent event = SysLogUtil.buildSysLogEvent(apiLog.type());
 		event.setDescription(apiLog.value());
-		event.setClassMethod(strClassName + StringPool.HASH + strMethodName);
+		event.setMethodName(strMethodName);
+		event.setClassName(strClassName);
 		event.setData(getPostJson(point, ms));
 		// 执行时间
 		long startNs = System.nanoTime();
 		try {
 			Object result = point.proceed();
+			if (SysLogType.Login.equals(apiLog.type())) {
+				AuthUser authUser = SecurityUtil.getUser();
+				Optional.ofNullable(authUser).ifPresent(user -> {
+					event.setUserId(authUser.getUserId());
+					event.setUsername(authUser.getUsername());
+				});
+			}
 			// 耗时
 			event.setRequestTime(TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs));
 			event.setSuccess(SysLogConstant.SUCCESS);
@@ -69,7 +79,7 @@ public class SysLogAspect {
 			// 耗时
 			event.setRequestTime(TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs));
 			// 异常详情
-			event.setExceptionDetail(Exceptions.getStackTraceAsString(e));
+		    SysLogUtil.initErrorInfo(e, event);
 			event.setSuccess(SysLogConstant.FAILED);
 			// 发送异步日志事件
 			publisher.publishEvent(event);
@@ -94,6 +104,5 @@ public class SysLogAspect {
 		}
 		return requestBodyValue == null ? null : JsonUtil.toJson(requestBodyValue);
 	}
-
 
 }
