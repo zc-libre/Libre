@@ -7,6 +7,7 @@ VOLUME  /tmp
 WORKDIR /libre
 
 ADD  *.tar.gz /libre
+RUN ls -a && pwd
 
 ENV TZ=Asia/Shanghai JAVA_OPTS="-Xms128m -Xmx256m -Djava.security.egd=file:/dev/./urandom"
 
