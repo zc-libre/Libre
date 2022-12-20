@@ -6,9 +6,7 @@ VOLUME  /tmp
 
 WORKDIR /libre
 
-ARG res
-
-ADD *.tar.gz /libre
+ADD  libre-framework-system/target/*.tar.gz /libre
 
 ENV TZ=Asia/Shanghai JAVA_OPTS="-Xms128m -Xmx256m -Djava.security.egd=file:/dev/./urandom"
 
