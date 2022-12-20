@@ -8,8 +8,6 @@ WORKDIR /libre
 
 ARG res
 
-RUN tar -zxvf $res && rm -rf $res
-
 ADD *.tar.gz /libre
 
 ENV TZ=Asia/Shanghai JAVA_OPTS="-Xms128m -Xmx256m -Djava.security.egd=file:/dev/./urandom"
