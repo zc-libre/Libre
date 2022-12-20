@@ -4,8 +4,10 @@ server:
 spring:
   application:
     name: Libre-Admin
+  config:
+    location: config
   profiles:
-    active: dev
+    active: prod
   mvc:
     path-match:
       matching-strategy: ant_path_matcher
@@ -40,3 +42,4 @@ libre:
 logging:
   file:
     path: './logs/'
+

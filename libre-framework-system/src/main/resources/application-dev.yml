@@ -20,7 +20,7 @@ spring:
       stat-view-servlet:
         enabled: true
         login-username: admin
-        login-password: ENC(pS3X2GTc99Gw5vhMMZWmHzdvtRRHO1o3)
+        login-password: 123456
       web-stat-filter:
         enabled: true
         url-pattern: /*
