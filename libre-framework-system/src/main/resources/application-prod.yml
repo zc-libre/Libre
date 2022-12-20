@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:p6spy:postgresql://101.42.252.139:6033/libre
+    url: jdbc:postgresql://101.42.252.139:6033/libre
     username: postgres
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
@@ -31,6 +31,9 @@ spring:
     redis:
       time-to-live: 2h
       key-prefix: "libre:"
+  redis:
+    host: 101.42.252.139
+    password: zc504879189..
 
 libre:
   xss:
