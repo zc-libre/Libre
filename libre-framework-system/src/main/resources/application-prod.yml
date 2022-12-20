@@ -33,7 +33,7 @@ spring:
       key-prefix: "libre:"
   redis:
     host: 101.42.252.139
-    password: zc504879189..
+    password: 504879189
 
 libre:
   xss:
