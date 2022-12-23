@@ -7,4 +7,5 @@ import com.libre.framework.system.module.system.pojo.entity.SysUserRole;
  * @author zhao.cheng
  */
 public interface UserRoleMapper extends BaseMapper<SysUserRole> {
+
 }

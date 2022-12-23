@@ -29,97 +29,92 @@ import java.util.Objects;
 @Slf4j
 @Component
 public class JwtTokenProvider implements InitializingBean {
-    private static final String AUTHORITIES_KEY = "user";
-    private final LibreSecurityProperties properties;
-    private final RedisUtils redisUtils;
-    private final UserDetailsService userDetailsService;
-    private JwtParser jwtParser;
-    private JwtBuilder jwtBuilder;
 
+	private static final String AUTHORITIES_KEY = "user";
 
+	private final LibreSecurityProperties properties;
 
-    public JwtTokenProvider(LibreSecurityProperties properties, RedisUtils redisUtils, UserDetailsService userDetailsService) {
-        this.properties = properties;
-        this.redisUtils = redisUtils;
-        this.userDetailsService = userDetailsService;
-    }
+	private final RedisUtils redisUtils;
 
-    @Override
-    public void afterPropertiesSet() {
-        LibreSecurityProperties.JwtToken jwtToken = properties.getJwtToken();
-        String secret = jwtToken.getSecret();
-        SignatureAlgorithm algorithm = jwtToken.getSignatureAlgorithm();
-        // 加密 key
-        Key key = new SecretKeySpec(secret.getBytes(Charsets.UTF_8), algorithm.getJcaName());
+	private final UserDetailsService userDetailsService;
 
-        jwtParser = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build();
-        this.jwtBuilder = Jwts.builder()
-                .setAudience(jwtToken.getAudience())
-                .setIssuer(jwtToken.getIssuer())
-                .signWith(key, algorithm);
-    }
+	private JwtParser jwtParser;
 
-    /**
-     * 创建Token 设置永不过期，
-     * Token 的时间有效性转到Redis 维护
-     *
-     * @param authentication /
-     * @return /
-     */
-    public String createToken(Authentication authentication) {
-        return jwtBuilder
-                // 加入ID确保生成的 Token 都不一致
-                .setId(IdWorker.get32UUID())
-                .claim(AUTHORITIES_KEY, authentication.getName())
-                .setSubject(authentication.getName())
-                .compact();
-    }
+	private JwtBuilder jwtBuilder;
 
-    /**
-     * 依据Token 获取鉴权信息
-     *
-     * @param token /
-     * @return /
-     */
-    Authentication getAuthentication(String token) {
-        Claims claims = getClaims(token);
-        AuthUser authUser = Objects.requireNonNull((AuthUser) userDetailsService.loadUserByUsername(claims.getSubject()));
-        return new UsernamePasswordAuthenticationToken(authUser, token, authUser.getAuthorities());
-    }
+	public JwtTokenProvider(LibreSecurityProperties properties, RedisUtils redisUtils,
+			UserDetailsService userDetailsService) {
+		this.properties = properties;
+		this.redisUtils = redisUtils;
+		this.userDetailsService = userDetailsService;
+	}
 
+	@Override
+	public void afterPropertiesSet() {
+		LibreSecurityProperties.JwtToken jwtToken = properties.getJwtToken();
+		String secret = jwtToken.getSecret();
+		SignatureAlgorithm algorithm = jwtToken.getSignatureAlgorithm();
+		// 加密 key
+		Key key = new SecretKeySpec(secret.getBytes(Charsets.UTF_8), algorithm.getJcaName());
 
-    public Claims getClaims(String token) {
-        return jwtParser
-                .parseClaimsJws(token)
-                .getBody();
-    }
+		jwtParser = Jwts.parserBuilder().setSigningKey(key).build();
+		this.jwtBuilder = Jwts.builder().setAudience(jwtToken.getAudience()).setIssuer(jwtToken.getIssuer())
+				.signWith(key, algorithm);
+	}
 
-    /**
-     * @param token 需要检查的token
-     */
-    public void checkRenewal(String token) {
-        LibreSecurityProperties.JwtToken jwtToken = properties.getJwtToken();
-        String storePrefix = jwtToken.getStorePrefix();
-        String cacheKey = storePrefix + token;
-        RedisTemplate<String, Object> redisTemplate = redisUtils.getRedisTemplate();
-        Long expire = redisTemplate.getExpire(cacheKey);
-        LocalDateTime expireDateTime = LocalDateTime.now().plus(Objects.requireNonNull(expire), ChronoUnit.MILLIS);
-        Duration duration = Duration.between(LocalDateTime.now(), expireDateTime);
+	/**
+	 * 创建Token 设置永不过期， Token 的时间有效性转到Redis 维护
+	 * @param authentication /
+	 * @return /
+	 */
+	public String createToken(Authentication authentication) {
+		return jwtBuilder
+				// 加入ID确保生成的 Token 都不一致
+				.setId(IdWorker.get32UUID()).claim(AUTHORITIES_KEY, authentication.getName())
+				.setSubject(authentication.getName()).compact();
+	}
 
-        if (duration.compareTo(jwtToken.getDetectTime()) <= 0) {
-            Duration newExpireTime = jwtToken.getRenewTime().plusMillis(expire);
-            redisUtils.expire(cacheKey, newExpireTime);
-        }
-    }
+	/**
+	 * 依据Token 获取鉴权信息
+	 * @param token /
+	 * @return /
+	 */
+	Authentication getAuthentication(String token) {
+		Claims claims = getClaims(token);
+		AuthUser authUser = Objects
+				.requireNonNull((AuthUser) userDetailsService.loadUserByUsername(claims.getSubject()));
+		return new UsernamePasswordAuthenticationToken(authUser, token, authUser.getAuthorities());
+	}
 
-    public String getToken(HttpServletRequest request) {
-        LibreSecurityProperties.JwtToken jwtToken = properties.getJwtToken();
-        final String requestHeader = request.getHeader(jwtToken.getHeader());
-        if (requestHeader != null && requestHeader.startsWith(jwtToken.getStorePrefix())) {
-            return requestHeader.substring(7);
-        }
-        return null;
-    }
+	public Claims getClaims(String token) {
+		return jwtParser.parseClaimsJws(token).getBody();
+	}
+
+	/**
+	 * @param token 需要检查的token
+	 */
+	public void checkRenewal(String token) {
+		LibreSecurityProperties.JwtToken jwtToken = properties.getJwtToken();
+		String storePrefix = jwtToken.getStorePrefix();
+		String cacheKey = storePrefix + token;
+		RedisTemplate<String, Object> redisTemplate = redisUtils.getRedisTemplate();
+		Long expire = redisTemplate.getExpire(cacheKey);
+		LocalDateTime expireDateTime = LocalDateTime.now().plus(Objects.requireNonNull(expire), ChronoUnit.MILLIS);
+		Duration duration = Duration.between(LocalDateTime.now(), expireDateTime);
+
+		if (duration.compareTo(jwtToken.getDetectTime()) <= 0) {
+			Duration newExpireTime = jwtToken.getRenewTime().plusMillis(expire);
+			redisUtils.expire(cacheKey, newExpireTime);
+		}
+	}
+
+	public String getToken(HttpServletRequest request) {
+		LibreSecurityProperties.JwtToken jwtToken = properties.getJwtToken();
+		final String requestHeader = request.getHeader(jwtToken.getHeader());
+		if (requestHeader != null && requestHeader.startsWith(jwtToken.getStorePrefix())) {
+			return requestHeader.substring(7);
+		}
+		return null;
+	}
+
 }

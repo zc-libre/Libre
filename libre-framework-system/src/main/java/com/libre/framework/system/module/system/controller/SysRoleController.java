@@ -37,7 +37,6 @@ public class SysRoleController {
 
 	private final SysMenuService menuService;
 
-
 	@ApiOperation("角色分页列表")
 	@PostMapping("/page")
 	public R<PageDTO<RoleVO>> page(Page<SysRole> page, RoleCriteria roleCriteria) {
@@ -51,13 +50,11 @@ public class SysRoleController {
 		return R.data(list);
 	}
 
-
 	@Operation(summary = "获取单个role")
 	@GetMapping("{id}")
 	public R<SysRole> query(@PathVariable Long id) {
 		return R.data(roleService.getById(id));
 	}
-
 
 	@Operation(summary = "获取角色菜单")
 	@GetMapping("{id}/menus")
@@ -75,14 +72,12 @@ public class SysRoleController {
 		return R.status(res);
 	}
 
-
 	@ApiLog("修改角色")
 	@PostMapping("/edit")
 	public R<Boolean> edit(SysRole sysRole) {
 		boolean res = roleService.saveOrUpdate(sysRole);
 		return R.status(res);
 	}
-
 
 	@ApiLog("删除角色")
 	@Operation(summary = "删除角色")

@@ -79,7 +79,7 @@ public class SysLogAspect {
 			// 耗时
 			event.setRequestTime(TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs));
 			// 异常详情
-		    SysLogUtil.initErrorInfo(e, event);
+			SysLogUtil.initErrorInfo(e, event);
 			event.setSuccess(SysLogConstant.FAILED);
 			// 发送异步日志事件
 			publisher.publishEvent(event);

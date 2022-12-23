@@ -7,4 +7,5 @@ import com.libre.framework.system.module.system.pojo.entity.SysMenu;
  * @author zhao.cheng
  */
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
+
 }

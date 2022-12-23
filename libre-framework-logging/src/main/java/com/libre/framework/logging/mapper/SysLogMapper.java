@@ -8,4 +8,5 @@ import com.libre.framework.logging.pojo.SysLog;
  * @Date: 2022/12/17 6:04 PM
  */
 public interface SysLogMapper extends BaseMapper<SysLog> {
+
 }

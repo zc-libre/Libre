@@ -8,6 +8,7 @@ import lombok.Data;
 
 /**
  * 角色菜单表
+ *
  * @author zhao.cheng
  */
 @ApiModel(value = "角色菜单表")
@@ -15,12 +16,13 @@ import lombok.Data;
 @TableName(value = "sys_role_menu")
 public class SysRoleMenu {
 
-    @TableId
-    private Long id;
+	@TableId
+	private Long id;
 
-    @ApiModelProperty(value = "")
-    private Long roleId;
+	@ApiModelProperty(value = "")
+	private Long roleId;
 
-    @ApiModelProperty(value = "")
-    private Long menuId;
+	@ApiModelProperty(value = "")
+	private Long menuId;
+
 }

@@ -35,26 +35,32 @@ public class SysLogEvent {
 	private Long userId;
 
 	private String appName;
+
 	/**
 	 * 登陆名
 	 */
 	private String username;
+
 	/**
 	 * 日志类别
 	 */
 	private String logType;
+
 	/**
 	 * 描述
 	 */
 	private String description;
+
 	/**
 	 * 请求参数
 	 */
 	private String params;
+
 	/**
 	 * post data
 	 */
 	private String data;
+
 	/**
 	 * 是否成功[0失败,1成功]
 	 */
@@ -65,47 +71,54 @@ public class SysLogEvent {
 	 */
 	private String requestIp;
 
-
 	private String requestMethod;
+
 	/**
 	 * 请求耗时
 	 */
 	private Long requestTime;
+
 	/**
 	 * ua 信息
 	 */
 	private String userAgent;
 
-
 	private String stackTrace;
+
 	/**
 	 * 异常名
 	 */
 
 	private String exceptionName;
+
 	/**
 	 * 异常消息
 	 */
 	@Nullable
 	private String message;
+
 	/**
 	 * 类名
 	 */
 	@Nullable
 	private String className;
+
 	/**
 	 * 文件名
 	 */
 	@Nullable
 	private String fileName;
+
 	/**
 	 * 方法名
 	 */
 	@Nullable
 	private String methodName;
+
 	/**
 	 * 代码行数
 	 */
 	@Nullable
 	private Integer lineNumber;
+
 }

@@ -19,17 +19,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionAdvice {
 
-    @ExceptionHandler(LockedException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    public R<Object> handleError(LockedException e) {
-        return R.fail(ResultCode.UN_AUTHORIZED, e.getMessage());
-    }
+	@ExceptionHandler(LockedException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	public R<Object> handleError(LockedException e) {
+		return R.fail(ResultCode.UN_AUTHORIZED, e.getMessage());
+	}
 
+	@ExceptionHandler(LibreException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public R<Object> handle(LibreException e) {
+		ErrorUtil.publishEvent(e);
+		return R.fail(ResultCode.FAILURE, e.getMessage());
+	}
 
-    @ExceptionHandler(LibreException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public R<Object> handle(LibreException e) {
-        ErrorUtil.publishEvent(e);
-        return R.fail(ResultCode.FAILURE, e.getMessage());
-    }
 }

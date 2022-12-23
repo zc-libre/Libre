@@ -10,6 +10,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * 部门表
+ *
  * @author zhao.cheng
  */
 @ApiModel(value = "部门表")
@@ -18,17 +19,16 @@ import lombok.EqualsAndHashCode;
 @TableName(value = "sys_dept")
 public class SysDept extends BaseEntity {
 
+	/**
+	 * 父id
+	 */
+	@ApiModelProperty(value = "父id")
+	private Long parentId;
 
-    /**
-     * 父id
-     */
-    @ApiModelProperty(value = "父id")
-    private Long parentId;
-
-    /**
-     * 部门名称
-     */
-    @ApiModelProperty(value = "部门名称")
-    private String deptName;
+	/**
+	 * 部门名称
+	 */
+	@ApiModelProperty(value = "部门名称")
+	private String deptName;
 
 }

@@ -13,8 +13,9 @@ import java.util.List;
 @Configuration(proxyBeanMethods = false)
 public class LibreWebMvcConfiguration implements WebMvcConfigurer {
 
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-        argumentResolvers.add(new AuthUserArgumentResolver());
-    }
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+		argumentResolvers.add(new AuthUserArgumentResolver());
+	}
+
 }

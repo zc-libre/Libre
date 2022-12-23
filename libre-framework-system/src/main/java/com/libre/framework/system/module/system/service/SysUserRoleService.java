@@ -33,20 +33,16 @@ public interface SysUserRoleService extends IService<SysUserRole> {
 	 */
 	List<SysUserRole> getListByRoleIds(Collection<Long> roleIds);
 
-
 	/**
 	 * 保存用户角色
-	 *
-	 * @param userId  用户id
+	 * @param userId 用户id
 	 * @param roleIds 角色id列表
 	 * @return 是否成功
 	 */
 	boolean saveByUserIdAndRoleIds(Long userId, List<Long> roleIds);
 
-
 	/**
 	 * 删除用户角色
-	 *
 	 * @param userId 用户id
 	 * @return 是否成功
 	 */
@@ -54,11 +50,9 @@ public interface SysUserRoleService extends IService<SysUserRole> {
 
 	/**
 	 * 批量删除用户角色
-	 *
 	 * @param userIds 用户id
 	 * @return 是否成功
 	 */
 	boolean deleteByUserIds(Set<Long> userIds);
-
 
 }

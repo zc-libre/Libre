@@ -13,20 +13,23 @@ import java.io.Serializable;
  */
 @Data
 public class RoleDTO implements Serializable {
-    /**
-     * 主键 id
-     */
-    @NotNull(groups = UpdateGroup.class)
-    private Long id;
-    /**
-     * 角色名称
-     */
-    @NotBlank
-    private String name;
-    /**
-     * 角色权限字符串
-     */
-    @NotBlank
-    private String permission;
+
+	/**
+	 * 主键 id
+	 */
+	@NotNull(groups = UpdateGroup.class)
+	private Long id;
+
+	/**
+	 * 角色名称
+	 */
+	@NotBlank
+	private String name;
+
+	/**
+	 * 角色权限字符串
+	 */
+	@NotBlank
+	private String permission;
 
 }

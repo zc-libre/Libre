@@ -6,14 +6,15 @@ package com.libre.framework.system.module.system.constant;
  */
 public interface MenuConstants {
 
+	Integer IS_FRAME_YES = 1;
 
-    Integer IS_FRAME_YES = 1;
-    Integer IS_FRAME_NO = 0;
+	Integer IS_FRAME_NO = 0;
 
+	/**
+	 * 是否隐藏
+	 */
+	Integer IS_HIDDEN_YES = 1;
 
-    /**
-     * 是否隐藏
-     */
-    Integer IS_HIDDEN_YES = 1;
-    Integer IS_HIDDEN_NO = 0;
+	Integer IS_HIDDEN_NO = 0;
+
 }

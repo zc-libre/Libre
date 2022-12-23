@@ -73,7 +73,6 @@ public class JwtTokenService {
 		redisUtils.setEx(cacheKey, onlineUserDto, properties.getJwtToken().getExpireTime());
 	}
 
-
 	/**
 	 * 查询全部数据，不分页
 	 * @param filter /

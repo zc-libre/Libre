@@ -36,7 +36,6 @@ public class SysMenuController {
 		return R.data(menuList);
 	}
 
-
 	@Operation(summary = "查询菜单:根据ID获取同级与上级数据")
 	@PostMapping("superior")
 	public R<List<SysMenu>> getSuperior(@RequestBody List<Long> ids) {
@@ -58,7 +57,7 @@ public class SysMenuController {
 		return R.status(true);
 	}
 
-    @ApiLog("菜单删除")
+	@ApiLog("菜单删除")
 	@DeleteMapping
 	public R<Boolean> deleteByIds(@RequestBody List<Long> ids) {
 		menuService.deleteByIds(ids);

@@ -6,6 +6,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 /**
  * @author zhao.cheng
  */
-public interface SysRoleDeptService extends IService<SysRoleDept>{
+public interface SysRoleDeptService extends IService<SysRoleDept> {
 
 }

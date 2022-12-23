@@ -13,11 +13,8 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface SysLogMapping extends BaseMapping<SysLogEvent, SysLog> {
 
-    SysLogMapping INSTANCE = Mappers.getMapper(SysLogMapping.class);
+	SysLogMapping INSTANCE = Mappers.getMapper(SysLogMapping.class);
 
-
-    SysLog convertToSysLog(LibreErrorEvent event);
-
-
+	SysLog convertToSysLog(LibreErrorEvent event);
 
 }

@@ -6,7 +6,8 @@ package com.libre.framework.logging.support;
  */
 public interface SysLogConstant {
 
-    Integer SUCCESS = 0;
+	Integer SUCCESS = 0;
 
-    Integer FAILED = 1;
+	Integer FAILED = 1;
+
 }

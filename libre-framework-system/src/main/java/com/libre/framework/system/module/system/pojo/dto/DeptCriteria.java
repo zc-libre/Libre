@@ -14,7 +14,6 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 public class DeptCriteria extends BaseCriteria {
 
-    private Long parentId;
-
+	private Long parentId;
 
 }

@@ -15,14 +15,14 @@ import javax.sql.DataSource;
 @Configuration(proxyBeanMethods = false)
 public class DdlConfiguration {
 
+	@Bean
+	public IDdl ddl(DataSource dataSource) {
+		return new PostgresDdl(dataSource);
+	}
 
-    @Bean
-    public IDdl ddl(DataSource dataSource) {
-        return new PostgresDdl(dataSource);
-    }
+	@Bean
+	public DdlApplicationRunner ddlApplicationRunner(IDdl ddl) {
+		return new DdlApplicationRunner(ImmutableList.of(ddl));
+	}
 
-    @Bean
-    public DdlApplicationRunner ddlApplicationRunner(IDdl ddl) {
-        return new DdlApplicationRunner(ImmutableList.of(ddl));
-    }
 }

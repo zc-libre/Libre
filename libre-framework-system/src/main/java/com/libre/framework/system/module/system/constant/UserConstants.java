@@ -6,21 +6,25 @@ package com.libre.framework.system.module.system.constant;
  */
 public interface UserConstants {
 
-    /**
-     * 是否管理员
-     */
-    Integer IS_ADMIN_YES = 1;
-    Integer IS_ADMIN_NO = 0;
+	/**
+	 * 是否管理员
+	 */
+	Integer IS_ADMIN_YES = 1;
 
-    /**
-     * 用户是否锁定
-     */
-    Integer USER_LOCK = 1;
-    Integer USER_UNLOCK = 0;
+	Integer IS_ADMIN_NO = 0;
 
-    /**
-     * 用户是否启用
-     */
-    Integer USER_ENABLE = 1;
-    Integer USER_DISABLE = 0;
+	/**
+	 * 用户是否锁定
+	 */
+	Integer USER_LOCK = 1;
+
+	Integer USER_UNLOCK = 0;
+
+	/**
+	 * 用户是否启用
+	 */
+	Integer USER_ENABLE = 1;
+
+	Integer USER_DISABLE = 0;
+
 }

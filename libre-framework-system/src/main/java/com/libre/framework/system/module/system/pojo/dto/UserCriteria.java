@@ -18,10 +18,10 @@ import java.util.Set;
 @Accessors(chain = true)
 public class UserCriteria extends BaseCriteria {
 
-    private Boolean enabled;
+	private Boolean enabled;
 
-    private Long deptId;
+	private Long deptId;
 
-    private Set<Long> deptIds;
+	private Set<Long> deptIds;
 
 }

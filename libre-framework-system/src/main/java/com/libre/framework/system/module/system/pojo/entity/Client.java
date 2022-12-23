@@ -18,77 +18,77 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @TableName(value = "sys_client")
 public class Client extends BaseEntity {
-    /**
-     * 客户端id
-     */
-    @ApiModelProperty(value = "客户端id")
-    private String clientId;
 
-    /**
-     * 客户端密钥
-     */
-    @ApiModelProperty(value = "客户端密钥")
-    private String clientSecret;
+	/**
+	 * 客户端id
+	 */
+	@ApiModelProperty(value = "客户端id")
+	private String clientId;
 
-    /**
-     * 资源集合
-     */
-    @ApiModelProperty(value = "资源集合")
-    private String resourceIds;
+	/**
+	 * 客户端密钥
+	 */
+	@ApiModelProperty(value = "客户端密钥")
+	private String clientSecret;
 
-    /**
-     * 授权范围
-     */
-    @ApiModelProperty(value = "授权范围")
-    private String scope;
+	/**
+	 * 资源集合
+	 */
+	@ApiModelProperty(value = "资源集合")
+	private String resourceIds;
 
-    /**
-     * 授权类型
-     */
-    @ApiModelProperty(value = "授权类型")
-    private String authorizedGrantTypes;
+	/**
+	 * 授权范围
+	 */
+	@ApiModelProperty(value = "授权范围")
+	private String scope;
 
-    /**
-     * 回调地址
-     */
-    @ApiModelProperty(value = "回调地址")
-    private String webServerRedirectUri;
+	/**
+	 * 授权类型
+	 */
+	@ApiModelProperty(value = "授权类型")
+	private String authorizedGrantTypes;
 
-    /**
-     * 权限
-     */
-    @ApiModelProperty(value = "权限")
-    private String authorities;
+	/**
+	 * 回调地址
+	 */
+	@ApiModelProperty(value = "回调地址")
+	private String webServerRedirectUri;
 
-    /**
-     * 令牌过期秒数
-     */
-    @ApiModelProperty(value = "令牌过期秒数")
-    private Integer accessTokenValidity;
+	/**
+	 * 权限
+	 */
+	@ApiModelProperty(value = "权限")
+	private String authorities;
 
-    /**
-     * 刷新令牌过期秒数
-     */
-    @ApiModelProperty(value = "刷新令牌过期秒数")
-    private Integer refreshTokenValidity;
+	/**
+	 * 令牌过期秒数
+	 */
+	@ApiModelProperty(value = "令牌过期秒数")
+	private Integer accessTokenValidity;
 
-    /**
-     * 附加说明
-     */
-    @ApiModelProperty(value = "附加说明")
-    private String additionalInformation;
+	/**
+	 * 刷新令牌过期秒数
+	 */
+	@ApiModelProperty(value = "刷新令牌过期秒数")
+	private Integer refreshTokenValidity;
 
-    /**
-     * 自动授权
-     */
-    @ApiModelProperty(value = "自动授权")
-    private String autoapprove;
+	/**
+	 * 附加说明
+	 */
+	@ApiModelProperty(value = "附加说明")
+	private String additionalInformation;
 
+	/**
+	 * 自动授权
+	 */
+	@ApiModelProperty(value = "自动授权")
+	private String autoapprove;
 
-    /**
-     * 状态
-     */
-    @ApiModelProperty(value = "状态")
-    private Integer status;
+	/**
+	 * 状态
+	 */
+	@ApiModelProperty(value = "状态")
+	private Integer status;
 
 }

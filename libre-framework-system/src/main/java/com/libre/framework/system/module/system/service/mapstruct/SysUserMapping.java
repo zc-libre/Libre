@@ -14,7 +14,8 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface SysUserMapping extends BaseMapping<SysUser, UserVO> {
 
-     SysUserMapping INSTANCE = Mappers.getMapper(SysUserMapping.class);
+	SysUserMapping INSTANCE = Mappers.getMapper(SysUserMapping.class);
 
-     SysUser convertToUser(UserDTO userDTO);
+	SysUser convertToUser(UserDTO userDTO);
+
 }

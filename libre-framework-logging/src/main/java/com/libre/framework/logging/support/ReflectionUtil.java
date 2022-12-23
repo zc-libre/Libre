@@ -15,25 +15,24 @@ import java.lang.reflect.Method;
  */
 public class ReflectionUtil extends ReflectionUtils {
 
+	private static final ParameterNameDiscoverer PARAMETER_NAME_DISCOVERER = new DefaultParameterNameDiscoverer();
 
-    private static final ParameterNameDiscoverer PARAMETER_NAME_DISCOVERER = new DefaultParameterNameDiscoverer();
+	public static MethodParameter getMethodParameter(Constructor<?> constructor, int parameterIndex) {
+		MethodParameter methodParameter = new SynthesizingMethodParameter(constructor, parameterIndex);
+		methodParameter.initParameterNameDiscovery(PARAMETER_NAME_DISCOVERER);
+		return methodParameter;
+	}
 
-    public static MethodParameter getMethodParameter(Constructor<?> constructor, int parameterIndex) {
-        MethodParameter methodParameter = new SynthesizingMethodParameter(constructor, parameterIndex);
-        methodParameter.initParameterNameDiscovery(PARAMETER_NAME_DISCOVERER);
-        return methodParameter;
-    }
+	/**
+	 * 获取方法参数信息
+	 * @param method 方法
+	 * @param parameterIndex 参数序号
+	 * @return {MethodParameter}
+	 */
+	public static MethodParameter getMethodParameter(Method method, int parameterIndex) {
+		MethodParameter methodParameter = new SynthesizingMethodParameter(method, parameterIndex);
+		methodParameter.initParameterNameDiscovery(PARAMETER_NAME_DISCOVERER);
+		return methodParameter;
+	}
 
-    /**
-     * 获取方法参数信息
-     *
-     * @param method         方法
-     * @param parameterIndex 参数序号
-     * @return {MethodParameter}
-     */
-    public static MethodParameter getMethodParameter(Method method, int parameterIndex) {
-        MethodParameter methodParameter = new SynthesizingMethodParameter(method, parameterIndex);
-        methodParameter.initParameterNameDiscovery(PARAMETER_NAME_DISCOVERER);
-        return methodParameter;
-    }
 }

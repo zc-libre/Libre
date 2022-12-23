@@ -13,23 +13,23 @@ import java.util.List;
 @Data
 public class DeptVO implements Serializable {
 
+	private Long id;
 
-    private Long id;
+	/**
+	 * 父id
+	 */
+	@ApiModelProperty(value = "父id")
+	private Long parentId;
 
-    /**
-     * 父id
-     */
-    @ApiModelProperty(value = "父id")
-    private Long parentId;
+	/**
+	 * 部门名称
+	 */
+	@ApiModelProperty(value = "部门名称")
+	private String deptName;
 
-    /**
-     * 部门名称
-     */
-    @ApiModelProperty(value = "部门名称")
-    private String deptName;
+	/**
+	 * 子部门
+	 */
+	private List<DeptVO> children;
 
-    /**
-     * 子部门
-     */
-    private List<DeptVO> children;
 }

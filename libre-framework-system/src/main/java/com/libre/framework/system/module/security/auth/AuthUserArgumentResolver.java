@@ -22,7 +22,9 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
 	}
 
 	@Override
-	public Object resolveArgument(@NotNull MethodParameter parameter, ModelAndViewContainer mavContainer, @NotNull NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+	public Object resolveArgument(@NotNull MethodParameter parameter, ModelAndViewContainer mavContainer,
+			@NotNull NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		return SecurityUtil.getUser();
 	}
+
 }

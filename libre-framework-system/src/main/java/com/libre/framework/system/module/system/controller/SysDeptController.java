@@ -29,43 +29,43 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class SysDeptController {
 
-    private final SysDeptService deptService;
+	private final SysDeptService deptService;
 
-    @ApiOperation("查询部门")
-    @GetMapping
-    public R<Page<SysDept>> query(DeptCriteria param) {
-        Page<SysDept> page = deptService.findByPage(param);
-        return R.data(page);
-    }
+	@ApiOperation("查询部门")
+	@GetMapping
+	public R<Page<SysDept>> query(DeptCriteria param) {
+		Page<SysDept> page = deptService.findByPage(param);
+		return R.data(page);
+	}
 
-    @ApiOperation("查询部门:根据ID获取同级与上级数据")
-    @PostMapping("superior")
-    public List<SysDept> getSuperior(@RequestBody List<Long> ids) {
-        if (CollectionUtils.isEmpty(ids)) {
-            return deptService.list();
-        }
-        List<SysDept> deptList = deptService.listByIds(ids);
-        List<SysDept> superiorList = new ArrayList<>(deptList);
-        deptService.getSuperior(deptList, superiorList);
-        return superiorList;
-    }
+	@ApiOperation("查询部门:根据ID获取同级与上级数据")
+	@PostMapping("superior")
+	public List<SysDept> getSuperior(@RequestBody List<Long> ids) {
+		if (CollectionUtils.isEmpty(ids)) {
+			return deptService.list();
+		}
+		List<SysDept> deptList = deptService.listByIds(ids);
+		List<SysDept> superiorList = new ArrayList<>(deptList);
+		deptService.getSuperior(deptList, superiorList);
+		return superiorList;
+	}
 
-    @ApiOperation("新增部门")
-    @PostMapping
-    public void create(@Validated(CreateGroup.class) @RequestBody SysDept entity) {
-        deptService.save(entity);
-    }
+	@ApiOperation("新增部门")
+	@PostMapping
+	public void create(@Validated(CreateGroup.class) @RequestBody SysDept entity) {
+		deptService.save(entity);
+	}
 
-    @ApiOperation("修改部门")
-    @PutMapping
-    public void update(@Validated(UpdateGroup.class) @RequestBody SysDept entity) {
-        deptService.updateById(entity);
-    }
+	@ApiOperation("修改部门")
+	@PutMapping
+	public void update(@Validated(UpdateGroup.class) @RequestBody SysDept entity) {
+		deptService.updateById(entity);
+	}
 
-    @ApiOperation("删除部门")
-    @DeleteMapping
-    public void delete(@NotEmpty @RequestBody Set<Long> ids) {
-        deptService.deleteIfUnusedByIds(ids);
-    }
+	@ApiOperation("删除部门")
+	@DeleteMapping
+	public void delete(@NotEmpty @RequestBody Set<Long> ids) {
+		deptService.deleteIfUnusedByIds(ids);
+	}
 
 }

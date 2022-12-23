@@ -1,6 +1,5 @@
 package com.libre.framework.system.module.system.service.impl;
 
-
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.libre.framework.system.module.system.mapper.SysPostMapper;
 import com.libre.framework.system.module.system.pojo.entity.SysPost;
@@ -23,18 +22,17 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> implements SysPostService {
 
-    private final SysUserPostService userPostService;
+	private final SysUserPostService userPostService;
 
-    @Override
-    public List<SysPost> getListByUserId(Long userId) {
-        List<SysUserPost> userPostList = userPostService.getListByUserId(userId);
-        if (CollectionUtils.isEmpty(userPostList)) {
-            return Collections.emptyList();
-        }
-        Set<Long> postIds = userPostList.stream()
-                .map(SysUserPost::getPostId)
-                .collect(Collectors.toSet());
+	@Override
+	public List<SysPost> getListByUserId(Long userId) {
+		List<SysUserPost> userPostList = userPostService.getListByUserId(userId);
+		if (CollectionUtils.isEmpty(userPostList)) {
+			return Collections.emptyList();
+		}
+		Set<Long> postIds = userPostList.stream().map(SysUserPost::getPostId).collect(Collectors.toSet());
 
-        return super.listByIds(postIds);
-    }
+		return super.listByIds(postIds);
+	}
+
 }

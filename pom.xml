@@ -65,11 +65,10 @@
                 </exclusions>
             </dependency>
         </dependencies>
-
-
     </dependencyManagement>
-    <dependencies>
 
+
+    <dependencies>
         <dependency>
             <groupId>com.zclibre</groupId>
             <artifactId>libre-spring-boot-starter</artifactId>
@@ -94,6 +93,12 @@
             <groupId>com.zclibre</groupId>
             <artifactId>libre-monitor</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.zclibre</groupId>
+            <artifactId>libre-oss-boot-starter</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>mysql</groupId>
@@ -228,7 +233,16 @@
             <plugin>
                 <groupId>io.spring.javaformat</groupId>
                 <artifactId>spring-javaformat-maven-plugin</artifactId>
-                <version>0.0.31</version>
+                <version>0.0.35</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <inherited>true</inherited>
+                        <goals>
+                            <goal>validate</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <!-- 用于排除jar中依赖包 -->
             <plugin>

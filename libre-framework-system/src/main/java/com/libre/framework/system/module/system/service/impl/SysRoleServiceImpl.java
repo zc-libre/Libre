@@ -73,16 +73,16 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 		// 1. 清空角色菜单
 		roleMenuService.deleteByRoleId(roleId);
 		// 2. 批量保存
-       if (CollectionUtils.isNotEmpty(menuIds)) {
-		   List<SysRoleMenu> entityList = new ArrayList<>(menuIds.size());
-		   for (Long menuId : menuIds) {
-			   SysRoleMenu roleMenu = new SysRoleMenu();
-			   roleMenu.setRoleId(roleId);
-			   roleMenu.setMenuId(menuId);
-			   entityList.add(roleMenu);
-		   }
-		   roleMenuService.saveBatch(entityList);
-	   }
+		if (CollectionUtils.isNotEmpty(menuIds)) {
+			List<SysRoleMenu> entityList = new ArrayList<>(menuIds.size());
+			for (Long menuId : menuIds) {
+				SysRoleMenu roleMenu = new SysRoleMenu();
+				roleMenu.setRoleId(roleId);
+				roleMenu.setMenuId(menuId);
+				entityList.add(roleMenu);
+			}
+			roleMenuService.saveBatch(entityList);
+		}
 		return true;
 	}
 
@@ -101,8 +101,6 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 		return super.removeByIds(ids);
 	}
 
-
-
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(allEntries = true)
@@ -111,7 +109,6 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 		SysRole sysRole = mapping.convertToRole(roleDTO);
 		return super.updateById(sysRole);
 	}
-
 
 	private Wrapper<SysRole> getQueryWrapper(RoleCriteria roleCriteria) {
 		String blurry = roleCriteria.getBlurry();

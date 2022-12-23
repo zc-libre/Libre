@@ -16,44 +16,40 @@ import java.util.Set;
  */
 public interface SysUserService extends IService<SysUser> {
 
-    /**
-     * 分页查询
-     * @param page page
-     * @param userParam userParam
-     * @return IPage<UserVO>
-     */
-    PageDTO<UserVO> findByPage(Page<SysUser> page, UserCriteria userParam);
+	/**
+	 * 分页查询
+	 * @param page page
+	 * @param userParam userParam
+	 * @return IPage<UserVO>
+	 */
+	PageDTO<UserVO> findByPage(Page<SysUser> page, UserCriteria userParam);
 
-    /**
-     * 通过id查找用户
-     *
-     * @param id /
-     * @return /
-     */
-    SysUser findUserById(Long id);
+	/**
+	 * 通过id查找用户
+	 * @param id /
+	 * @return /
+	 */
+	SysUser findUserById(Long id);
 
-    /**
-     * 根据登录名查找用户
-     *
-     * @param username 登录名
-     * @return 用户
-     */
-    SysUser getByUsername(String username);
+	/**
+	 * 根据登录名查找用户
+	 * @param username 登录名
+	 * @return 用户
+	 */
+	SysUser getByUsername(String username);
 
+	/**
+	 * 按照用户账号更新
+	 * @param sysUser 用户
+	 */
+	boolean updateByUsername(String username, SysUser sysUser);
 
+	UserInfo findUserInfoByUsername(String username);
 
-    /**
-     * 按照用户账号更新
-     * @param sysUser 用户
-     */
-    boolean updateByUsername(String username, SysUser sysUser);
+	boolean createUser(UserDTO user);
 
+	boolean updateUser(UserDTO user);
 
-    UserInfo findUserInfoByUsername(String username);
+	boolean deleteUserByIds(Set<Long> ids);
 
-    boolean createUser(UserDTO user);
-
-    boolean updateUser(UserDTO user);
-
-    boolean deleteUserByIds(Set<Long> ids);
 }

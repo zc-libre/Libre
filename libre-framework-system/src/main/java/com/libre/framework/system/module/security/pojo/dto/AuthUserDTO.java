@@ -9,10 +9,10 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class AuthUserDTO {
 
-    @NotBlank
-    private String username;
+	@NotBlank
+	private String username;
 
-    @NotBlank
-    private String password;
+	@NotBlank
+	private String password;
 
 }

@@ -14,8 +14,8 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 public class SysLogCriteria extends BaseCriteria {
 
-    private Integer success;
+	private Integer success;
 
+	private Long userId;
 
-    private Long userId;
 }

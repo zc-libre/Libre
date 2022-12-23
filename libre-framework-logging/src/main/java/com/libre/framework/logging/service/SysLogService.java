@@ -11,6 +11,6 @@ import com.libre.framework.logging.pojo.SysLogCriteria;
  */
 public interface SysLogService extends IService<SysLog> {
 
+	PageDTO<SysLog> findPage(PageDTO<SysLog> page, SysLogCriteria criteria);
 
-    PageDTO<SysLog> findPage(PageDTO<SysLog> page, SysLogCriteria criteria);
 }

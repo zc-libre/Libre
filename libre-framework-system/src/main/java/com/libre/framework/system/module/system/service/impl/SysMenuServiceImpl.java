@@ -51,8 +51,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 		return super.list(getQueryWrapper());
 	}
 
-
-
 	@Override
 	public List<SysMenu> getNavByRoleIds(Collection<Long> roleIds) {
 		List<Long> roleMenuIdList = roleMenuService.getIdListByRoleIds(roleIds);

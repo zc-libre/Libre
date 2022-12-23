@@ -13,4 +13,5 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 public class RoleCriteria extends BaseCriteria {
+
 }

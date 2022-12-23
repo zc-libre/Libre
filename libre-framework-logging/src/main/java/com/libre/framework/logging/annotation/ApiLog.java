@@ -15,10 +15,10 @@ public @interface ApiLog {
 
 	/**
 	 * 描述
-	 *
 	 * @return {String}
 	 */
 	String value();
 
 	SysLogType type() default SysLogType.Api;
+
 }

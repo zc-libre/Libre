@@ -7,4 +7,5 @@ import com.libre.framework.system.module.system.pojo.entity.SysDept;
  * @author zhao.cheng
  */
 public interface SysDeptMapper extends BaseMapper<SysDept> {
+
 }

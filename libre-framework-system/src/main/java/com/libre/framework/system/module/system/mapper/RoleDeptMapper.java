@@ -7,4 +7,5 @@ import com.libre.framework.system.module.system.pojo.entity.SysRoleDept;
  * @author zhao.cheng
  */
 public interface RoleDeptMapper extends BaseMapper<SysRoleDept> {
+
 }

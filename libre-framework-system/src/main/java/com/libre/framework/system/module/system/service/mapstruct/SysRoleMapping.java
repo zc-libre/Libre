@@ -17,9 +17,10 @@ import java.util.List;
 @Mapper
 public interface SysRoleMapping extends BaseMapping<SysRole, RoleInfo> {
 
-    SysRoleMapping INSTANCE = Mappers.getMapper(SysRoleMapping.class);
+	SysRoleMapping INSTANCE = Mappers.getMapper(SysRoleMapping.class);
 
-    List<RoleVO> convertToRoleList(List<SysRole> roles);
+	List<RoleVO> convertToRoleList(List<SysRole> roles);
 
-    SysRole convertToRole(RoleDTO roleDTO);
+	SysRole convertToRole(RoleDTO roleDTO);
+
 }

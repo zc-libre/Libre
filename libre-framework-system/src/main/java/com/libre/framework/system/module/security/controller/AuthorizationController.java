@@ -113,7 +113,6 @@ public class AuthorizationController {
 		return R.data(userInfo);
 	}
 
-
 	@ApiOperation("退出登录")
 	@DeleteMapping(value = "/logout")
 	@ApiLog(value = "登出", type = SysLogType.Logout)
@@ -122,7 +121,6 @@ public class AuthorizationController {
 		jwtTokenService.removeByToken(token);
 		return R.data(Boolean.TRUE);
 	}
-
 
 	@GetMapping("/menus")
 	public R<List<MenuVO>> getMenus(AuthUser user) {

@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 /**
  * @author zhao.cheng
  */
-public interface ClientService extends IService<Client>{
-
+public interface ClientService extends IService<Client> {
 
 }

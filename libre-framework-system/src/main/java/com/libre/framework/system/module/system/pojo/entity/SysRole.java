@@ -19,30 +19,29 @@ import lombok.EqualsAndHashCode;
 @TableName(value = "sys_role")
 public class SysRole extends BaseEntity {
 
-    /**
-     * 角色名
-     */
-    @ApiModelProperty(value = "角色名")
-    private String roleName;
+	/**
+	 * 角色名
+	 */
+	@ApiModelProperty(value = "角色名")
+	private String roleName;
 
-    /**
-     * 父id
-     */
-    @ApiModelProperty(value = "父id")
-    private Long parentId;
+	/**
+	 * 父id
+	 */
+	@ApiModelProperty(value = "父id")
+	private Long parentId;
 
-    /**
-     * 角色状态（0正常 1停用）
-     */
-    @ApiModelProperty(value = "角色状态（0正常 1停用）")
-    private Integer status;
+	/**
+	 * 角色状态（0正常 1停用）
+	 */
+	@ApiModelProperty(value = "角色状态（0正常 1停用）")
+	private Integer status;
 
-    /**
-     * 角色权限字符串
-     */
-    private String permission;
+	/**
+	 * 角色权限字符串
+	 */
+	private String permission;
 
-
-    private Integer seq;
+	private Integer seq;
 
 }

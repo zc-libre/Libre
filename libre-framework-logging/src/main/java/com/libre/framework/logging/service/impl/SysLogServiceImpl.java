@@ -33,13 +33,10 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 		String blurry = query.getBlurry();
 		// 模糊查询字段 username,description,address,requestIp,method,params
 		wrapper.and(StringUtil.isNotBlank(blurry),
-				w -> w.like(SysLog::getUsername, blurry)
-						.or().like(SysLog::getUsername, blurry)
-						.or().like(SysLog::getDescription, blurry)
-						.or().like(SysLog::getAddress, blurry)
-						.or().like(SysLog::getRequestIp, blurry)
-						.or().like(SysLog::getClassMethod, blurry)
-						.or().like(SysLog::getParams, blurry));
+				w -> w.like(SysLog::getUsername, blurry).or().like(SysLog::getUsername, blurry).or()
+						.like(SysLog::getDescription, blurry).or().like(SysLog::getAddress, blurry).or()
+						.like(SysLog::getRequestIp, blurry).or().like(SysLog::getClassMethod, blurry).or()
+						.like(SysLog::getParams, blurry));
 
 		wrapper.eq(Objects.nonNull(query.getUserId()), SysLog::getUserId, query.getUserId());
 		if (query.haveTime()) {

@@ -23,13 +23,12 @@ public class MenuUtil {
 
 	public static List<MenuVO> transformTree(List<SysMenu> menuList) {
 		List<MenuVO> menuVOList = transformList(menuList);
-		return menuVOList.stream().filter(menuVO -> menuVO.getParentId() == 0)
-				.peek(menuVO -> {
-					List<MenuVO> children = getChildren(menuVO, menuVOList);
-					if (CollectionUtils.isNotEmpty(children)) {
-						menuVO.setChildren(children);
-					}
-				}).collect(Collectors.toList());
+		return menuVOList.stream().filter(menuVO -> menuVO.getParentId() == 0).peek(menuVO -> {
+			List<MenuVO> children = getChildren(menuVO, menuVOList);
+			if (CollectionUtils.isNotEmpty(children)) {
+				menuVO.setChildren(children);
+			}
+		}).collect(Collectors.toList());
 	}
 
 	public static List<MenuVO> transformList(List<SysMenu> menuList) {

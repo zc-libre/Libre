@@ -28,8 +28,8 @@ public class JwtTokenConfigurer extends SecurityConfigurerAdapter<DefaultSecurit
 
 	@Override
 	public void configure(HttpSecurity http) {
-		JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter = new JwtAuthenticationTokenFilter(jwtTokenProvider, properties, jwtTokenService, userDetailsService,
-				authenticationManagerBuilder);
+		JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter = new JwtAuthenticationTokenFilter(jwtTokenProvider,
+				properties, jwtTokenService, userDetailsService, authenticationManagerBuilder);
 		http.addFilterAt(jwtAuthenticationTokenFilter, BasicAuthenticationFilter.class);
 	}
 

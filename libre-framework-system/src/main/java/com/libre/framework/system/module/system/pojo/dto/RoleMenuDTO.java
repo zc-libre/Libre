@@ -14,13 +14,15 @@ import java.util.List;
 @Data
 public class RoleMenuDTO {
 
-    /**
-     * 角色id
-     */
-    @NotNull
-    private Long id;
-    /**
-     * 菜单id列表
-     */
-    private List<Long> menuIds = new ArrayList<>();
+	/**
+	 * 角色id
+	 */
+	@NotNull
+	private Long id;
+
+	/**
+	 * 菜单id列表
+	 */
+	private List<Long> menuIds = new ArrayList<>();
+
 }

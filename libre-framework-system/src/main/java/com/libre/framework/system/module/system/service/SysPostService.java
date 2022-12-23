@@ -8,13 +8,13 @@ import java.util.List;
 /**
  * @author zhao.cheng
  */
-public interface SysPostService extends IService<SysPost>{
+public interface SysPostService extends IService<SysPost> {
 
-    /**
-     * 查找用户岗位信息
-     *
-     * @param userId 用户id
-     * @return 集合
-     */
-    List<SysPost> getListByUserId(Long userId);
+	/**
+	 * 查找用户岗位信息
+	 * @param userId 用户id
+	 * @return 集合
+	 */
+	List<SysPost> getListByUserId(Long userId);
+
 }

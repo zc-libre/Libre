@@ -6,7 +6,6 @@ public interface UserLockService {
 
 	/**
 	 * 锁定用户
-	 *
 	 * @param authUser AuthUser
 	 * @return {boolean}
 	 */

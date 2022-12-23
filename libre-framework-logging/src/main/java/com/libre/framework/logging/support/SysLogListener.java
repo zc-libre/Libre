@@ -45,6 +45,7 @@ import java.util.Optional;
 public class SysLogListener {
 
 	private final SysLogService sysLogService;
+
 	private final Ip2regionSearcher searcher;
 
 	@Async
@@ -71,20 +72,19 @@ public class SysLogListener {
 		sysLogService.save(sysLog);
 	}
 
-
 	@Async
 	@Order
 	@EventListener(LibreErrorEvent.class)
 	public void saveErrorEvent(LibreErrorEvent event) {
-//		SysLogMapping mapping = SysLogMapping.INSTANCE;
-//		SysLog sysLog = mapping.convertToSysLog(event);
-//		AuthUser authUser = SecurityUtil.getUser();
-//		Optional.ofNullable(SecurityUtil.getUser()).ifPresent(user -> {
-//			sysLog.setUserId(user.getUserId());
-//			sysLog.setUsername(user.getUsername());
-//		});
-//		sysLog.setSuccess(SysLogConstant.FAILED);
-//		sysLogService.save(sysLog);
+		// SysLogMapping mapping = SysLogMapping.INSTANCE;
+		// SysLog sysLog = mapping.convertToSysLog(event);
+		// AuthUser authUser = SecurityUtil.getUser();
+		// Optional.ofNullable(SecurityUtil.getUser()).ifPresent(user -> {
+		// sysLog.setUserId(user.getUserId());
+		// sysLog.setUsername(user.getUsername());
+		// });
+		// sysLog.setSuccess(SysLogConstant.FAILED);
+		// sysLogService.save(sysLog);
 	}
 
 }

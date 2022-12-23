@@ -6,6 +6,6 @@ package com.libre.framework.system.module.security.constant;
  */
 public interface SecurityConstant {
 
+	String PASSWORD_PREFIX = "{bcrypt}";
 
-    String PASSWORD_PREFIX = "{bcrypt}";
 }

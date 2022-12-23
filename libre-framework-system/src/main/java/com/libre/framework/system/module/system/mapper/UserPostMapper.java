@@ -7,4 +7,5 @@ import com.libre.framework.system.module.system.pojo.entity.SysUserPost;
  * @author zhao.cheng
  */
 public interface UserPostMapper extends BaseMapper<SysUserPost> {
+
 }

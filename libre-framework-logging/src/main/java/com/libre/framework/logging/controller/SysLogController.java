@@ -27,7 +27,6 @@ public class SysLogController {
 
 	private final SysLogService sysLogService;
 
-
 	@PostMapping("info")
 	public R<PageDTO<SysLog>> pageInfo(PageDTO<SysLog> page, SysLogCriteria criteria) {
 		criteria.setSuccess(SysLogConstant.SUCCESS);

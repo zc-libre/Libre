@@ -11,12 +11,14 @@ import java.io.Serializable;
 @Data
 public class DeptInfo implements Serializable {
 
-    /**
-     * 主键ID
-     */
-    private Long id;
-    /**
-     * 部门名称
-     */
-    private String name;
+	/**
+	 * 主键ID
+	 */
+	private Long id;
+
+	/**
+	 * 部门名称
+	 */
+	private String name;
+
 }

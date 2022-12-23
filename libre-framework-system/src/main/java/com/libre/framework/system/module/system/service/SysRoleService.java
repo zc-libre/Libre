@@ -51,5 +51,6 @@ public interface SysRoleService extends IService<SysRole> {
 	 * @param roleDTO /
 	 * @return /
 	 */
-    boolean edit(RoleDTO roleDTO);
+	boolean edit(RoleDTO roleDTO);
+
 }

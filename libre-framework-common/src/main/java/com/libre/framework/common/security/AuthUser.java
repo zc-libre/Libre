@@ -1,6 +1,5 @@
 package com.libre.framework.common.security;
 
-
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,9 +30,7 @@ public class AuthUser extends User {
 
 	private String phone;
 
-
 	private List<RoleInfo> roleList;
-
 
 	public AuthUser(String username, String password, boolean enabled, boolean accountNonLocked,
 			Collection<? extends GrantedAuthority> authorities) {
