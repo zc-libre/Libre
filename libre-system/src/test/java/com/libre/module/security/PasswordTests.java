@@ -12,12 +12,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @SpringBootTest
 public class PasswordTests {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
-    @Test
-    void encode() {
-        String encode = passwordEncoder.encode("123456");
-        System.out.println(encode);
-    }
+	@Test
+	void encode() {
+		String encode = passwordEncoder.encode("123456");
+		System.out.println(encode);
+	}
+
 }

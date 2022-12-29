@@ -4,14 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.libre</groupId>
-    <artifactId>libre-framework</artifactId>
+    <artifactId>libre</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0</version>
 
     <modules>
-        <module>libre-framework-common</module>
-        <module>libre-framework-system</module>
-        <module>libre-framework-logging</module>
+        <module>libre-common</module>
+        <module>libre-system</module>
+        <module>libre-logging</module>
     </modules>
 
 
