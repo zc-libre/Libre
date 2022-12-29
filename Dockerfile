@@ -15,4 +15,4 @@ ENV LC_ALL zh_CN.UTF-8
 
 EXPOSE 9870
 
-CMD java $JAVA_OPTS -jar app/boot/*.jar
+CMD java $JAVA_OPTS -jar app/boot/*.jar 
