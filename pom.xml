@@ -12,6 +12,7 @@
         <module>libre-common</module>
         <module>libre-system</module>
         <module>libre-logging</module>
+        <module>libre-tookit</module>
     </modules>
 
 
@@ -20,8 +21,10 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
 
+        <libre.version>1.0.0</libre.version>
         <springboot.version>2.7.6</springboot.version>
-        <libre.version>2.7.6</libre.version>
+        <libre.dependencies.version>2.7.6</libre.dependencies.version>
+
         <jjwt.version>0.11.2</jjwt.version>
         <bitwalker.version>1.21</bitwalker.version>
         <oshi.version>6.2.2</oshi.version>
@@ -37,7 +40,7 @@
             <dependency>
                 <groupId>com.zclibre</groupId>
                 <artifactId>libre-dependencies</artifactId>
-                <version>${libre.version}</version>
+                <version>${libre.dependencies.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -95,14 +98,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.zclibre</groupId>
-            <artifactId>libre-oss-boot-starter</artifactId>
-        </dependency>
-
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
         </dependency>
 
         <dependency>

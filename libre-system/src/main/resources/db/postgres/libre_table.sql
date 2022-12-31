@@ -79,3 +79,39 @@ CREATE TABLE IF NOT EXISTS sys_role_menu
     gmt_create_name   varchar(64),
     gmt_modified_name varchar(64)
 );
+
+-- DROP TABLE IF EXISTS quartz_job;
+CREATE TABLE IF NOT EXISTS sys_job
+(
+    id                int8        NOT NULL,
+    job_name          VARCHAR(64) NOT NULL,
+    job_group         VARCHAR(64) NOT NULL,
+    bean_name         VARCHAR(64) NOT NULL,
+    trigger_name      VARCHAR(64) NOT NULL,
+    trigger_group     VARCHAR(64) NOT NULL,
+    repeat_interval   int8        NOT NULL,
+    times_triggered   int8        NOT NULL,
+    cron_expression   VARCHAR(16) NOT NULL,
+    time_zone_id      VARCHAR(16) NOT NULL,
+    trigger_state     VARCHAR(16) NOT NULL,
+    is_deleted        INT2,
+    gmt_create        timestamp   NOT NULL,
+    gmt_modified      timestamp   NOT NULL,
+    gmt_create_name   VARCHAR(64) NOT NULL,
+    gmt_modified_name VARCHAR(64) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS sys_job_log
+(
+    id                int8 NOT NULL,
+    job_name          VARCHAR(64) NOT NULL,
+    bean_name         VARCHAR(64) NOT NULL,
+    method_name       VARCHAR(64) NOT NULL,
+    params            VARCHAR(64) NOT NULL,
+    cron_expression   VARCHAR(64) NOT NULL,
+    execute_time      int8 NOT NULL,
+    success           int2 NOT NULL,
+    exception_detail  text NOT NULL,
+    last_execute_time timestamp    NOT NULL,
+    create_time       timestamp    NOT NULL
+);

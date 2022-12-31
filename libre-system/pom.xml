@@ -14,8 +14,8 @@
     <dependencies>
         <dependency>
             <groupId>com.libre</groupId>
-            <artifactId>libre-logging</artifactId>
-            <version>1.0.0</version>
+            <artifactId>libre-tookit</artifactId>
+            <version>${libre.version}</version>
         </dependency>
     </dependencies>
 
