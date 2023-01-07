@@ -1,5 +1,6 @@
 package com.libre.framework.system.module.security.auth;
 
+import com.libre.framework.common.config.PageArgumentResolver;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -16,6 +17,7 @@ public class LibreWebMvcConfiguration implements WebMvcConfigurer {
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 		argumentResolvers.add(new AuthUserArgumentResolver());
+		argumentResolvers.add(new PageArgumentResolver());
 	}
 
 }

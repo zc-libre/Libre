@@ -12,7 +12,8 @@
         <module>libre-common</module>
         <module>libre-system</module>
         <module>libre-logging</module>
-        <module>libre-tookit</module>
+        <module>libre-toolkit</module>
+        <module>libre-blog</module>
     </modules>
 
 

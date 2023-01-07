@@ -1,6 +1,5 @@
 package com.libre.framework.logging.support;
 
-import com.libre.boot.exception.LibreErrorEvent;
 import com.libre.boot.toolkit.RequestUtils;
 import com.libre.framework.common.security.AuthUser;
 import com.libre.framework.common.security.SecurityUtil;
@@ -9,7 +8,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Objects;
 

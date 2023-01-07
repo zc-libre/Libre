@@ -19,7 +19,7 @@ import java.util.Map;
  * @Date: 2022/12/18 7:37 PM
  */
 
-@RequestMapping("/monitor")
+@RequestMapping("/api/monitor")
 @RestController
 @RequiredArgsConstructor
 public class MonitorController {

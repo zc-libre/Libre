@@ -1,23 +1,19 @@
 package com.libre.framework.system.module.security.jwt;
 
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
-
 import com.libre.boot.toolkit.RequestUtils;
-import com.libre.framework.system.config.LibreSecurityProperties;
-import com.libre.framework.system.module.security.service.JwtTokenService;
-import com.libre.toolkit.result.R;
-import com.libre.framework.system.module.security.pojo.dto.OnlineUserDTO;
-import com.libre.toolkit.core.StringUtil;
 import com.libre.framework.common.security.SecurityUtil;
-import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.libre.framework.common.security.AuthUser;
+import com.libre.framework.system.module.security.auth.SecWebAuthDetailsSource;
+import com.libre.framework.system.module.security.pojo.vo.TokenVo;
+import com.libre.framework.system.module.security.service.UserDetailServiceImpl;
+import com.libre.toolkit.core.StringUtil;
+import com.libre.toolkit.result.R;
+import io.jsonwebtoken.JwtException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -27,75 +23,55 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @author /
+ * token过滤器
+ *
+ * @author L.cm
  */
+@RequiredArgsConstructor
+@Configuration(proxyBeanMethods = false)
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
-	private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationTokenFilter.class);
-
-	public static final String TOKEN_PREFIX = "Bearer ";
-
-	private final JwtTokenProvider jwtTokenProvider;
-
-	private final LibreSecurityProperties properties;
+	private final JwtTokenStore jwtTokenStore;
 
 	private final JwtTokenService jwtTokenService;
 
-	private final UserDetailsService userDetailsService;
-
-	private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
-	public JwtAuthenticationTokenFilter(JwtTokenProvider jwtTokenProvider, LibreSecurityProperties properties,
-			JwtTokenService jwtTokenService, UserDetailsService userDetailsService,
-			AuthenticationManagerBuilder authenticationManagerBuilder) {
-		this.jwtTokenProvider = jwtTokenProvider;
-		this.properties = properties;
-		this.jwtTokenService = jwtTokenService;
-		this.userDetailsService = userDetailsService;
-		this.authenticationManagerBuilder = authenticationManagerBuilder;
-	}
+	private final UserDetailServiceImpl userDetailsService;
 
 	@Override
-	protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response,
-			@NotNull FilterChain filterChain) throws ServletException, IOException {
-		String token = resolveToken(request);
-		// 对于 Token 为空的不需要去查 Redis
-		if (StringUtil.isNotBlank(token)) {
-			OnlineUserDTO onlineUserDto = null;
-			try {
-				onlineUserDto = jwtTokenService.getOne(token);
-			}
-			catch (Exception e) {
-				response.setStatus(HttpStatus.UNAUTHORIZED.value());
-				RequestUtils.renderJson(response, R.fail("请重新登录"));
-			}
-			if (onlineUserDto != null && SecurityUtil.getAuthentication() == null) {
-				Authentication authentication = jwtTokenProvider.getAuthentication(token);
-				SecurityContextHolder.getContext().setAuthentication(authentication);
-				jwtTokenProvider.checkRenewal(token);
-			}
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+			throws ServletException, IOException {
+		// 解析 token
+		String token = jwtTokenService.getToken(request);
+		if (StringUtil.isBlank(token)) {
+			chain.doFilter(request, response);
+			return;
 		}
-		filterChain.doFilter(request, response);
-	}
-
-	/**
-	 * 初步检测Token
-	 * @param request /
-	 * @return /
-	 */
-	private String resolveToken(HttpServletRequest request) {
-		LibreSecurityProperties.JwtToken jwtToken = properties.getJwtToken();
-		String bearerToken = request.getHeader(jwtToken.getHeader());
-		if (StringUtils.hasText(bearerToken)) {
-			if (bearerToken.startsWith(TOKEN_PREFIX)) {
-				// 去掉令牌前缀
-				return bearerToken.replace(TOKEN_PREFIX, StringPool.EMPTY);
-			}
-			else {
-				log.error("非法Token：{}", bearerToken);
-			}
+		TokenVo tokenVo = jwtTokenStore.get(token);
+		if (tokenVo == null) {
+			// jwt token 解析错误 401
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+			RequestUtils.renderJson(response, R.fail("请重新登录"));
+			return;
 		}
-		return null;
+		// 判断 token 是否存在
+		String subject;
+		try {
+			subject = jwtTokenService.getSubject(token);
+		}
+		catch (JwtException | IllegalArgumentException e) {
+			// jwt token 解析错误 401
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+			RequestUtils.renderJson(response, R.fail("请重新登录"));
+			return;
+		}
+		if (subject != null && SecurityUtil.getAuthentication() == null) {
+			AuthUser authUser = userDetailsService.loadUserByUsername(subject);
+			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(authUser,
+					null, authUser.getAuthorities());
+			authenticationToken.setDetails(new SecWebAuthDetailsSource().buildDetails(request));
+			SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+		}
+		chain.doFilter(request, response);
 	}
 
 }

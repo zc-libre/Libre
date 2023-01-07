@@ -14,7 +14,12 @@
     <dependencies>
         <dependency>
             <groupId>com.libre</groupId>
-            <artifactId>libre-tookit</artifactId>
+            <artifactId>libre-blog</artifactId>
+            <version>${libre.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.libre</groupId>
+            <artifactId>libre-toolkit</artifactId>
             <version>${libre.version}</version>
         </dependency>
     </dependencies>

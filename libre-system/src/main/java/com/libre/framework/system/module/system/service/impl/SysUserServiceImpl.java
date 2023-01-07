@@ -137,7 +137,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		userInfo.setAvatar(sysUser.getAvatar());
 		userInfo.setPermissions(permissions);
 		userInfo.setIsAdmin(sysUser.getIsAdmin());
-		userInfo.setRoles(roles);
+		userInfo.setRoleList(roles);
 		return userInfo;
 	}
 

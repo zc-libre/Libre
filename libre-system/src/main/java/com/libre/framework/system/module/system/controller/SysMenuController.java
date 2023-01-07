@@ -1,7 +1,9 @@
 package com.libre.framework.system.module.system.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.libre.framework.common.security.AuthUser;
 import com.libre.framework.logging.annotation.ApiLog;
+import com.libre.framework.system.module.system.pojo.dto.MenuCriteria;
 import com.libre.toolkit.result.R;
 import com.libre.framework.system.module.system.pojo.entity.SysMenu;
 import com.libre.framework.system.module.system.pojo.vo.MenuVO;
@@ -19,15 +21,21 @@ import java.util.List;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/sys/menu")
+@RequestMapping("/api/sys/menu")
 public class SysMenuController {
 
 	private final SysMenuService menuService;
 
 	@GetMapping("all")
-	public R<List<SysMenu>> query() {
+	public R<List<SysMenu>> all() {
 		List<SysMenu> list = menuService.list();
 		return R.data(list);
+	}
+
+	@GetMapping
+	public R<PageDTO<SysMenu>> list(MenuCriteria criteria) {
+		PageDTO<SysMenu> page = menuService.findByPage(criteria);
+		return R.data(page);
 	}
 
 	@GetMapping("/role-menus")

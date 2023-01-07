@@ -27,6 +27,9 @@ public class RoleVO {
 	 */
 	private String permission;
 
+
+	private Integer seq;
+
 	/**
 	 * 创建时间
 	 */

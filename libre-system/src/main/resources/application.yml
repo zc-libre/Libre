@@ -30,9 +30,6 @@ mybatis-plus:
 
 libre:
   security:
-    permit-all:
-      - /auth/token
-      - /auth/captcha
     jwt-token:
       secret: 669da4ca0fde3928856705c8746512daa9957b91b0bbe855790b561d9f08be80
   oss:
@@ -48,7 +45,7 @@ spring:
       on-profile: dev
   datasource:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-    url: jdbc:p6spy:postgresql://127.0.0.1:5432/libre
+    url: jdbc:p6spy:postgresql://127.0.0.1:5432/libre_blog
     username: postgres
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource

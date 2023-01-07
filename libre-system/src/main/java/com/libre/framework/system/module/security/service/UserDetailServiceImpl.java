@@ -2,11 +2,10 @@ package com.libre.framework.system.module.security.service;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.libre.framework.common.security.AuthUser;
 import com.libre.framework.system.module.system.service.SysUserService;
 import com.libre.framework.system.module.security.constant.SecurityConstant;
-import com.libre.framework.common.security.AuthUser;
 import com.libre.framework.common.security.RoleInfo;
-import com.libre.framework.system.module.security.pojo.dto.AuthUserDTO;
 import com.libre.framework.common.security.SecurityUtil;
 
 import com.libre.framework.system.module.system.constant.UserConstants;
@@ -102,11 +101,11 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 		sysUser.setId(authUser.getUserId());
 		sysUser.setPassword(newPassword);
 		userService.updateById(sysUser);
-		return AuthUser.formUser(authUser, newPassword);
+		return AuthUser.formMicaUser(authUser, newPassword);
 	}
 
 	@Override
-	public boolean updateLockUser(AuthUserDTO authUser) {
+	public boolean updateLockUser(AuthUser authUser) {
 		Assert.notNull(authUser.getUsername(), "username must not be null");
 		SysUser sysUser = new SysUser();
 		sysUser.setLocked(UserConstants.USER_LOCK);

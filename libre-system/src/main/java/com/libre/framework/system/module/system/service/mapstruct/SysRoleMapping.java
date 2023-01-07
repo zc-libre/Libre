@@ -5,7 +5,9 @@ import com.libre.framework.system.module.system.pojo.dto.RoleDTO;
 import com.libre.toolkit.mapstruct.BaseMapping;
 import com.libre.framework.system.module.system.pojo.entity.SysRole;
 import com.libre.framework.system.module.system.pojo.vo.RoleVO;
+import org.mapstruct.MapMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -22,5 +24,9 @@ public interface SysRoleMapping extends BaseMapping<SysRole, RoleInfo> {
 	List<RoleVO> convertToRoleList(List<SysRole> roles);
 
 	SysRole convertToRole(RoleDTO roleDTO);
+
+	@Override
+	@Mapping(source = "roleName", target = "name")
+	RoleInfo sourceToTarget(SysRole sysRole);
 
 }

@@ -7,10 +7,12 @@ import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * @author Zheng Jie
- * @date 2018-11-23
+ * security 用户
+ *
+ * @author L.cm
  */
 @Getter
 @Setter
@@ -37,7 +39,23 @@ public class AuthUser extends User {
 		super(username, password, enabled, true, true, accountNonLocked, authorities);
 	}
 
-	public static AuthUser formUser(AuthUser user, String newPassword) {
+	public JwtUser toJwtUser() {
+		JwtUser jwtUser = new JwtUser();
+		jwtUser.setId(this.getUserId());
+		jwtUser.setUsername(this.getUsername());
+		jwtUser.setNickName(this.getNickName());
+		jwtUser.setGender(this.getGender());
+		jwtUser.setAvatar(this.getAvatar());
+		jwtUser.setEmail(this.getEmail());
+		jwtUser.setPhone(this.getPhone());
+		jwtUser.setIsAdmin(this.getIsAdmin());
+
+		jwtUser.setRoles(this.getRoleList());
+		jwtUser.setRoleList(this.getRoleList().stream().map(RoleInfo::getPermission).collect(Collectors.toList()));
+		return jwtUser;
+	}
+
+	public static AuthUser formMicaUser(AuthUser user, String newPassword) {
 		AuthUser authUser = new AuthUser(user.getUsername(), newPassword, user.isEnabled(), user.isAccountNonLocked(),
 				user.getAuthorities());
 		authUser.setUserId(user.getUserId());

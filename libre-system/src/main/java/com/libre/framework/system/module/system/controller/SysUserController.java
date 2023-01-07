@@ -4,14 +4,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.libre.framework.logging.annotation.ApiLog;
 import com.libre.framework.system.module.security.constant.SecurityConstant;
+import com.libre.framework.system.module.system.pojo.dto.UserCriteria;
 import com.libre.framework.system.module.system.pojo.dto.UserDTO;
 import com.libre.framework.system.module.system.pojo.entity.SysUser;
+import com.libre.framework.system.module.system.pojo.vo.UserVO;
 import com.libre.framework.system.module.system.service.SysUserService;
 import com.libre.toolkit.core.StringPool;
-import com.libre.toolkit.core.StringUtil;
 import com.libre.toolkit.result.R;
-import com.libre.framework.system.module.system.pojo.dto.UserCriteria;
-import com.libre.framework.system.module.system.pojo.vo.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +25,7 @@ import java.util.Set;
  */
 @Api(tags = "用户管理")
 @RestController
-@RequestMapping("/sys/user")
+@RequestMapping("/api/sys/user")
 @RequiredArgsConstructor
 public class SysUserController {
 
@@ -35,21 +34,21 @@ public class SysUserController {
 	private final PasswordEncoder passwordEncoder;
 
 	@ApiOperation("用户列表")
-	@PostMapping("/list")
-	public R<PageDTO<UserVO>> list(Page<SysUser> page, UserCriteria param) {
+	@GetMapping("/page")
+	public R<PageDTO<UserVO>> page(Page<SysUser> page, UserCriteria param) {
 		PageDTO<UserVO> userPage = sysUserService.findByPage(page, param);
 		return R.data(userPage);
 	}
 
 	@ApiOperation("获取用户")
-	@GetMapping("/{id}")
+	@GetMapping("/get/{id}")
 	public R<SysUser> info(@PathVariable Long id) {
 		return R.data(sysUserService.findUserById(id));
 	}
 
 	@ApiLog("创建用户")
 	@PutMapping("/save")
-	public R<Boolean> save(UserDTO user) {
+	public R<Boolean> save(@RequestBody UserDTO user) {
 		String password = passwordEncoder.encode("123456");
 		user.setPassword(password.replace(SecurityConstant.PASSWORD_PREFIX, StringPool.EMPTY));
 		boolean res = sysUserService.createUser(user);
@@ -58,7 +57,7 @@ public class SysUserController {
 
 	@ApiLog("修改用户")
 	@PostMapping("edit")
-	public R<Boolean> update(UserDTO user) {
+	public R<Boolean> update(@RequestBody UserDTO user) {
 		boolean res = sysUserService.updateUser(user);
 		return R.status(res);
 	}

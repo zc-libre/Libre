@@ -23,7 +23,7 @@ public class UserInfo implements Serializable {
 
 	private String avatar;
 
-	private List<SysRole> roles;
+	private List<SysRole> roleList;
 
 	private List<String> permissions;
 

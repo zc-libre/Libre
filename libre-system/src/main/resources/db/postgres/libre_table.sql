@@ -103,15 +103,105 @@ CREATE TABLE IF NOT EXISTS sys_job
 
 CREATE TABLE IF NOT EXISTS sys_job_log
 (
-    id                int8 NOT NULL,
+    id                int8        NOT NULL,
     job_name          VARCHAR(64) NOT NULL,
     bean_name         VARCHAR(64) NOT NULL,
     method_name       VARCHAR(64) NOT NULL,
     params            VARCHAR(64) NOT NULL,
     cron_expression   VARCHAR(64) NOT NULL,
-    execute_time      int8 NOT NULL,
-    success           int2 NOT NULL,
-    exception_detail  text NOT NULL,
-    last_execute_time timestamp    NOT NULL,
-    create_time       timestamp    NOT NULL
+    execute_time      int8        NOT NULL,
+    success           int2        NOT NULL,
+    exception_detail  text        NOT NULL,
+    last_execute_time timestamp   NOT NULL,
+    create_time       timestamp   NOT NULL
+);
+
+create table IF NOT EXISTS sys_log
+(
+    id             bigint not null
+        primary key,
+    user_id        bigint,
+    username       varchar(20),
+    log_type       varchar(64),
+    description    varchar(128),
+    params         text,
+    data           text,
+    success        smallint,
+    class_method   varchar(128),
+    stack_trace    text,
+    request_ip     varchar(64),
+    request_time   integer,
+    os             varchar(64),
+    browser        varchar(64),
+    address        varchar(255),
+    gmt_create     timestamp,
+    app_name       varchar(64),
+    request_method varchar(64),
+    class_name     varchar(64),
+    file_name      varchar(64),
+    method_name    varchar(64),
+    line_number    varchar(8),
+    exception_name varchar(64),
+    message        varchar(512)
+);
+
+
+create index sys_log_log_type_index on sys_log (log_type);
+
+create index sys_log_gmt_create_index on sys_log (gmt_create desc);
+
+create index sys_log_success_index on sys_log (success);
+
+CREATE TABLE IF NOT EXISTS libre_blog
+(
+    id                int8,
+    title             VARCHAR(64),
+    content           text,
+    picture           VARCHAR(512),
+    views             int4,
+    user_id           VARCHAR(64),
+    category_id       VARCHAR(64),
+    description       VARCHAR(1024),
+    published         INT4,
+    top               INT4,
+    like_num          INT8,
+    recommend         INT2,
+    gmt_create        timestamp,
+    gmt_modified      timestamp,
+    gmt_create_name   VARCHAR(50),
+    gmt_modified_name VARCHAR(50),
+    is_deleted        int4,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS sys_dict_info
+(
+    id                int8,
+    seq               int2,
+    label             varchar(64),
+    value             varchar(255),
+    type              varchar(64),
+    css_class         varchar(255),
+    list_class        varchar(128),
+    is_default        int2,
+    status            int2,
+    gmt_create_name   varchar(64),
+    gmt_create        timestamp,
+    gmt_modified_name varchar(64),
+    gmt_modified      timestamp,
+    remark            varchar(255)
+
+);
+
+CREATE TABLE IF NOT EXISTS sys_dict
+(
+    id                int8,
+    name              varchar(64),
+    description       varchar(64),
+    status            int2,
+    gmt_create_name   varchar(64),
+    gmt_create        timestamp,
+    gmt_modified_name varchar(64),
+    gmt_modified      timestamp,
+    remark            varchar(255)
 );

@@ -1,109 +1,124 @@
 package com.libre.framework.system.config;
 
-import com.libre.framework.system.module.security.jwt.JwtTokenConfigurer;
-import com.libre.framework.system.module.security.service.JwtTokenService;
-import com.libre.framework.system.module.security.auth.JwtAccessDeniedHandler;
-import com.libre.framework.system.module.security.auth.JwtAuthenticationEntryPoint;
-import com.libre.framework.system.module.security.jwt.JwtTokenProvider;
+import com.libre.framework.system.module.security.auth.SecAuthHandler;
+import com.libre.framework.system.module.security.auth.SecAuthenticationProvider;
+import com.libre.framework.system.module.security.auth.SecWebAuthDetailsSource;
+import com.libre.framework.system.module.security.jwt.JwtAuthenticationTokenFilter;
+import com.libre.framework.system.module.security.service.UserDetailServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.core.GrantedAuthorityDefaults;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-
-import java.util.List;
-import java.util.Map;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 /**
- * @author Libre
- * @date 2021/7/11 20:20
+ * Spring Security 权限控制
+ *
  */
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-@EnableConfigurationProperties(LibreSecurityProperties.class)
 @Configuration(proxyBeanMethods = false)
-public class LibreSecurityConfiguration {
+@EnableConfigurationProperties(LibreSecurityProperties.class)
+public class LibreSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	private final CorsFilter corsFilter;
+	private final UserDetailServiceImpl userDetailsService;
 
-	private final JwtAuthenticationEntryPoint authenticationErrorHandler;
+	private final SecAuthHandler authHandler;
 
-	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+	private final SecWebAuthDetailsSource authDetailsSource;
 
 	private final LibreSecurityProperties properties;
 
+	private final CacheManager cacheManager;
+
+	private final JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+
 	private final ApplicationContext applicationContext;
 
-	private final JwtTokenProvider jwtTokenProvider;
-
-	private final JwtTokenService jwtTokenService;
-
-	private final UserDetailsService userDetailsService;
-
-	private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
-	@Bean
-	GrantedAuthorityDefaults grantedAuthorityDefaults() {
-		return new GrantedAuthorityDefaults("");
+	@Override
+	public void configure(WebSecurity web) {
+		// @formatter:off
+		web.ignoring()
+			.antMatchers(HttpMethod.OPTIONS, "/**")
+			.antMatchers(properties.getPermitAll().toArray(new String[0]));
+		// @formatter:on
 	}
 
-	@Bean
-	SecurityFilterChain securityFilter(HttpSecurity http) throws Exception {
-		// 搜寻匿名标记 url： @AnonymousAccess
-		RequestMappingHandlerMapping requestMappingHandlerMapping = (RequestMappingHandlerMapping) applicationContext
-				.getBean("requestMappingHandlerMapping");
-		Map<RequestMappingInfo, HandlerMethod> handlerMethodMap = requestMappingHandlerMapping.getHandlerMethods();
-		// 获取匿名标记
-		// Map<String, Set<String>> anonymousUrls = getAnonymousUrl(handlerMethodMap);
-		List<String> permitAll = properties.getPermitAll();
-
-		http.csrf().disable().addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
-				.exceptionHandling().authenticationEntryPoint(authenticationErrorHandler)
-				.accessDeniedHandler(jwtAccessDeniedHandler);
-
-		http.headers().frameOptions().disable();
-
-		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		// @formatter:off
+		// 关闭 csrf、iframe、session
+		http.csrf()
+			.disable()
+			.headers()
+			.frameOptions()
+			.disable()
+			.and()
+			.sessionManagement()
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 		http.authorizeRequests()
-				.antMatchers(HttpMethod.GET, "/*.html", "/**/*.html", "/**/*.css", "/**/*.js", "/webSocket/**")
-				.permitAll().antMatchers("/swagger-ui.html").permitAll().antMatchers("/swagger-resources/**")
-				.permitAll().antMatchers("/webjars/**").permitAll().antMatchers("/*/api-docs").permitAll()
-				.antMatchers("/avatar/**").permitAll().antMatchers("/file/**").permitAll().antMatchers("/druid/**")
-				.permitAll().antMatchers(permitAll.toArray(new String[0])).permitAll()
-				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll().anyRequest().authenticated().and()
-				.apply(securityConfigurerAdapter());
-		return http.build();
+			.anyRequest()
+			.authenticated()
+			.and()
+			.exceptionHandling()
+			.accessDeniedHandler(authHandler);
+
+		http.formLogin()
+			.loginPage("/")
+			.loginProcessingUrl("/api/auth/token")
+			.failureHandler(authHandler)
+			.successHandler(authHandler)
+			.authenticationDetailsSource(authDetailsSource)
+			.permitAll()
+			.and()
+			.logout()
+			.logoutUrl("/api/auth/logout")
+			.clearAuthentication(false)
+			.logoutSuccessHandler(authHandler)
+			.logoutSuccessUrl("/");
+
+		// jwt 认证的 filter
+		http.addFilterAt(jwtAuthenticationTokenFilter, BasicAuthenticationFilter.class);
+		// @formatter:on
 	}
 
-	private JwtTokenConfigurer securityConfigurerAdapter() {
-		return new JwtTokenConfigurer(jwtTokenProvider, properties, jwtTokenService, userDetailsService,
-				authenticationManagerBuilder);
+	@Override
+	protected void configure(final AuthenticationManagerBuilder auth) {
+		auth.authenticationProvider(applicationContext.getBean(SecAuthenticationProvider.class));
+		auth.eraseCredentials(false);
 	}
 
 	@Bean
-	public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration authenticationConfiguration)
-			throws Exception {
-		return authenticationConfiguration.getAuthenticationManager();
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
+
+	@Bean
+	public SecAuthenticationProvider authProvider() {
+		final SecAuthenticationProvider authProvider = new SecAuthenticationProvider();
+		authProvider.setUserDetailsService(userDetailsService);
+		authProvider.setUserDetailsPasswordService(userDetailsService);
+
+		authProvider.setMicaSecurityProperties(properties);
+		authProvider.setCacheManager(cacheManager);
+		authProvider.setPasswordEncoder(applicationContext.getBean(PasswordEncoder.class));
+		return authProvider;
 	}
 
 	@Bean

@@ -24,19 +24,13 @@ public class MenuVO implements Serializable {
 
 	private Integer type;
 
-	private Integer hidden;
+	private Boolean hidden;
 
 	private String redirect;
 
 	private String component;
 
 	private Integer alwaysShow;
-
-	private Integer isFrame;
-
-	private Integer seq;
-
-	private Integer cache;
 
 	private MenuMetaVO meta;
 

@@ -16,10 +16,7 @@
 
 package com.libre.framework.logging.support;
 
-import com.libre.boot.exception.ErrorUtil;
 import com.libre.boot.exception.LibreErrorEvent;
-import com.libre.framework.common.security.AuthUser;
-import com.libre.framework.common.security.SecurityUtil;
 import com.libre.framework.logging.pojo.SysLog;
 import com.libre.framework.logging.service.SysLogService;
 import com.libre.ip2region.core.Ip2regionSearcher;
@@ -32,8 +29,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Async;
-
-import java.util.Optional;
 
 /**
  * 监听系统日志事件，系统日志入库

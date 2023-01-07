@@ -9,6 +9,7 @@ import com.libre.toolkit.core.StringPool;
 import com.libre.toolkit.core.StringUtil;
 import org.apache.commons.collections4.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -32,41 +33,38 @@ public class MenuUtil {
 	}
 
 	public static List<MenuVO> transformList(List<SysMenu> menuList) {
-		List<MenuVO> menuVOList = Lists.newArrayList();
+		List<MenuVO> menuVoList = new ArrayList<>();
 		for (SysMenu menu : menuList) {
 			String name = menu.getName();
 			String path = menu.getPath();
 			String title = menu.getTitle();
 			String component = menu.getComponent();
-			MenuVO menuVO = new MenuVO();
-			menuVO.setId(menu.getId());
-			menuVO.setParentId(menu.getParentId());
-			menuVO.setName(StringUtil.isNotBlank(name) ? name : title);
-			menuVO.setType(menu.getType());
+			MenuVO menuVo = new MenuVO();
+			menuVo.setId(menu.getId());
+			menuVo.setParentId(menu.getParentId());
+			menuVo.setName(StringUtil.isNotBlank(name) ? name : title);
+			// 一级目录需要加斜杠，不然会报警告
 			Long parentId = menu.getParentId();
-			if (parentId == null && StringUtil.isNotBlank(path) && !path.startsWith("http")) {
-				menuVO.setPath(StringPool.SLASH + path);
+			if (parentId == null && !path.startsWith("http")) {
+				menuVo.setPath(StringPool.SLASH + path);
 			}
 			else {
-				menuVO.setPath(path);
+				menuVo.setPath(path);
 			}
-			menuVO.setHidden(menu.getHidden());
-			if (Objects.equals(MenuConstants.IS_FRAME_NO, menu.getIsFrame())) {
-				if (Objects.isNull(parentId)) {
-					menuVO.setComponent(StringUtil.isBlank(component) ? "Layout" : component);
+			menuVo.setHidden(Boolean.FALSE);
+			// 如果不是外链
+			if (MenuConstants.IS_FRAME_NO.equals(menu.getIsFrame())) {
+				if (parentId == null || parentId == 0) {
+					menuVo.setComponent(StringUtil.isBlank(component) ? "Layout" : component);
 				}
 				else if (StringUtil.isNotBlank(component)) {
-					menuVO.setComponent(component);
+					menuVo.setComponent(component);
 				}
 			}
-
-			menuVO.setMeta(new MenuMetaVO(title, menu.getIcon(), menu.getCache()));
-			menuVO.setIsFrame(menu.getIsFrame());
-			menuVO.setSeq(menu.getSeq());
-			menuVO.setCache(menu.getCache());
-			menuVOList.add(menuVO);
+			menuVo.setMeta(new MenuMetaVO(title, menu.getIcon(), Boolean.TRUE));
+			menuVoList.add(menuVo);
 		}
-		return menuVOList;
+		return menuVoList;
 	}
 
 	private static List<MenuVO> getChildren(MenuVO menuVO, List<MenuVO> menus) {

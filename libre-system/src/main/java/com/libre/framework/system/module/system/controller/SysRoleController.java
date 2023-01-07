@@ -3,15 +3,14 @@ package com.libre.framework.system.module.system.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.libre.framework.logging.annotation.ApiLog;
-import com.libre.framework.system.module.system.pojo.dto.RoleDTO;
+import com.libre.framework.system.module.system.pojo.dto.RoleCriteria;
 import com.libre.framework.system.module.system.pojo.dto.RoleMenuDTO;
+import com.libre.framework.system.module.system.pojo.entity.SysMenu;
 import com.libre.framework.system.module.system.pojo.entity.SysRole;
 import com.libre.framework.system.module.system.pojo.vo.RoleVO;
+import com.libre.framework.system.module.system.service.SysMenuService;
 import com.libre.framework.system.module.system.service.SysRoleService;
 import com.libre.toolkit.result.R;
-import com.libre.framework.system.module.system.pojo.dto.RoleCriteria;
-import com.libre.framework.system.module.system.pojo.entity.SysMenu;
-import com.libre.framework.system.module.system.service.SysMenuService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,7 @@ import java.util.Set;
  * @Date: 2022/9/4 5:05 PM
  */
 @RestController
-@RequestMapping("/sys/role")
+@RequestMapping("/api/sys/role")
 @RequiredArgsConstructor
 public class SysRoleController {
 
@@ -38,20 +37,20 @@ public class SysRoleController {
 	private final SysMenuService menuService;
 
 	@ApiOperation("角色分页列表")
-	@PostMapping("/page")
+	@GetMapping("/page")
 	public R<PageDTO<RoleVO>> page(Page<SysRole> page, RoleCriteria roleCriteria) {
 		PageDTO<RoleVO> rolePage = roleService.findByPage(page, roleCriteria);
 		return R.data(rolePage);
 	}
 
-	@GetMapping("/list")
-	public R<List<SysRole>> list() {
+	@GetMapping("/all")
+	public R<List<SysRole>> all() {
 		List<SysRole> list = roleService.list();
 		return R.data(list);
 	}
 
 	@Operation(summary = "获取单个role")
-	@GetMapping("{id}")
+	@GetMapping("/get/{id}")
 	public R<SysRole> query(@PathVariable Long id) {
 		return R.data(roleService.getById(id));
 	}
@@ -64,17 +63,16 @@ public class SysRoleController {
 
 	@ApiLog("修改角色菜单")
 	@Operation(summary = "修改角色菜单")
-	@PostMapping("/edit_menu")
+	@PutMapping("/menu")
 	public R<Boolean> updateMenu(@Validated @RequestBody RoleMenuDTO roleMenu) {
 		SysRole role = roleService.getById(roleMenu.getId());
-
 		boolean res = roleService.updateMenus(role, roleMenu.getMenuIds());
 		return R.status(res);
 	}
 
 	@ApiLog("修改角色")
 	@PostMapping("/edit")
-	public R<Boolean> edit(SysRole sysRole) {
+	public R<Boolean> edit(@RequestBody SysRole sysRole) {
 		boolean res = roleService.saveOrUpdate(sysRole);
 		return R.status(res);
 	}

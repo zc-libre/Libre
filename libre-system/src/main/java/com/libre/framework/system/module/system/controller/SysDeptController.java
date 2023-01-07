@@ -25,7 +25,7 @@ import java.util.Set;
  */
 @Api(tags = "用户管理")
 @RestController
-@RequestMapping("/sys/dept")
+@RequestMapping("/api/sys/dept")
 @RequiredArgsConstructor
 public class SysDeptController {
 

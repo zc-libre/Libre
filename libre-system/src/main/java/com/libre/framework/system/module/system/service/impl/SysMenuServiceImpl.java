@@ -2,26 +2,29 @@ package com.libre.framework.system.module.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.libre.framework.system.module.security.pojo.dto.UserInfo;
 import com.libre.framework.system.module.system.constant.UserConstants;
+import com.libre.framework.system.module.system.enums.MenuType;
 import com.libre.framework.system.module.system.mapper.SysMenuMapper;
+import com.libre.framework.system.module.system.pojo.dto.MenuCriteria;
 import com.libre.framework.system.module.system.pojo.entity.SysRole;
 import com.libre.framework.system.module.system.service.SysRoleMenuService;
 import com.libre.framework.system.module.system.service.SysUserService;
-import com.libre.framework.system.module.system.utils.MenuUtil;
+import com.libre.toolkit.core.StringUtil;
 import com.libre.toolkit.exception.LibreException;
 import com.libre.framework.common.constant.LibreConstants;
 import com.libre.framework.system.module.system.constant.MenuConstants;
 import com.libre.framework.system.module.system.pojo.entity.SysMenu;
 import com.libre.framework.system.module.system.pojo.entity.SysRoleMenu;
 import com.libre.framework.system.module.system.service.SysMenuService;
-import com.libre.toolkit.result.R;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -68,6 +71,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
 	@Override
 	public boolean add(SysMenu menu) {
+		if (MenuType.DIRECTORY.getType().equals(menu.getType())) {
+			menu.setPath("Layout");
+		}
 		return this.save(menu);
 	}
 
@@ -103,7 +109,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 		if (Objects.equals(UserConstants.IS_ADMIN_YES, userInfo.getIsAdmin())) {
 			return this.getAllMenu();
 		}
-		List<SysRole> roleList = userInfo.getRoles();
+		List<SysRole> roleList = userInfo.getRoleList();
 		if (CollectionUtils.isEmpty(roleList)) {
 			return Collections.emptyList();
 		}
@@ -112,12 +118,33 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 		return this.getNavByRoleIds(roleIds);
 	}
 
+	@Override
+	public PageDTO<SysMenu> findByPage(MenuCriteria criteria) {
+		List<SysMenu> list = this.list(getQueryWrapper(criteria));
+		PageDTO<SysMenu> page = new PageDTO<>(1, list.size());
+		page.setRecords(list);
+		return page;
+	}
+
+	private LambdaQueryWrapper<SysMenu> getQueryWrapper(MenuCriteria criteria) {
+		String blurry = criteria.getBlurry();
+
+		LambdaQueryWrapper<SysMenu> wrapper = Wrappers.<SysMenu>lambdaQuery().and(StringUtil.isNotBlank(blurry),
+				w -> w.like(SysMenu::getTitle, blurry).or().like(SysMenu::getComponent, blurry).or()
+						.like(SysMenu::getPermission, blurry));
+		if (criteria.haveTime()) {
+			wrapper.between(SysMenu::getGmtCreate, criteria.getStartTime(), criteria.getEndTime());
+		}
+		return wrapper;
+	}
+
 	/**
 	 * 菜单类型（0目录 1菜单 2按钮）
 	 * @return /
 	 */
 	private static LambdaQueryWrapper<SysMenu> getQueryWrapper() {
-		return Wrappers.<SysMenu>lambdaQuery().in(SysMenu::getType, 0, 1)
+		return Wrappers.<SysMenu>lambdaQuery()
+				.in(SysMenu::getType, MenuType.DIRECTORY.getType(), MenuType.MENU.getType())
 				.eq(SysMenu::getHidden, MenuConstants.IS_HIDDEN_NO).eq(SysMenu::getStatus, LibreConstants.STATUS_ON)
 				.orderByAsc(SysMenu::getSeq);
 	}
