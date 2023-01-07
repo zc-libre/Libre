@@ -1,6 +1,6 @@
 package com.libre.framework.system.service.mapstruct;
 
-import com.libre.framework.common.security.AuthUser;
+import com.libre.framework.common.security.dto.AuthUser;
 import com.libre.framework.security.pojo.dto.UserInfo;
 import com.libre.framework.system.pojo.dto.UserDTO;
 import com.libre.framework.system.pojo.entity.SysUser;

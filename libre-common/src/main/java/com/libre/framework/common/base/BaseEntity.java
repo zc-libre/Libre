@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.libre.toolkit.time.DatePattern;
 import com.libre.toolkit.validation.CreateGroup;
 import com.libre.toolkit.validation.UpdateGroup;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,7 +27,7 @@ public abstract class BaseEntity {
 	 * 主键id
 	 */
 	@TableId
-	@ApiModelProperty(value = "主键id")
+	@Schema(description = "主键id")
 	@Null(groups = CreateGroup.class)
 	@NotNull(groups = UpdateGroup.class)
 	private Long id;
@@ -37,7 +37,7 @@ public abstract class BaseEntity {
 	 */
 	@DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
 	@JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
-	@ApiModelProperty(value = "创建时间")
+	@Schema(description = "创建时间")
 	@TableField(fill = FieldFill.INSERT)
 	private LocalDateTime gmtCreate;
 
@@ -46,21 +46,21 @@ public abstract class BaseEntity {
 	 */
 	@DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
 	@JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
-	@ApiModelProperty(value = "更新时间")
+	@Schema(description = "更新时间")
 	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private LocalDateTime gmtModified;
 
 	/**
 	 * 创建人
 	 */
-	@ApiModelProperty(value = "创建人")
+	@Schema(description = "创建人")
 	@TableField(fill = FieldFill.INSERT)
 	private String gmtCreateName;
 
 	/**
 	 * 更新人
 	 */
-	@ApiModelProperty(value = "更新人")
+	@Schema(description = "更新人")
 	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private String gmtModifiedName;
 
@@ -68,7 +68,7 @@ public abstract class BaseEntity {
 	 * 0删除 1未删除
 	 */
 	@TableLogic(value = "0", delval = "1")
-	@ApiModelProperty(value = "1删除 0未删除")
+	@Schema(description = "1删除 0未删除")
 	private Integer isDeleted;
 
 }

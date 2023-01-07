@@ -3,7 +3,7 @@ package com.libre.framework.system.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.libre.framework.logging.annotation.ApiLog;
-import com.libre.framework.security.constant.SecurityConstant;
+import com.libre.framework.common.security.constant.SecurityConstant;
 import com.libre.framework.system.pojo.dto.UserCriteria;
 import com.libre.framework.system.pojo.dto.UserDTO;
 import com.libre.framework.system.pojo.entity.SysUser;

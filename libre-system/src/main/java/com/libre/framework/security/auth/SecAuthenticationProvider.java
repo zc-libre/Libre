@@ -1,6 +1,6 @@
 package com.libre.framework.security.auth;
 
-import com.libre.framework.common.security.AuthUser;
+import com.libre.framework.common.security.dto.AuthUser;
 import com.libre.framework.security.service.UserDetailServiceImpl;
 import com.libre.framework.security.service.UserLockService;
 import com.libre.framework.security.config.LibreSecurityProperties;

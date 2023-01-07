@@ -10,6 +10,20 @@ spring:
   mvc:
     path-match:
       matching-strategy: ant_path_matcher
+  mail:
+    host: smtp.exmail.qq.com
+    port: 465
+    username: admin@dreamlu.net
+    password: Lcm1030x
+    protocol: smtp
+    test-connection: false
+    default-encoding: UTF-8
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
+      mail.smtp.ssl.enable: true
+      mail.display.sendmail: Libre
 
 mybatis-plus:
   type-aliases-package: com.libre.admin.**.entity
@@ -30,8 +44,19 @@ mybatis-plus:
 
 libre:
   security:
-    jwt-token:
-      secret: 669da4ca0fde3928856705c8746512daa9957b91b0bbe855790b561d9f08be80
+    permit-all:
+      - /druid/**
+      - /favicon.ico
+      - /error
+      - /static/**
+      - /webjars*
+      - /webjars/**
+      - /upload/**
+      - /swagger-resources/**
+      - /v3/api-docs
+      - /v3/api-docs/swagger-config
+      - /doc.html
+      - /swagger-ui/**
   oss:
     enabled: false
 logging:
@@ -61,6 +86,9 @@ spring:
       test-while-idle: true
       time-between-eviction-runs-millis: 60000
       min-evictable-idle-time-millis: 300000
+      filter:
+        stat:
+          enabled: true
       stat-view-servlet:
         enabled: true
         login-username: admin
@@ -81,9 +109,6 @@ libre:
     enabled: false
   redis:
     serializer-type: json
-  security:
-    jwt-token:
-      secret: 669da4ca0fde3928856705c8746512daa9957b91b0bbe855790b561d9f08be80
   captcha:
     enabled: true
   swagger:
@@ -95,9 +120,9 @@ spring:
       on-profile: prod
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://101.42.252.139:6033/libre
-    username: postgres
-    password: 123456
+    url: jdbc:postgresql://127.0.0.1:5432/libre
+    username: xxxxxxx
+    password: xxxxxxx
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       initial-size: 5
@@ -126,9 +151,8 @@ spring:
       time-to-live: 2h
       key-prefix: "libre:"
   redis:
-    host: 101.42.252.139
-    password: 504879189
-
+    host: 127.0.0.1
+    password: 12345
 
 libre:
   xss:

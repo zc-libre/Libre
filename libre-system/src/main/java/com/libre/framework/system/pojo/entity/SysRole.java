@@ -5,6 +5,7 @@ import com.libre.framework.common.base.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,19 +23,19 @@ public class SysRole extends BaseEntity {
 	/**
 	 * 角色名
 	 */
-	@ApiModelProperty(value = "角色名")
+	@Schema(description = "角色名")
 	private String roleName;
 
 	/**
 	 * 父id
 	 */
-	@ApiModelProperty(value = "父id")
+	@Schema(description = "父id")
 	private Long parentId;
 
 	/**
 	 * 角色状态（0正常 1停用）
 	 */
-	@ApiModelProperty(value = "角色状态（0正常 1停用）")
+	@Schema(description = "角色状态（0正常 1停用）")
 	private Integer status;
 
 	/**

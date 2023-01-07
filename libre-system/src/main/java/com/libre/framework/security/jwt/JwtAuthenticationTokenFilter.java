@@ -1,8 +1,8 @@
 package com.libre.framework.security.jwt;
 
 import com.libre.boot.toolkit.RequestUtils;
-import com.libre.framework.common.security.SecurityUtil;
-import com.libre.framework.common.security.AuthUser;
+import com.libre.framework.common.security.support.SecurityUtil;
+import com.libre.framework.common.security.dto.AuthUser;
 import com.libre.framework.security.auth.SecWebAuthDetailsSource;
 import com.libre.framework.security.service.UserDetailServiceImpl;
 import com.libre.framework.security.pojo.vo.TokenVo;

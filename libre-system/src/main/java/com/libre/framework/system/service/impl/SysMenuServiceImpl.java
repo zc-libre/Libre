@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
+import com.libre.framework.common.security.constant.SecurityConstant;
 import com.libre.framework.security.pojo.dto.UserInfo;
 import com.libre.framework.system.constant.UserConstants;
 import com.libre.framework.system.enums.MenuType;
@@ -105,7 +106,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	@Override
 	public List<SysMenu> getMenuListByUsername(String username) {
 		UserInfo userInfo = sysUserService.findUserInfoByUsername(username);
-		if (Objects.equals(UserConstants.IS_ADMIN_YES, userInfo.getIsAdmin())) {
+		if (Objects.equals(SecurityConstant.IS_ADMIN_YES, userInfo.getIsAdmin())) {
 			return this.getAllMenu();
 		}
 		List<SysRole> roleList = userInfo.getRoleList();

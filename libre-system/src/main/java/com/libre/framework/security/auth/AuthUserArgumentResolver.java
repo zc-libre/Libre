@@ -1,7 +1,7 @@
 package com.libre.framework.security.auth;
 
-import com.libre.framework.common.security.AuthUser;
-import com.libre.framework.common.security.SecurityUtil;
+import com.libre.framework.common.security.dto.AuthUser;
+import com.libre.framework.common.security.support.SecurityUtil;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;

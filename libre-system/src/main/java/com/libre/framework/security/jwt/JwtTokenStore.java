@@ -3,7 +3,7 @@ package com.libre.framework.security.jwt;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.libre.boot.toolkit.RequestUtils;
 import com.libre.framework.security.config.LibreSecurityProperties;
-import com.libre.framework.common.security.AuthUser;
+import com.libre.framework.common.security.dto.AuthUser;
 import com.libre.framework.security.pojo.vo.TokenVo;
 import com.libre.ip2region.core.Ip2regionSearcher;
 import com.libre.ip2region.core.IpInfo;

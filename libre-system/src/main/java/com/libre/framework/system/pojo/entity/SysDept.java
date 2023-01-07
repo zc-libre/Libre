@@ -5,6 +5,7 @@ import com.libre.framework.common.base.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,13 +23,13 @@ public class SysDept extends BaseEntity {
 	/**
 	 * 父id
 	 */
-	@ApiModelProperty(value = "父id")
+	@Schema(description = "父id")
 	private Long parentId;
 
 	/**
 	 * 部门名称
 	 */
-	@ApiModelProperty(value = "部门名称")
+	@Schema(description = "部门名称")
 	private String deptName;
 
 }

@@ -25,7 +25,6 @@ public class LibreSecurityProperties {
 	/**
 	 * 忽略的地址
 	 */
-	@NestedConfigurationProperty
 	private final List<String> permitAll = Lists.newArrayList();
 
 	/**
@@ -80,7 +79,7 @@ public class LibreSecurityProperties {
 		 * 令牌秘钥
 		 */
 		@NotBlank
-		private String secret;
+		private String secret = "669da4ca0fde3928856705c8746512daa9957b91b0bbe855790b561d9f08be80";
 
 		/**
 		 * 秘钥的签名算法
@@ -120,7 +119,7 @@ public class LibreSecurityProperties {
 		/**
 		 * redis token 存储前缀
 		 */
-		private String storePrefix = "Libre:login:token:";
+		private String storePrefix = "libre:login:token:";
 
 	}
 

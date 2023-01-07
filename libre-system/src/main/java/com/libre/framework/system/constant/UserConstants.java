@@ -6,12 +6,6 @@ package com.libre.framework.system.constant;
  */
 public interface UserConstants {
 
-	/**
-	 * 是否管理员
-	 */
-	Integer IS_ADMIN_YES = 1;
-
-	Integer IS_ADMIN_NO = 0;
 
 	/**
 	 * 用户是否锁定

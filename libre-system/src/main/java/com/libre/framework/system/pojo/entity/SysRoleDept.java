@@ -3,6 +3,7 @@ package com.libre.framework.system.pojo.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -18,13 +19,13 @@ public class SysRoleDept {
 	/**
 	 * 角色id
 	 */
-	@ApiModelProperty(value = "角色id")
+	@Schema(description = "角色id")
 	private Long roleId;
 
 	/**
 	 * 部门id
 	 */
-	@ApiModelProperty(value = "部门id")
+	@Schema(description = "部门id")
 	private Long deptId;
 
 }

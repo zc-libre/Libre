@@ -1,9 +1,9 @@
 package com.libre.framework.security.auth;
 
 import com.libre.boot.toolkit.RequestUtils;
-import com.libre.framework.common.security.AuthUser;
-import com.libre.framework.common.security.JwtUser;
-import com.libre.framework.common.security.SecurityUtil;
+import com.libre.framework.common.security.dto.AuthUser;
+import com.libre.framework.common.security.dto.JwtUser;
+import com.libre.framework.common.security.support.SecurityUtil;
 import com.libre.framework.logging.support.SysLogConstant;
 import com.libre.framework.logging.support.SysLogEvent;
 import com.libre.framework.logging.support.SysLogType;

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -19,10 +20,10 @@ public class SysRoleMenu {
 	@TableId
 	private Long id;
 
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 	private Long roleId;
 
-	@ApiModelProperty(value = "")
+	@Schema(description = "")
 	private Long menuId;
 
 }

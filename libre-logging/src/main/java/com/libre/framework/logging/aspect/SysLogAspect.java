@@ -1,7 +1,7 @@
 package com.libre.framework.logging.aspect;
 
-import com.libre.framework.common.security.AuthUser;
-import com.libre.framework.common.security.SecurityUtil;
+import com.libre.framework.common.security.dto.AuthUser;
+import com.libre.framework.common.security.support.SecurityUtil;
 import com.libre.framework.logging.annotation.ApiLog;
 import com.libre.framework.logging.support.*;
 import com.libre.toolkit.json.JsonUtil;

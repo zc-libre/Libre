@@ -1,8 +1,9 @@
 package com.libre.framework.security.controller;
 
-import com.libre.framework.common.security.JwtUser;
-import com.libre.framework.common.security.RoleInfo;
-import com.libre.framework.common.security.AuthUser;
+import com.libre.framework.common.security.constant.SecurityConstant;
+import com.libre.framework.common.security.dto.JwtUser;
+import com.libre.framework.common.security.dto.RoleInfo;
+import com.libre.framework.common.security.dto.AuthUser;
 import com.libre.framework.system.constant.UserConstants;
 import com.libre.framework.system.pojo.entity.SysMenu;
 import com.libre.framework.system.pojo.vo.MenuVO;
@@ -32,8 +33,6 @@ public class AuthorizationController {
 
 	private final SysMenuService menuService;
 
-	private final SysUserService sysUserService;
-
 	@ApiOperation("获取用户信息")
 	@GetMapping("/info")
 	public R<JwtUser> getUserInfo(AuthUser authUser) {
@@ -43,7 +42,7 @@ public class AuthorizationController {
 
 	@GetMapping("/menus")
 	public R<List<MenuVO>> getMenus(AuthUser user) { // 1. 超级管理员
-		if (UserConstants.IS_ADMIN_YES.equals(user.getIsAdmin())) {
+		if (SecurityConstant.IS_ADMIN_YES.equals(user.getIsAdmin())) {
 			List<SysMenu> menuList = menuService.getAllMenu();
 			return R.data(MenuUtil.transformList(menuList));
 		}

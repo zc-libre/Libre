@@ -3,7 +3,7 @@ package com.libre.framework.security.jwt;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.google.common.base.Charsets;
 import com.libre.framework.security.config.LibreSecurityProperties;
-import com.libre.framework.common.security.AuthUser;
+import com.libre.framework.common.security.dto.AuthUser;
 import com.libre.toolkit.core.StringUtil;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;

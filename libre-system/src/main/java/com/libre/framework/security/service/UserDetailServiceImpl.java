@@ -2,11 +2,11 @@ package com.libre.framework.security.service;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.libre.framework.common.security.AuthUser;
-import com.libre.framework.security.constant.SecurityConstant;
+import com.libre.framework.common.security.dto.AuthUser;
+import com.libre.framework.common.security.constant.SecurityConstant;
 import com.libre.framework.system.service.SysUserService;
-import com.libre.framework.common.security.RoleInfo;
-import com.libre.framework.common.security.SecurityUtil;
+import com.libre.framework.common.security.dto.RoleInfo;
+import com.libre.framework.common.security.support.SecurityUtil;
 
 import com.libre.framework.system.constant.UserConstants;
 import com.libre.framework.system.service.SysMenuService;
@@ -120,7 +120,7 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 	private void loadUserAuthorities(List<SysRole> roleList, Set<String> dbAuthSet, Integer isAdmin) {
 		List<SysMenu> menuList;
 		// 超级管理员有所有资源权限
-		if (ObjectUtils.nullSafeEquals(isAdmin, UserConstants.IS_ADMIN_YES)) {
+		if (ObjectUtils.nullSafeEquals(isAdmin, SecurityConstant.IS_ADMIN_YES)) {
 			menuList = sysMenuService.list();
 		}
 		else {
