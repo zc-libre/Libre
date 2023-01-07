@@ -20,20 +20,20 @@ import java.util.Optional;
  */
 
 @RestController
-@RequestMapping("/sys/log")
+@RequestMapping("/api/sys/log")
 @RequiredArgsConstructor
 public class SysLogController {
 
 	private final SysLogService sysLogService;
 
-	@PostMapping("info")
+	@GetMapping("info")
 	public R<PageDTO<SysLog>> pageInfo(PageDTO<SysLog> page, SysLogCriteria criteria) {
 		criteria.setSuccess(SysLogConstant.SUCCESS);
 		PageDTO<SysLog> result = sysLogService.findPage(page, criteria);
 		return R.data(result);
 	}
 
-	@PostMapping("error")
+	@GetMapping("error")
 	public R<PageDTO<SysLog>> pageError(PageDTO<SysLog> page, SysLogCriteria criteria) {
 		criteria.setSuccess(SysLogConstant.FAILED);
 		PageDTO<SysLog> result = sysLogService.findPage(page, criteria);

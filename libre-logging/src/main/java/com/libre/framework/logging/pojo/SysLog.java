@@ -78,6 +78,9 @@ public class SysLog implements Serializable {
 	 */
 	private Long requestTime;
 
+	/**
+	 * 请求方法
+	 */
 	private String requestMethod;
 
 	/**
@@ -95,12 +98,14 @@ public class SysLog implements Serializable {
 	 */
 	private String address;
 
+	/**
+	 * 堆栈信息
+	 */
 	private String stackTrace;
 
 	/**
 	 * 异常名
 	 */
-
 	private String exceptionName;
 
 	/**

@@ -1,20 +1,13 @@
 package com.libre.framework.module.security;
 
-import com.google.common.collect.Lists;
-import com.libre.framework.system.module.system.constant.MenuConstants;
-import com.libre.framework.system.module.system.mapper.RoleMenuMapper;
-import com.libre.framework.system.module.system.mapper.SysMenuMapper;
-import com.libre.framework.system.module.system.pojo.entity.SysMenu;
-import com.libre.framework.system.module.system.pojo.entity.SysRoleMenu;
-import com.libre.framework.system.module.system.service.SysMenuService;
-import com.libre.framework.system.module.system.service.SysRoleMenuService;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import com.libre.framework.system.pojo.entity.SysMenu;
+import com.libre.framework.system.service.SysMenuService;
+import com.libre.framework.system.service.SysRoleMenuService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
