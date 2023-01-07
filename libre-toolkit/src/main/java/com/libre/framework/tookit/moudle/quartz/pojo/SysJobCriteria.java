@@ -14,19 +14,10 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class SysJobCriteria extends BaseCriteria {
 
-	/**
-	 * 任务名称
-	 */
-	private String jobName;
 
 	/**
-	 * 任务组名
+	 * 定时任务状态
 	 */
-	private String jobGroup;
-
-	/**
-	 * 定时任务全类名
-	 */
-	private String jobState;
+	private String jobStatus;
 
 }

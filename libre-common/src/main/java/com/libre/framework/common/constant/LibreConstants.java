@@ -11,4 +11,8 @@ public interface LibreConstants {
 	 */
 	int STATUS_ON = 1;
 
+
+	Integer DISABLE = 0;
+
+	Integer ENABLE = 1;
 }

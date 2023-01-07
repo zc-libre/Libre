@@ -4,13 +4,19 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.libre.framework.common.security.dto.AuthUser;
 import com.libre.framework.logging.annotation.ApiLog;
 import com.libre.framework.system.pojo.dto.MenuCriteria;
+import com.libre.framework.system.pojo.dto.MenuDTO;
+import com.libre.framework.system.service.mapstruct.SysMenuMapping;
 import com.libre.framework.system.toolkit.MenuUtil;
 import com.libre.toolkit.result.R;
 import com.libre.framework.system.pojo.entity.SysMenu;
 import com.libre.framework.system.pojo.vo.MenuVO;
 import com.libre.framework.system.service.SysMenuService;
+import com.libre.toolkit.validation.CreateGroup;
+import com.libre.toolkit.validation.UpdateGroup;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -58,10 +64,26 @@ public class SysMenuController {
 		return R.data(vos);
 	}
 
-	@ApiLog("菜单编辑")
+
+	@ApiLog("新增菜单")
+	@Operation(summary = "新增菜单")
 	@PostMapping
-	public R<Boolean> saveOrUpdate(SysMenu sysMenu) {
-		menuService.saveOrUpdate(sysMenu);
+	@PreAuthorize("@sec.hasPermission('system:menu:add')")
+	public R<Boolean> create(@Validated(CreateGroup.class) @RequestBody MenuDTO menuDTO) {
+		SysMenuMapping mapping = SysMenuMapping.INSTANCE;
+		SysMenu sysMenu = mapping.sourceToTarget(menuDTO);
+		menuService.save(sysMenu);
+		return R.status(true);
+	}
+
+	@ApiLog("修改菜单")
+	@Operation(summary = "修改菜单")
+	@PutMapping
+	@PreAuthorize("@sec.hasPermission('system:menu:edit')")
+	public R<Boolean> update(@Validated(UpdateGroup.class) @RequestBody MenuDTO menuDTO) {
+		SysMenuMapping mapping = SysMenuMapping.INSTANCE;
+		SysMenu sysMenu = mapping.sourceToTarget(menuDTO);
+		menuService.updateById(sysMenu);
 		return R.status(true);
 	}
 

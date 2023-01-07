@@ -1,8 +1,13 @@
 package com.libre.framework.tookit.moudle.quartz.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.libre.boot.autoconfigure.SpringContext;
+import com.libre.framework.tookit.moudle.quartz.constant.JobStatus;
 import com.libre.framework.tookit.moudle.quartz.mapper.SysJobMapper;
 import com.libre.framework.tookit.moudle.quartz.pojo.SysJob;
 import com.libre.framework.tookit.moudle.quartz.pojo.SysJobCriteria;
@@ -14,8 +19,10 @@ import org.quartz.*;
 import org.quartz.impl.triggers.CronTriggerImpl;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.Objects;
 
 import static org.quartz.TriggerBuilder.newTrigger;
 
@@ -32,13 +39,20 @@ public class SysJobServiceImpl extends ServiceImpl<SysJobMapper, SysJob> impleme
 	private static final String JOB_NAME = "TASK_";
 
 	@Override
-	public IPage<SysJobVO> page(Page<SysJobVO> page, SysJobCriteria criteria) {
-		return baseMapper.page(page, criteria);
+	public PageDTO<SysJob> findByPage(PageDTO<SysJob> page, SysJobCriteria criteria) {
+		return this.page(page, getQueryWrapper(criteria));
+	}
+
+	private LambdaQueryWrapper<SysJob> getQueryWrapper(SysJobCriteria criteria) {
+		return Wrappers.<SysJob>lambdaQuery().eq(Objects.nonNull(criteria.getJobStatus()), SysJob::getJobStatus, criteria);
 	}
 
 	@Override
+	@Transactional(rollbackFor = Throwable.class)
 	public void addJob(SysJob job) {
+		checkBeanExist(job);
 		try {
+			this.save(job);
 			// 构建job信息
 			JobDetail jobDetail = JobBuilder.newJob(ScheduleJob.class).withIdentity(JOB_NAME + job.getId()).build();
 
@@ -47,11 +61,17 @@ public class SysJobServiceImpl extends ServiceImpl<SysJobMapper, SysJob> impleme
 					.withSchedule(CronScheduleBuilder.cronSchedule(job.getCronExpression())).build();
 
 			cronTrigger.getJobDataMap().put(SysJob.JOB_KEY, job);
+
 			// 重置启动时间
 			((CronTriggerImpl) cronTrigger).setStartTime(new Date());
 
 			// 执行定时任务
 			scheduler.scheduleJob(jobDetail, cronTrigger);
+
+			// 暂停任务
+			if (JobStatus.PAUSE.getType().equals(job.getJobStatus())) {
+				pauseJob(job);
+			}
 
 		}
 		catch (Exception e) {
@@ -60,13 +80,23 @@ public class SysJobServiceImpl extends ServiceImpl<SysJobMapper, SysJob> impleme
 		}
 	}
 
+	private static void checkBeanExist(SysJob job) {
+		String beanName = job.getBeanName();
+		Object bean = SpringContext.getBean(beanName);
+		if (Objects.isNull(bean)) {
+			throw new LibreException("bean不存在");
+		}
+	}
+
 	@Override
+	@Transactional(rollbackFor = Throwable.class)
 	public void deleteJob(Long jobId) {
 		SysJob sysJob = baseMapper.selectById(jobId);
 		try {
 			scheduler.pauseTrigger(TriggerKey.triggerKey(JOB_NAME + sysJob.getId()));
 			scheduler.unscheduleJob(TriggerKey.triggerKey(JOB_NAME + sysJob.getId()));
 			scheduler.deleteJob(JobKey.jobKey(JOB_NAME + sysJob.getId()));
+			this.removeById(jobId);
 		}
 		catch (SchedulerException e) {
 			log.error(e.getMessage(), e);
@@ -75,6 +105,7 @@ public class SysJobServiceImpl extends ServiceImpl<SysJobMapper, SysJob> impleme
 	}
 
 	@Override
+	@Transactional(rollbackFor = Throwable.class)
 	public void pauseJob(SysJob sysJob) {
 		try {
 			scheduler.pauseJob(JobKey.jobKey(JOB_NAME + sysJob.getId()));
@@ -86,10 +117,31 @@ public class SysJobServiceImpl extends ServiceImpl<SysJobMapper, SysJob> impleme
 	}
 
 	@Override
-	public void resumeJob(SysJob sysJob) {
+	@Transactional(rollbackFor = Throwable.class)
+	public void updateJobStatus(SysJob sysJob) {
+		if (JobStatus.EXECUTE.getType().equals(sysJob.getJobStatus())) {
+			this.pauseJob(sysJob);
+			sysJob.setJobStatus(JobStatus.PAUSE.getType());
+		}
+		else {
+			this.resumeJob(sysJob);
+			sysJob.setJobStatus(JobStatus.EXECUTE.getType());
+		}
+		this.updateById(sysJob);
+	}
 
+	@Override
+	@Transactional(rollbackFor = Throwable.class)
+	public void resumeJob(SysJob sysJob) {
 		try {
-			scheduler.resumeJob(JobKey.jobKey(JOB_NAME + sysJob.getId()));
+			TriggerKey triggerKey = TriggerKey.triggerKey(JOB_NAME + sysJob.getId());
+			CronTrigger trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
+			// 如果不存在则创建一个定时任务
+			if (trigger == null) {
+				addJob(sysJob);
+			}
+			JobKey jobKey = JobKey.jobKey(JOB_NAME + sysJob.getId());
+			scheduler.resumeJob(jobKey);
 		}
 		catch (SchedulerException e) {
 			log.error(e.getMessage(), e);
@@ -98,17 +150,29 @@ public class SysJobServiceImpl extends ServiceImpl<SysJobMapper, SysJob> impleme
 	}
 
 	@Override
+	@Transactional(rollbackFor = Throwable.class)
 	public void cronJob(SysJob sysJob) {
-
+		checkBeanExist(sysJob);
 		try {
+			this.updateById(sysJob);
 			TriggerKey triggerKey = TriggerKey.triggerKey(JOB_NAME + sysJob.getId());
-			// 表达式调度构建器
-			CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(sysJob.getCronExpression());
 			CronTrigger trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
-			// 根据Cron表达式构建一个Trigger
+			// 如果不存在则创建一个定时任务
+			if (trigger == null) {
+				addJob(sysJob);
+				trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
+			}
+			CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(sysJob.getCronExpression());
 			trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).build();
-			// 按新的trigger重新设置job执行
+			// 重置启动时间
+			((CronTriggerImpl) trigger).setStartTime(new Date());
+			trigger.getJobDataMap().put(SysJob.JOB_KEY, sysJob);
+
 			scheduler.rescheduleJob(triggerKey, trigger);
+			// 暂停任务
+			if (JobStatus.PAUSE.getType().equals(sysJob.getJobStatus())) {
+				pauseJob(sysJob);
+			}
 		}
 		catch (SchedulerException e) {
 			log.error(e.getMessage(), e);

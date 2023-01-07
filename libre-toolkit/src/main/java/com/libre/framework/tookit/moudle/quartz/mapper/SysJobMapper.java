@@ -14,12 +14,4 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface SysJobMapper extends BaseMapper<SysJob> {
 
-	/**
-	 * 查询定时作业和触发器列表
-	 * @param page 分页模型
-	 * @param query 查询对象
-	 * @return 定时作业和触发器列表
-	 */
-	IPage<SysJobVO> page(Page<SysJobVO> page, @Param("query") SysJobCriteria query);
-
 }

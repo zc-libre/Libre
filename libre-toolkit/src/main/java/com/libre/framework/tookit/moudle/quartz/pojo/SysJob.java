@@ -5,6 +5,8 @@ import com.libre.framework.common.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
+
 /**
  * @author: Libre
  * @Date: 2022/12/30 8:44 PM
@@ -12,7 +14,9 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_job")
-public class SysJob extends BaseEntity {
+public class SysJob extends BaseEntity implements Serializable {
+
+	private static final long serialVersionUID = 42L;
 
 	public static final String JOB_KEY = "JOB_KEY";
 
@@ -20,6 +24,11 @@ public class SysJob extends BaseEntity {
 	 * 定时任务名称
 	 */
 	private String jobName;
+
+	/**
+	 * 任务状态
+	 */
+	private Integer jobStatus;
 
 	/**
 	 * 定时任务beanName

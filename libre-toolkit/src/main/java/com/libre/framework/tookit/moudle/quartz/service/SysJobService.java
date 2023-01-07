@@ -2,6 +2,7 @@ package com.libre.framework.tookit.moudle.quartz.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.libre.framework.tookit.moudle.quartz.pojo.SysJob;
 import com.libre.framework.tookit.moudle.quartz.pojo.SysJobCriteria;
@@ -23,7 +24,7 @@ public interface SysJobService extends IService<SysJob> {
 	 * @param criteria 查询对象
 	 * @return 定时任务列表
 	 */
-	IPage<SysJobVO> page(Page<SysJobVO> page, SysJobCriteria criteria);
+	PageDTO<SysJob> findByPage(PageDTO<SysJob> page, SysJobCriteria criteria);
 
 	/**
 	 * 添加并启动定时任务
@@ -48,6 +49,9 @@ public interface SysJobService extends IService<SysJob> {
 	 *
 	 */
 	void resumeJob(SysJob sysJob);
+
+
+	void updateJobStatus(SysJob sysJob);
 
 	/**
 	 * 重新配置定时任务

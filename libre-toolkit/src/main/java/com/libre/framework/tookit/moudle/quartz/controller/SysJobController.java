@@ -2,6 +2,7 @@ package com.libre.framework.tookit.moudle.quartz.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.libre.framework.tookit.moudle.quartz.pojo.SysJob;
 import com.libre.framework.tookit.moudle.quartz.pojo.SysJobCriteria;
 import com.libre.framework.tookit.moudle.quartz.pojo.SysJobVO;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/system/jobs")
+@RequestMapping("/api/sys/job")
 @RequiredArgsConstructor
 @Tag(name = "系统：任务管理")
 public class SysJobController {
@@ -37,9 +38,9 @@ public class SysJobController {
 	 * 任务列表查询
 	 */
 	@Operation(summary = "任务列表查询")
-	@GetMapping
-	public R<IPage<SysJobVO>> jobList(Page<SysJobVO> page, SysJobCriteria query) {
-		IPage<SysJobVO> jobPage = jobService.page(page, query);
+	@GetMapping("page")
+	public R<IPage<SysJob>> jobList(PageDTO<SysJob> page, SysJobCriteria query) {
+		IPage<SysJob> jobPage = jobService.findByPage(page, query);
 		return R.data(jobPage);
 	}
 
@@ -59,6 +60,13 @@ public class SysJobController {
 	@PutMapping("/pause")
 	public void pauseJob(@Validated(UpdateGroup.class) @RequestBody SysJob form) {
 		jobService.pauseJob(form);
+	}
+
+	@Operation(summary = "恢复定时任务")
+	@PutMapping("/update/{id}")
+	public void update(@PathVariable Long id) {
+		SysJob sysJob = jobService.getById(id);
+		jobService.updateJobStatus(sysJob);
 	}
 
 	/**
@@ -83,9 +91,9 @@ public class SysJobController {
 	 * 删除定时任务
 	 */
 	@Operation(summary = "删除定时任务")
-	@DeleteMapping
-	public void deleteJob(@Validated(UpdateGroup.class) Long jobId) {
-		jobService.deleteJob(jobId);
+	@DeleteMapping("{id}")
+	public void deleteJob(@PathVariable Long id) {
+		jobService.deleteJob(id);
 	}
 
 }
