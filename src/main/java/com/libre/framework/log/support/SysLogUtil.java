@@ -1,4 +1,4 @@
-package com.libre.framework.logging.support;
+package com.libre.framework.log.support;
 
 import com.libre.boot.toolkit.RequestUtils;
 import com.libre.framework.common.security.dto.AuthUser;

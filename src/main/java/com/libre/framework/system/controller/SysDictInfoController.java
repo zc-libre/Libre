@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
-import com.libre.framework.logging.annotation.ApiLog;
+import com.libre.framework.log.annotation.ApiLog;
 import com.libre.framework.system.pojo.dto.DictInfoCriteria;
 import com.libre.framework.system.pojo.entity.SysDictInfo;
 import com.libre.framework.system.service.SysDictInfoService;

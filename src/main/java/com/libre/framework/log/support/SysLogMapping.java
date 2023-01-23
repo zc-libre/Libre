@@ -1,7 +1,7 @@
-package com.libre.framework.logging.support;
+package com.libre.framework.log.support;
 
 import com.libre.boot.exception.LibreErrorEvent;
-import com.libre.framework.logging.pojo.SysLog;
+import com.libre.framework.log.pojo.SysLog;
 import com.libre.toolkit.mapstruct.BaseMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

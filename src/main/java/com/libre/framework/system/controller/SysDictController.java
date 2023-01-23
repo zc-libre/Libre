@@ -2,7 +2,7 @@ package com.libre.framework.system.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.libre.framework.logging.annotation.ApiLog;
+import com.libre.framework.log.annotation.ApiLog;
 import com.libre.framework.system.pojo.dto.DictCriteria;
 import com.libre.framework.system.pojo.entity.SysDict;
 import com.libre.framework.system.service.SysDictService;

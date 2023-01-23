@@ -1,13 +1,13 @@
-package com.libre.framework.logging.service.impl;
+package com.libre.framework.log.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.libre.framework.logging.mapper.SysLogMapper;
-import com.libre.framework.logging.pojo.SysLog;
-import com.libre.framework.logging.pojo.SysLogCriteria;
-import com.libre.framework.logging.service.SysLogService;
+import com.libre.framework.log.mapper.SysLogMapper;
+import com.libre.framework.log.pojo.SysLog;
+import com.libre.framework.log.pojo.SysLogCriteria;
+import com.libre.framework.log.service.SysLogService;
 import com.libre.toolkit.core.StringUtil;
 import org.springframework.stereotype.Component;
 

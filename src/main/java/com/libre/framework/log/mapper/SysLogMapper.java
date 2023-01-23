@@ -1,7 +1,7 @@
-package com.libre.framework.logging.mapper;
+package com.libre.framework.log.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.libre.framework.logging.pojo.SysLog;
+import com.libre.framework.log.pojo.SysLog;
 
 /**
  * @author: Libre

@@ -1,7 +1,7 @@
 package com.libre.framework.tookit.moudle.quartz.support;
 
 import com.libre.boot.autoconfigure.SpringContext;
-import com.libre.framework.logging.support.ReflectionUtil;
+import com.libre.framework.log.support.ReflectionUtil;
 import com.libre.framework.tookit.moudle.quartz.pojo.SysJob;
 import com.libre.toolkit.exception.LibreException;
 import lombok.extern.slf4j.Slf4j;

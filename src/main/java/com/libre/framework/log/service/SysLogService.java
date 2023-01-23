@@ -1,9 +1,9 @@
-package com.libre.framework.logging.service;
+package com.libre.framework.log.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.libre.framework.logging.pojo.SysLog;
-import com.libre.framework.logging.pojo.SysLogCriteria;
+import com.libre.framework.log.pojo.SysLog;
+import com.libre.framework.log.pojo.SysLogCriteria;
 
 /**
  * @author: Libre

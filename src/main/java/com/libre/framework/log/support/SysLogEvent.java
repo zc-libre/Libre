@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.libre.framework.logging.support;
+package com.libre.framework.log.support;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -2,7 +2,7 @@ package com.libre.framework.system.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
-import com.libre.framework.logging.annotation.ApiLog;
+import com.libre.framework.log.annotation.ApiLog;
 import com.libre.framework.system.pojo.dto.RoleCriteria;
 import com.libre.framework.system.pojo.dto.RoleMenuDTO;
 import com.libre.framework.system.pojo.entity.SysMenu;

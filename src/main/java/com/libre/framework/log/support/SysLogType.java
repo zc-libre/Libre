@@ -1,4 +1,4 @@
-package com.libre.framework.logging.support;
+package com.libre.framework.log.support;
 
 /**
  * 系统日志类型

@@ -1,4 +1,4 @@
-package com.libre.framework.logging.support;
+package com.libre.framework.log.support;
 
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.MethodParameter;

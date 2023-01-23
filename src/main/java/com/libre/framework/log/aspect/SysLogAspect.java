@@ -1,9 +1,9 @@
-package com.libre.framework.logging.aspect;
+package com.libre.framework.log.aspect;
 
 import com.libre.framework.common.security.dto.AuthUser;
 import com.libre.framework.common.security.support.SecurityUtil;
-import com.libre.framework.logging.annotation.ApiLog;
-import com.libre.framework.logging.support.*;
+import com.libre.framework.log.annotation.ApiLog;
+import com.libre.framework.log.support.*;
 import com.libre.toolkit.json.JsonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.libre.framework.logging.pojo;
+package com.libre.framework.log.pojo;
 
 import com.libre.framework.common.base.BaseCriteria;
 import lombok.Data;

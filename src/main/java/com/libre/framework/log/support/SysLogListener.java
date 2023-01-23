@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.libre.framework.logging.support;
+package com.libre.framework.log.support;
 
 import com.libre.boot.exception.LibreErrorEvent;
-import com.libre.framework.logging.pojo.SysLog;
-import com.libre.framework.logging.service.SysLogService;
+import com.libre.framework.log.pojo.SysLog;
+import com.libre.framework.log.service.SysLogService;
 import com.libre.ip2region.core.Ip2regionSearcher;
 import com.libre.toolkit.core.StringUtil;
 import eu.bitwalker.useragentutils.Browser;
