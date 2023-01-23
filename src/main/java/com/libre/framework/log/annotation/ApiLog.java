@@ -1,6 +1,6 @@
-package com.libre.framework.logging.annotation;
+package com.libre.framework.log.annotation;
 
-import com.libre.framework.logging.support.SysLogType;
+import com.libre.framework.log.support.SysLogType;
 
 import java.lang.annotation.*;
 
