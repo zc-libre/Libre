@@ -52,6 +52,7 @@ libre:
       - /v3/api-docs/swagger-config
       - /doc.html
       - /swagger-ui/**
+      - /api/openapi/**
 
 logging:
   file:
@@ -114,8 +115,6 @@ libre:
   captcha:
     enabled: true
   swagger:
-    enabled: false
-  oss:
     enabled: false
 ---
 spring:
