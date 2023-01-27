@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ChatGPTProperties.class)
-public class ChatGPTConfiguration {
+public class OpenApiConfiguration {
 
 
 }

@@ -20,6 +20,13 @@ spring:
       mail.smtp.starttls.required: true
       mail.smtp.ssl.enable: true
       mail.display.sendmail: Libre
+  flyway:
+    enabled: true
+    locations:
+      - classpath:db/postgres
+    baseline-on-migrate: true
+    clean-disabled: true
+    baseline-version: 0
 
 mybatis-plus:
   configuration:
@@ -53,6 +60,7 @@ libre:
       - /doc.html
       - /swagger-ui/**
       - /api/openapi/**
+      - /api/sys/**
 
 logging:
   file:
@@ -65,8 +73,8 @@ spring:
       on-profile: dev
   datasource:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-    url: jdbc:p6spy:postgresql://127.0.0.1:5432/libre_blog
-    username: postgres
+    url: jdbc:p6spy:postgresql://127.0.0.1:5432/libre
+    username: libre
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -116,6 +124,14 @@ libre:
     enabled: true
   swagger:
     enabled: false
+  oss:
+    endpoint: http://101.42.252.139:9090
+    bucket-name: libre
+    access-key: libre
+    secret-key: 894659968
+  file:
+    upload-path: /Users/libre/video/
+
 ---
 spring:
   config:

@@ -1,4 +1,4 @@
-package com.libre.framework.tookit.moudle.email.pojo;
+package com.libre.framework.tookit.moudle.file.pojo;
 
 import com.libre.framework.common.base.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
@@ -29,10 +29,10 @@ public class SysFile extends BaseEntity {
 	@ApiModelProperty(value = "路径")
 	private String path;
 
-	@ApiModelProperty(value = "类型")
-	private String type;
+	@ApiModelProperty(value = "存储类型")
+	private Integer saveType;
 
 	@ApiModelProperty(value = "大小")
-	private String size;
+	private Long size;
 
 }

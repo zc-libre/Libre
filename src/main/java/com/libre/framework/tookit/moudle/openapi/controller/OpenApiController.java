@@ -25,7 +25,6 @@ public class OpenApiController {
     @PostMapping("/chat")
     public R<String> request(String question) throws ExecutionException, InterruptedException {
         String response = chatGPTService.request(question);
-        log.info(response);
         return R.data(response);
     }
 

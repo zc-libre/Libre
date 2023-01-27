@@ -1,4 +1,4 @@
-package com.libre.framework.security.auth;
+package com.libre.framework.common.config;
 
 import com.libre.framework.common.security.dto.AuthUser;
 import com.libre.framework.common.security.support.SecurityUtil;
