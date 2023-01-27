@@ -60,7 +60,7 @@ libre:
       - /doc.html
       - /swagger-ui/**
       - /api/openapi/**
-      - /api/sys/**
+      - /file/**
 
 logging:
   file:

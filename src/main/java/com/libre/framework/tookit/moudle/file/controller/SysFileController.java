@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * @author: Libre
  * @Date: 2023/1/18 12:08 AM
@@ -28,7 +30,7 @@ public class SysFileController {
 		return R.status(true);
 	}
 
-	@GetMapping("page")
+	@GetMapping
 	public R<PageDTO<SysFile>> page(PageDTO<SysFile> page, SysFileCriteria criteria) {
 		PageDTO<SysFile> pageDTO = fileService.findByPage(page, criteria);
 		return R.data(pageDTO);
@@ -43,8 +45,11 @@ public class SysFileController {
 
 
 	@DeleteMapping
-	public R<Boolean> delete(Long id) {
-		fileService.deleteFile(id);
+	public R<Boolean> delete(@RequestBody List<Long> ids) {
+		for (Long id : ids) {
+			fileService.deleteFile(id);
+		}
+
 		return R.status(true);
 	}
 
