@@ -47,8 +47,9 @@ public class SysJobController {
 	 */
 	@Operation(summary = "保存定时任务")
 	@PostMapping
-	public void addJob(@Validated @RequestBody SysJob form) {
+	public R addJob(@Validated @RequestBody SysJob form) {
 		jobService.addJob(form);
+		return R.status(true);
 	}
 
 	/**
@@ -56,15 +57,17 @@ public class SysJobController {
 	 */
 	@Operation(summary = "暂停定时任务")
 	@PutMapping("/pause")
-	public void pauseJob(@Validated(UpdateGroup.class) @RequestBody SysJob form) {
+	public R pauseJob(@Validated(UpdateGroup.class) @RequestBody SysJob form) {
 		jobService.pauseJob(form);
+		return R.status(true);
 	}
 
 	@Operation(summary = "恢复定时任务")
 	@PutMapping("/update/{id}")
-	public void update(@PathVariable Long id) {
+	public R update(@PathVariable Long id) {
 		SysJob sysJob = jobService.getById(id);
 		jobService.updateJobStatus(sysJob);
+		return R.status(true);
 	}
 
 	/**
@@ -72,8 +75,9 @@ public class SysJobController {
 	 */
 	@Operation(summary = "恢复定时任务")
 	@PutMapping("/resume")
-	public void resumeJob(@Validated(UpdateGroup.class) @RequestBody SysJob form) {
+	public R resumeJob(@Validated(UpdateGroup.class) @RequestBody SysJob form) {
 		jobService.resumeJob(form);
+		return R.status(true);
 	}
 
 	/**
@@ -81,8 +85,9 @@ public class SysJobController {
 	 */
 	@Operation(summary = "修改定时任务")
 	@PutMapping("/cron")
-	public void cronJob(@Validated @RequestBody SysJob form) {
+	public R cronJob(@Validated @RequestBody SysJob form) {
 		jobService.cronJob(form);
+		return R.status(true);
 	}
 
 	/**
@@ -90,8 +95,9 @@ public class SysJobController {
 	 */
 	@Operation(summary = "删除定时任务")
 	@DeleteMapping("{id}")
-	public void deleteJob(@PathVariable Long id) {
+	public R deleteJob(@PathVariable Long id) {
 		jobService.deleteJob(id);
+		return R.status(true);
 	}
 
 }

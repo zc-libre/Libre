@@ -19,6 +19,7 @@ import com.libre.framework.system.pojo.entity.SysRole;
 import com.libre.framework.system.pojo.entity.SysUser;
 import com.libre.framework.system.pojo.entity.SysUserRole;
 import com.libre.framework.system.pojo.vo.UserVO;
+import com.libre.framework.system.service.SysMenuService;
 import com.libre.framework.system.service.SysRoleService;
 import com.libre.framework.system.service.SysUserRoleService;
 import com.libre.framework.system.service.SysUserService;
@@ -110,6 +111,20 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Cacheable(key = "#username")
 	public SysUser getByUsername(String username) {
 		return this.getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, username));
+	}
+
+	@Override
+	public UserInfo findUserByPhone(String phone) {
+		SysUser sysUser = this.getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getPhone, phone));
+		if (Objects.isNull(sysUser)) {
+			throw new LibreException("user not exist, phone: " + phone);
+		}
+		List<SysRole> roleList = roleService.getListByUserId(sysUser.getId());
+
+		UserInfo userInfo = new UserInfo();
+		userInfo.setRoleList(roleList);
+		userInfo.setSysUser(sysUser);
+		return userInfo;
 	}
 
 	@Override

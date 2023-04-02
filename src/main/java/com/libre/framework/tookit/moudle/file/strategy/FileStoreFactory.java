@@ -17,20 +17,21 @@ import java.util.Map;
 @UtilityClass
 public class FileStoreFactory {
 
-    @SuppressWarnings("unchecked")
-    public static <T extends FileStoreStrategy> T getFileStoreStrategy(Integer type) {
-        if (FileSaveType.OSS.getType().equals(type)) {
-            return (T) SpringContext.getBean(OssStoreStrategy.class);
-        }
-        else {
-            return (T) SpringContext.getBean(LocalFileStoreStrategy.class);
-        }
-    }
+	@SuppressWarnings("unchecked")
+	public static <T extends FileStoreStrategy> T getFileStoreStrategy(Integer type) {
+		if (FileSaveType.OSS.getType().equals(type)) {
+			return (T) SpringContext.getBean(OssStoreStrategy.class);
+		}
+		else {
+			return (T) SpringContext.getBean(LocalFileStoreStrategy.class);
+		}
+	}
 
-    public static List<FileStoreStrategy> getAllStrategy() {
-        ApplicationContext applicationContext = SpringContext.getContext();
-        Assert.notNull(applicationContext, "applicationContext must not be null");
-        Map<String, FileStoreStrategy> map = applicationContext.getBeansOfType(FileStoreStrategy.class);
-        return Lists.newArrayList(map.values());
-    }
- }
+	public static List<FileStoreStrategy> getAllStrategy() {
+		ApplicationContext applicationContext = SpringContext.getContext();
+		Assert.notNull(applicationContext, "applicationContext must not be null");
+		Map<String, FileStoreStrategy> map = applicationContext.getBeansOfType(FileStoreStrategy.class);
+		return Lists.newArrayList(map.values());
+	}
+
+}

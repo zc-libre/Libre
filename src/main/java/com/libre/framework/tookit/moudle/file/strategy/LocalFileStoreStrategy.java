@@ -51,7 +51,7 @@ public class LocalFileStoreStrategy extends AbstractFileStoreStrategy {
 			String name = file.getName();
 			int index = name.indexOf(StringPool.DASH);
 			if (index > 0) {
-				sysFile.setName(name.substring(index+ 1));
+				sysFile.setName(name.substring(index + 1));
 			}
 			else {
 				sysFile.setName(name);

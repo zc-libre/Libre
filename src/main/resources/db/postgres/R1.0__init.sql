@@ -216,6 +216,26 @@ create table sys_file
     is_deleted        integer default 0
 );
 
+CREATE TABLE sys_client_details
+(
+    client_id               varchar(32),
+    resource_ids            varchar(256),
+    client_secret           varchar(256),
+    scope                   varchar(256),
+    authorized_grant_types  varchar(256),
+    web_server_redirect_uri varchar(256),
+    authorities             varchar(256),
+    access_token_validity   int4,
+    refresh_token_validity  int4,
+    additional_information  varchar(4096),
+    autoapprove             varchar(256),
+    create_time             timestamp DEFAULT NULL,
+    update_time             timestamp DEFAULT NULL,
+    create_by               varchar(64),
+    update_by               varchar(64),
+    PRIMARY KEY (client_id)
+);
+
 insert into sys_user (id, username, password, nick_name, avatar, phone, email, gender, enabled, locked, is_admin, gmt_create, gmt_modified, gmt_create_name, gmt_modified_name, is_deleted)
 values  (1, 'admin', '$2a$10$nSTyJiH6jRyRUWgL7O.9cuDWZGYSwLskoXfKHNistSsrM3r8YsW4C', 'libre', null, '15191910116', 'zc150622@gmail.com', 0, 1, 0, 1, '2022-09-04 16:57:54.000000', '2023-01-02 01:02:23.838880', 'admin', 'System', 0),
         (1611456101490913282, 'test', '$2a$10$TU.AL75s.jfd7U4GT84px.t7p6oVqxqAoWvL9I7VQnLGGuMAqkjCu', 'test', null, '15191910116', 'test@gmail.com', 1, 1, 0, 0, '2023-01-07 04:14:08.660456', '2023-01-24 03:26:49.311136', 'admin', 'admin', 0);

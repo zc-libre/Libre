@@ -1,12 +1,16 @@
 package com.libre.framework.security.controller;
 
 import com.libre.framework.common.security.constant.SecurityConstant;
-import com.libre.framework.common.security.dto.AuthUser;
 import com.libre.framework.common.security.dto.JwtUser;
 import com.libre.framework.common.security.dto.RoleInfo;
+import com.libre.framework.common.security.support.SecurityUtil;
+import com.libre.framework.security.pojo.dto.AuthUser;
 import com.libre.framework.system.pojo.entity.SysMenu;
+import com.libre.framework.system.pojo.entity.SysRole;
+import com.libre.framework.system.pojo.entity.SysUser;
 import com.libre.framework.system.pojo.vo.MenuVO;
 import com.libre.framework.system.service.SysMenuService;
+import com.libre.framework.system.service.SysUserService;
 import com.libre.framework.system.toolkit.MenuUtil;
 import com.libre.toolkit.result.R;
 import io.swagger.annotations.Api;
@@ -35,25 +39,40 @@ public class AuthorizationController {
 
 	private final SysMenuService menuService;
 
+	private final SysUserService sysUserService;
+
 	@ApiOperation("获取用户信息")
 	@GetMapping("/info")
 	public R<JwtUser> getUserInfo(AuthUser authUser) {
-		JwtUser jwtUser = authUser.toJwtUser();
+		JwtUser jwtUser = new JwtUser();
+		jwtUser.setId(authUser.getId());
+		SysUser sysUser = sysUserService.findUserById(authUser.getId());
+		jwtUser.setIsAdmin(authUser.getIsAdmin());
+		List<SysRole> roleList = authUser.getRoleList();
+		List<String> roles = roleList.stream().map(SysRole::getPermission).collect(Collectors.toList());
+		jwtUser.setRoleList(roles);
+		jwtUser.setUsername(authUser.getUsername());
+		jwtUser.setAvatar(sysUser.getAvatar());
+		jwtUser.setGender(sysUser.getGender());
+		jwtUser.setPhone(sysUser.getPhone());
+		jwtUser.setEmail(sysUser.getEmail());
+		jwtUser.setNickName(sysUser.getNickName());
 		return R.data(jwtUser);
 	}
 
 	@GetMapping("/menus")
-	public R<List<MenuVO>> getMenus(AuthUser user) { // 1. 超级管理员
+	public R<List<MenuVO>> getMenus() { // 1. 超级管理员
+		AuthUser user = SecurityUtil.getUser();
 		if (SecurityConstant.IS_ADMIN_YES.equals(user.getIsAdmin())) {
 			List<SysMenu> menuList = menuService.getAllMenu();
 			return R.data(MenuUtil.transformList(menuList));
 		}
 		// 2. 其他用户
-		List<RoleInfo> roleList = user.getRoleList();
+		List<SysRole> roleList = user.getRoleList();
 		if (roleList == null || roleList.isEmpty()) {
 			return R.data(Collections.emptyList());
 		}
-		Set<Long> roleIds = roleList.stream().map(RoleInfo::getId).collect(Collectors.toSet());
+		Set<Long> roleIds = roleList.stream().map(SysRole::getId).collect(Collectors.toSet());
 		List<SysMenu> menuList = menuService.getNavByRoleIds(roleIds);
 		return R.data(MenuUtil.transformList(menuList));
 	}

@@ -1,12 +1,12 @@
 package com.libre.framework.log.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
-import com.libre.framework.common.security.dto.AuthUser;
 import com.libre.framework.common.security.support.SecurityUtil;
 import com.libre.framework.log.pojo.SysLog;
 import com.libre.framework.log.pojo.SysLogCriteria;
 import com.libre.framework.log.service.SysLogService;
 import com.libre.framework.log.support.SysLogConstant;
+import com.libre.framework.security.pojo.dto.AuthUser;
 import com.libre.toolkit.result.R;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,7 @@ public class SysLogController {
 	@PostMapping("user")
 	public R<PageDTO<SysLog>> queryUserLog(PageDTO<SysLog> page, SysLogCriteria criteria) {
 		AuthUser user = SecurityUtil.getUser();
-		Optional.ofNullable(user).ifPresent(authUser -> criteria.setUserId(user.getUserId()));
+		Optional.ofNullable(user).ifPresent(authUser -> criteria.setUserId(user.getId()));
 		PageDTO<SysLog> result = sysLogService.findPage(page, criteria);
 		return R.data(result);
 	}

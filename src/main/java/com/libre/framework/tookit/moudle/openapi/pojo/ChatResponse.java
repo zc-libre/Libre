@@ -7,34 +7,45 @@ import java.util.List;
 
 @Data
 public class ChatResponse {
-    private int created;
-    private Usage usage;
-    private String model;
-    private String id;
-    private List<ChoicesItem> choices;
-    private String object;
 
+	private int created;
 
-    @Data
-    public static class ChoicesItem {
+	private Usage usage;
 
-        @JsonProperty("finish_reason")
-        private String finishReason;
-        private int index;
-        private String text;
-        private Object logprobs;
-    }
+	private String model;
 
-    @Data
-    public static class Usage {
+	private String id;
 
-        @JsonProperty("completion_tokens")
-        private Integer completionTokens;
+	private List<ChoicesItem> choices;
 
-        @JsonProperty("prompt_tokens")
-        private Integer promptTokens;
+	private String object;
 
-        @JsonProperty("total_tokens")
-        private Integer totalTokens;
-    }
+	@Data
+	public static class ChoicesItem {
+
+		@JsonProperty("finish_reason")
+		private String finishReason;
+
+		private int index;
+
+		private String text;
+
+		private Object logprobs;
+
+	}
+
+	@Data
+	public static class Usage {
+
+		@JsonProperty("completion_tokens")
+		private Integer completionTokens;
+
+		@JsonProperty("prompt_tokens")
+		private Integer promptTokens;
+
+		@JsonProperty("total_tokens")
+		private Integer totalTokens;
+
+	}
+
 }

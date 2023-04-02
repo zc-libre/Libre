@@ -33,71 +33,70 @@ import java.util.Optional;
 @Service
 public class FileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> implements FileService {
 
-    @Override
-    public PageDTO<SysFile> findByPage(PageDTO<SysFile> page, SysFileCriteria criteria) {
-        return this.page(page, getQueryWrapper(criteria));
-    }
+	@Override
+	public PageDTO<SysFile> findByPage(PageDTO<SysFile> page, SysFileCriteria criteria) {
+		return this.page(page, getQueryWrapper(criteria));
+	}
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void createFile(MultipartFile file, Integer saveType) {
-        SysFile sysFile = new SysFile();
-        String originalFilename = file.getOriginalFilename();
-        String fileName = Clock.systemDefaultZone().millis() + StringPool.DASH + originalFilename;
-        sysFile.setRealName(fileName);
-        sysFile.setName(originalFilename);
-        if (StringUtil.isNotBlank(originalFilename)) {
-            String fileExtension = Files.getFileExtension(originalFilename);
-            sysFile.setSuffix(fileExtension);
-        }
-        sysFile.setSize(file.getSize());
-        sysFile.setSaveType(saveType);
-        FileStoreStrategy fileStoreStrategy = FileStoreFactory.getFileStoreStrategy(saveType);
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void createFile(MultipartFile file, Integer saveType) {
+		SysFile sysFile = new SysFile();
+		String originalFilename = file.getOriginalFilename();
+		String fileName = Clock.systemDefaultZone().millis() + StringPool.DASH + originalFilename;
+		sysFile.setRealName(fileName);
+		sysFile.setName(originalFilename);
+		if (StringUtil.isNotBlank(originalFilename)) {
+			String fileExtension = Files.getFileExtension(originalFilename);
+			sysFile.setSuffix(fileExtension);
+		}
+		sysFile.setSize(file.getSize());
+		sysFile.setSaveType(saveType);
+		FileStoreStrategy fileStoreStrategy = FileStoreFactory.getFileStoreStrategy(saveType);
 
-        try {
-            fileStoreStrategy.createFile(file, sysFile);
-            this.save(sysFile);
-        }
-        catch (Exception e) {
-            fileStoreStrategy.delete(sysFile);
-            log.info("文件上传失败", e);
-            throw new LibreException("文件上传失败");
-        }
-    }
+		try {
+			fileStoreStrategy.createFile(file, sysFile);
+			this.save(sysFile);
+		}
+		catch (Exception e) {
+			fileStoreStrategy.delete(sysFile);
+			log.info("文件上传失败", e);
+			throw new LibreException("文件上传失败");
+		}
+	}
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void deleteFile(Long fileId) {
-        SysFile sysFile = Optional.ofNullable(this.getById(fileId)).orElseThrow(() -> new LibreException("文件不存在"));
-        FileStoreStrategy fileStoreStrategy = FileStoreFactory.getFileStoreStrategy(sysFile.getSaveType());
-        fileStoreStrategy.delete(sysFile);
-        baseMapper.realDeleteById(fileId);
-    }
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void deleteFile(Long fileId) {
+		SysFile sysFile = Optional.ofNullable(this.getById(fileId)).orElseThrow(() -> new LibreException("文件不存在"));
+		FileStoreStrategy fileStoreStrategy = FileStoreFactory.getFileStoreStrategy(sysFile.getSaveType());
+		fileStoreStrategy.delete(sysFile);
+		baseMapper.realDeleteById(fileId);
+	}
 
-    @Override
-    public String getFilePath(Long id) {
-        SysFile sysFile = Optional.ofNullable(this.getById(id)).orElseThrow(() -> new LibreException("文件不存在"));
-        FileStoreStrategy fileStoreStrategy = FileStoreFactory.getFileStoreStrategy(sysFile.getSaveType());
-        return fileStoreStrategy.getFileUrl(sysFile);
-    }
+	@Override
+	public String getFilePath(Long id) {
+		SysFile sysFile = Optional.ofNullable(this.getById(id)).orElseThrow(() -> new LibreException("文件不存在"));
+		FileStoreStrategy fileStoreStrategy = FileStoreFactory.getFileStoreStrategy(sysFile.getSaveType());
+		return fileStoreStrategy.getFileUrl(sysFile);
+	}
 
-    @Async
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void sync(Integer saveType) {
-        baseMapper.deleteBySaveType(saveType);
-        FileStoreStrategy fileStoreStrategy = FileStoreFactory.getFileStoreStrategy(saveType);
-        List<SysFile> allFiles = Lists.newArrayList();
-        List<SysFile> fileList = fileStoreStrategy.getAllFiles();
-        allFiles.addAll(fileList);
-        this.saveBatch(allFiles);
-    }
+	@Async
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void sync(Integer saveType) {
+		baseMapper.deleteBySaveType(saveType);
+		FileStoreStrategy fileStoreStrategy = FileStoreFactory.getFileStoreStrategy(saveType);
+		List<SysFile> allFiles = Lists.newArrayList();
+		List<SysFile> fileList = fileStoreStrategy.getAllFiles();
+		allFiles.addAll(fileList);
+		this.saveBatch(allFiles);
+	}
 
-
-    private LambdaQueryWrapper<SysFile> getQueryWrapper(SysFileCriteria criteria) {
-        return Wrappers.<SysFile>lambdaQuery().nested(criteria.isBlurryQuery(),
-                q -> q.like(SysFile::getName, criteria.getBlurry())).eq(SysFile::getSaveType, criteria.getSaveType());
-    }
-
+	private LambdaQueryWrapper<SysFile> getQueryWrapper(SysFileCriteria criteria) {
+		return Wrappers.<SysFile>lambdaQuery()
+				.nested(criteria.isBlurryQuery(), q -> q.like(SysFile::getName, criteria.getBlurry()))
+				.eq(SysFile::getSaveType, criteria.getSaveType());
+	}
 
 }

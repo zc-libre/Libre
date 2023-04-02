@@ -13,14 +13,14 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface FileService extends IService<SysFile> {
 
-    PageDTO<SysFile> findByPage(PageDTO<SysFile> page, SysFileCriteria criteria);
+	PageDTO<SysFile> findByPage(PageDTO<SysFile> page, SysFileCriteria criteria);
 
-    void createFile(MultipartFile file, Integer saveType);
+	void createFile(MultipartFile file, Integer saveType);
 
+	String getFilePath(Long id);
 
-    String getFilePath(Long id);
+	void deleteFile(Long fileId);
 
-    void deleteFile(Long fileId);
+	void sync(Integer saveType);
 
-    void sync(Integer saveType);
 }

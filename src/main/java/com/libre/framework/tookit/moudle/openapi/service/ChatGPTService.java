@@ -1,7 +1,5 @@
 package com.libre.framework.tookit.moudle.openapi.service;
 
-
-
 import com.libre.framework.tookit.moudle.openapi.pojo.ChatRequest;
 
 /**
@@ -10,9 +8,8 @@ import com.libre.framework.tookit.moudle.openapi.pojo.ChatRequest;
  */
 public interface ChatGPTService {
 
+	String request(String prompt);
 
-    String request(String prompt);
+	String request(ChatRequest request);
 
-
-    String request(ChatRequest request);
 }

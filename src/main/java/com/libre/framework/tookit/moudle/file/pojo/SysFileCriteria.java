@@ -14,5 +14,6 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class SysFileCriteria extends BaseCriteria {
 
-    private Integer saveType;
+	private Integer saveType;
+
 }

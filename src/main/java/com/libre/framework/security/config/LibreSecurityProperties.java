@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotBlank;
@@ -18,6 +19,7 @@ import java.util.List;
  * @date 2021/7/12 10:42
  */
 @Data
+@Component
 @Validated
 @ConfigurationProperties("libre.security")
 public class LibreSecurityProperties {

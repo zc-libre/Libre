@@ -47,7 +47,6 @@ public class OssStoreStrategy extends AbstractFileStoreStrategy {
 		}
 	}
 
-
 	@Override
 	public String getFileUrl(SysFile sysFile) {
 		return ossTemplate.getObjectURL(ossProperties.getBucketName(), sysFile.getRealName(), Duration.ofHours(2));
@@ -75,6 +74,5 @@ public class OssStoreStrategy extends AbstractFileStoreStrategy {
 		}
 		return sysFileList;
 	}
-
 
 }

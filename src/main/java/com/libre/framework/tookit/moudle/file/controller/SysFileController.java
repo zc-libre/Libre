@@ -36,13 +36,11 @@ public class SysFileController {
 		return R.data(pageDTO);
 	}
 
-
 	@GetMapping("/path/{id}")
 	public R<String> getFilePath(@PathVariable Long id) {
 		String filePath = fileService.getFilePath(id);
 		return R.data(filePath);
 	}
-
 
 	@DeleteMapping
 	public R<Boolean> delete(@RequestBody List<Long> ids) {

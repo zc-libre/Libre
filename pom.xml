@@ -6,9 +6,7 @@
 
     <groupId>com.libre</groupId>
     <artifactId>libre</artifactId>
-    <version>1.0-SNAPSHOT</version>
-
-
+    <version>1.0.0</version>
 
     <properties>
         <java.version>11</java.version>
@@ -16,17 +14,17 @@
         <maven.compiler.target>11</maven.compiler.target>
 
         <libre.version>1.0.0</libre.version>
-        <springboot.version>2.7.6</springboot.version>
-        <libre.dependencies.version>2.7.6</libre.dependencies.version>
+        <springboot.version>2.7.8</springboot.version>
+        <libre.dependencies.version>2.7.8</libre.dependencies.version>
 
-        <jjwt.version>0.11.2</jjwt.version>
         <bitwalker.version>1.21</bitwalker.version>
         <oshi.version>6.2.2</oshi.version>
         <lombok.version>1.18.22</lombok.version>
         <mapstruct.version>1.5.0.RC1</mapstruct.version>
-        <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+        <lombok.mapstruct.binding.version>0.2.0</lombok.mapstruct.binding.version>
         <druid.version>1.2.15</druid.version>
         <p6spy.version>3.9.1</p6spy.version>
+        <mica.version>3.0.5</mica.version>
     </properties>
 
     <dependencyManagement>
@@ -44,22 +42,6 @@
                 <version>${springboot.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
-            </dependency>
-            <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt-impl</artifactId>
-                <version>${jjwt.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt-jackson</artifactId>
-                <version>${jjwt.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.fasterxml.jackson.core</groupId>
-                        <artifactId>jackson-databind</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -88,6 +70,22 @@
 
         <dependency>
             <groupId>com.zclibre</groupId>
+            <artifactId>libre-security-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>net.dreamlu</groupId>
+            <artifactId>mica-http</artifactId>
+            <version>2.7.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zclibre</groupId>
             <artifactId>libre-ip2region-boot-starter</artifactId>
         </dependency>
 
@@ -99,12 +97,6 @@
         <dependency>
             <groupId>com.zclibre</groupId>
             <artifactId>libre-oss-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>net.dreamlu</groupId>
-            <artifactId>mica-http</artifactId>
-            <version>2.7.6</version>
         </dependency>
 
         <dependency>
@@ -128,10 +120,6 @@
             <artifactId>flyway-core</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -164,22 +152,19 @@
             <version>1.8.0</version>
         </dependency>
 
-        <!-- jwt Token 生成与解析-->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-impl</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-jackson</artifactId>
-        </dependency>
-
         <!-- 解析客户端操作系统、浏览器等 -->
         <dependency>
             <groupId>eu.bitwalker</groupId>
             <artifactId>UserAgentUtils</artifactId>
             <version>${bitwalker.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.4.7</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -205,7 +190,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok-mapstruct-binding</artifactId>
-            <version>0.2.0</version>
+            <version>${lombok.mapstruct.binding.version}</version>
         </dependency>
 
         <dependency>
@@ -229,7 +214,7 @@
                             <path>
                                 <groupId>org.mapstruct</groupId>
                                 <artifactId>mapstruct-processor</artifactId>
-                                <version>1.5.0.RC1</version>
+                                <version>${mapstruct.version}</version>
                             </path>
                             <path>
                                 <groupId>org.projectlombok</groupId>
@@ -239,7 +224,7 @@
                             <path>
                                 <groupId>org.projectlombok</groupId>
                                 <artifactId>lombok-mapstruct-binding</artifactId>
-                                <version>${lombok-mapstruct-binding.version}</version>
+                                <version>${lombok.mapstruct.binding.version}</version>
                             </path>
                             <path>
                                 <groupId>org.springframework.boot</groupId>

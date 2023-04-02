@@ -20,12 +20,12 @@ import java.util.concurrent.ExecutionException;
 @RequestMapping("/api/openapi")
 public class OpenApiController {
 
-    private final ChatGPTService chatGPTService;
+	private final ChatGPTService chatGPTService;
 
-    @PostMapping("/chat")
-    public R<String> request(String question) throws ExecutionException, InterruptedException {
-        String response = chatGPTService.request(question);
-        return R.data(response);
-    }
+	@PostMapping("/chat")
+	public R<String> request(String question) throws ExecutionException, InterruptedException {
+		String response = chatGPTService.request(question);
+		return R.data(response);
+	}
 
 }

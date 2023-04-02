@@ -11,11 +11,12 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum FileSaveType {
 
-    LOCAL(1),
+	LOCAL(1),
 
-    OSS(2),
+	OSS(2),
 
-    ;
+	;
 
-    private final Integer type;
+	private final Integer type;
+
 }

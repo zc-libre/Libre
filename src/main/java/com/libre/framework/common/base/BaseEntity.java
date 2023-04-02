@@ -14,6 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -21,7 +22,9 @@ import java.time.LocalDateTime;
  * @date 2021/5/9 11:52
  */
 @Data
-public abstract class BaseEntity {
+public abstract class BaseEntity implements Serializable {
+
+	private static final long serialVersionUID = 42L;
 
 	/**
 	 * 主键id

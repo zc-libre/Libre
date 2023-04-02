@@ -8,10 +8,9 @@ import com.libre.framework.tookit.moudle.file.pojo.SysFile;
  */
 public abstract class AbstractFileStoreStrategy implements FileStoreStrategy {
 
-
-    @Override
-    public String getFileUrl(SysFile sysFile) {
-        return sysFile.getPath();
-    }
+	@Override
+	public String getFileUrl(SysFile sysFile) {
+		return sysFile.getPath();
+	}
 
 }

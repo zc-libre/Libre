@@ -11,5 +11,4 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(ChatGPTProperties.class)
 public class OpenApiConfiguration {
 
-
 }

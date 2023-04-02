@@ -1,6 +1,6 @@
 package com.libre.framework.common.security.support;
 
-import com.libre.framework.common.security.dto.AuthUser;
+import com.libre.framework.security.pojo.dto.AuthUser;
 import com.libre.toolkit.core.StringUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

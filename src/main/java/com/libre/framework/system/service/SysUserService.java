@@ -38,6 +38,8 @@ public interface SysUserService extends IService<SysUser> {
 	 */
 	SysUser getByUsername(String username);
 
+	UserInfo findUserByPhone(String phone);
+
 	/**
 	 * 按照用户账号更新
 	 * @param sysUser 用户

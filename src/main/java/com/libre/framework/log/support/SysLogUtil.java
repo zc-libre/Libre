@@ -1,8 +1,8 @@
 package com.libre.framework.log.support;
 
 import com.libre.boot.toolkit.RequestUtils;
-import com.libre.framework.common.security.dto.AuthUser;
 import com.libre.framework.common.security.support.SecurityUtil;
+import com.libre.framework.security.pojo.dto.AuthUser;
 import com.libre.toolkit.core.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.CollectionUtils;
@@ -55,7 +55,7 @@ public class SysLogUtil {
 		// 用户信息
 		AuthUser authUser = SecurityUtil.getUser();
 		if (Objects.nonNull(authUser)) {
-			event.setUserId(authUser.getUserId());
+			event.setUserId(authUser.getId());
 			event.setUsername(authUser.getUsername());
 		}
 		return event;

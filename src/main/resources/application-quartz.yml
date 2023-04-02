@@ -34,3 +34,7 @@ spring:
             shutdownhook:
               class: org.quartz.plugins.management.ShutdownHookPlugin
               cleanShutdown: true
+
+logging:
+  level:
+    org.quartz: error

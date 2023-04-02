@@ -26,10 +26,9 @@ public class LibreWebMvcConfiguration implements WebMvcConfigurer {
 		argumentResolvers.add(new PageArgumentResolver());
 	}
 
-
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		String pathUrl = "file:" + properties.getUploadPath().replace("\\","/");
+		String pathUrl = "file:" + properties.getUploadPath().replace("\\", "/");
 		registry.addResourceHandler("/file/**").addResourceLocations(pathUrl);
 	}
 

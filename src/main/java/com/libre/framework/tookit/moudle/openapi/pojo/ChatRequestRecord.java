@@ -11,9 +11,10 @@ import java.time.LocalDateTime;
 @Data
 public class ChatRequestRecord {
 
-    private String question;
+	private String question;
 
-    private String response;
+	private String response;
 
-    private LocalDateTime createTime;
+	private LocalDateTime createTime;
+
 }

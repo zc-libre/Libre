@@ -1,6 +1,5 @@
 package com.libre.framework.system.service.mapstruct;
 
-import com.libre.framework.common.security.dto.AuthUser;
 import com.libre.framework.security.pojo.dto.UserInfo;
 import com.libre.framework.system.pojo.dto.UserDTO;
 import com.libre.framework.system.pojo.entity.SysUser;
@@ -19,7 +18,5 @@ public interface SysUserMapping extends BaseMapping<SysUser, UserVO> {
 	SysUserMapping INSTANCE = Mappers.getMapper(SysUserMapping.class);
 
 	SysUser convertToUser(UserDTO userDTO);
-
-	UserInfo convertToUserInfo(AuthUser authUser);
 
 }

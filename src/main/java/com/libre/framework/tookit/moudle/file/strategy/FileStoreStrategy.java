@@ -20,4 +20,5 @@ public interface FileStoreStrategy {
 	String getFileUrl(SysFile sysFile);
 
 	List<SysFile> getAllFiles();
+
 }

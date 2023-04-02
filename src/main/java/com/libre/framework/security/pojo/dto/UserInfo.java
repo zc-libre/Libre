@@ -1,6 +1,7 @@
 package com.libre.framework.security.pojo.dto;
 
 import com.libre.framework.system.pojo.entity.SysRole;
+import com.libre.framework.system.pojo.entity.SysUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserInfo implements Serializable {
+
+	private SysUser sysUser;
 
 	private String username;
 

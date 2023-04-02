@@ -16,12 +16,13 @@ import java.nio.file.Paths;
 @ConfigurationProperties("libre.file")
 public class LibreFileProperties implements InitializingBean {
 
-    private String uploadPath;
+	private String uploadPath;
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        if (StringUtil.isNotBlank(uploadPath) && !Files.exists(Paths.get(uploadPath)))  {
-            Files.createDirectory(Paths.get(uploadPath));
-        }
-    }
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		if (StringUtil.isNotBlank(uploadPath) && !Files.exists(Paths.get(uploadPath))) {
+			Files.createDirectory(Paths.get(uploadPath));
+		}
+	}
+
 }

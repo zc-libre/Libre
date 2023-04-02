@@ -7,6 +7,10 @@ spring:
   profiles:
     active: dev
     include: quartz
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
   mvc:
     path-match:
       matching-strategy: ant_path_matcher
@@ -27,6 +31,9 @@ spring:
     baseline-on-migrate: true
     clean-disabled: true
     baseline-version: 0
+  rsocket:
+    server:
+      port: 18090
 
 mybatis-plus:
   configuration:
@@ -44,27 +51,32 @@ mybatis-plus:
       logic-not-delete-value: 0
     banner: false
 
-libre:
-  security:
-    permit-all:
-      - /druid/**
-      - /favicon.ico
-      - /error
-      - /static/**
-      - /webjars*
-      - /webjars/**
-      - /upload/**
-      - /swagger-resources/**
-      - /v3/api-docs
-      - /v3/api-docs/swagger-config
-      - /doc.html
-      - /swagger-ui/**
-      - /api/openapi/**
-      - /file/**
-
 logging:
   file:
     path: './logs/'
+
+security:
+  oauth2:
+    ignore:
+      urls:
+        - /druid/**
+        - /favicon.ico
+        - /error
+        - /static/**
+        - /webjars*
+        - /webjars/**
+        - /upload/**
+        - /swagger-resources/**
+        - /v3/api-docs
+        - /v3/api-docs/swagger-config
+        - /doc.html
+        - /swagger-ui/**
+        - /api/openapi/**
+        - /file/**
+        - /chat/**
+        - /chat
+        - /api/sys/**
+
 
 ---
 spring:
@@ -72,8 +84,8 @@ spring:
     activate:
       on-profile: dev
   datasource:
-    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-    url: jdbc:p6spy:postgresql://127.0.0.1:5432/libre
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://127.0.0.1:5432/libre
     username: libre
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
@@ -119,7 +131,7 @@ libre:
   xss:
     enabled: false
   redis:
-    serializer-type: json
+    serializer-type: jdk
   captcha:
     enabled: true
   swagger:
@@ -131,6 +143,8 @@ libre:
     secret-key: 894659968
   file:
     upload-path: /Users/libre/video/
+  chat:
+    token: Bearer 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
 
 ---
 spring:
@@ -178,9 +192,6 @@ libre:
     enabled: false
   redis:
     serializer-type: json
-  security:
-    jwt-token:
-      secret: 669da4ca0fde3928856705c8746512daa9957b91b0bbe855790b561d9f08be80
   captcha:
     enabled: true
   swagger:

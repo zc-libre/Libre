@@ -11,11 +11,14 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ChatModel {
 
-    TEXT_DAVINCI_003("text-davinci-003"),
+	GPT_3_TURBO("gpt-3.5-turbo"),
 
+	TEXT_DAVINCI_003("text-davinci-003"),
 
-    ;
-    private final String type;
+	GPT_4("gpt-4"),
 
+	;
+
+	private final String type;
 
 }
