@@ -144,7 +144,7 @@ libre:
   file:
     upload-path: /Users/libre/video/
   chat:
-    token: Bearer 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
+    token: xxxxxxxx
 
 ---
 spring:
