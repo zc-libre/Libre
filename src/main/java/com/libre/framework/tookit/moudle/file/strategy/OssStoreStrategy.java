@@ -54,7 +54,8 @@ public class OssStoreStrategy extends AbstractFileStoreStrategy {
 
 	@Override
 	public List<SysFile> getAllFiles() {
-		List<S3ObjectSummary> allObjects = ossTemplate.getAllObjects(ossProperties.getBucketName());
+	//	List<S3ObjectSummary> allObjects = ossTemplate.getAllObjects(ossProperties.getBucketName());
+		List<S3ObjectSummary> allObjects = Lists.newArrayList();
 		List<SysFile> sysFileList = Lists.newArrayList();
 		for (S3ObjectSummary object : allObjects) {
 			SysFile sysFile = new SysFile();

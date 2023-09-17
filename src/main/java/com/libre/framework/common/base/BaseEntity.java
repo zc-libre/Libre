@@ -12,8 +12,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 

@@ -11,9 +11,6 @@ spring:
     multipart:
       max-file-size: 500MB
       max-request-size: 500MB
-  mvc:
-    path-match:
-      matching-strategy: ant_path_matcher
   mail:
     protocol: smtp
     test-connection: false
@@ -75,7 +72,7 @@ security:
         - /file/**
         - /chat/**
         - /chat
-        - /api/sys/**
+        - /api/**
 
 
 ---
@@ -99,6 +96,7 @@ spring:
       test-on-borrow: false
       test-on-return: false
       test-while-idle: true
+
       time-between-eviction-runs-millis: 60000
       min-evictable-idle-time-millis: 300000
       filter:
@@ -144,7 +142,7 @@ libre:
   file:
     upload-path: /Users/libre/video/
   chat:
-    token: xxxxxxxx
+    token: Bearer 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
 
 ---
 spring:
@@ -183,9 +181,16 @@ spring:
     redis:
       time-to-live: 2h
       key-prefix: "libre:"
-  redis:
-    host: 127.0.0.1
-    password: 12345
+  data:
+    redis:
+      host: 127.0.0.1
+      jedis:
+        pool:
+          enabled: true
+          min-idle: 5
+          max-active: 10
+          max-idle: 10
+          max-wait: 5
 
 libre:
   xss:
@@ -197,4 +202,6 @@ libre:
   swagger:
     enabled: false
 
-
+logging:
+  level:
+    org.springframework: trace

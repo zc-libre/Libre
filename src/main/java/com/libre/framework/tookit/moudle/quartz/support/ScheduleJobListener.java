@@ -5,6 +5,7 @@ import com.libre.framework.tookit.common.SysJobConstant;
 import com.libre.framework.tookit.moudle.quartz.mapper.SysJobLogMapper;
 import com.libre.framework.tookit.moudle.quartz.pojo.SysJob;
 import com.libre.framework.tookit.moudle.quartz.pojo.SysJobLog;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
@@ -12,7 +13,6 @@ import org.quartz.impl.matchers.EverythingMatcher;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -33,6 +33,7 @@ public class ScheduleJobListener implements JobListener {
 	public String getName() {
 		return this.getClass().getSimpleName();
 	}
+
 
 	@Override
 	public void jobToBeExecuted(JobExecutionContext jobExecutionContext) {

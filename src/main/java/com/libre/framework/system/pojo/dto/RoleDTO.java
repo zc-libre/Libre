@@ -3,8 +3,8 @@ package com.libre.framework.system.pojo.dto;
 import com.libre.toolkit.validation.UpdateGroup;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**

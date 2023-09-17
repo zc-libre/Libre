@@ -11,6 +11,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -23,6 +24,7 @@ import java.time.LocalDateTime;
 @TableName("sys_log")
 public class SysLog implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

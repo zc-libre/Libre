@@ -9,14 +9,15 @@ import com.libre.framework.tookit.moudle.email.mapper.EMailConfigMapper;
 import com.libre.framework.tookit.moudle.email.pojo.MailConfig;
 import com.libre.framework.tookit.moudle.email.service.EmailService;
 import com.libre.toolkit.exception.LibreException;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
+
 import java.util.Objects;
 
 /**

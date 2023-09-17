@@ -5,6 +5,7 @@ import com.libre.boot.toolkit.RequestUtils;
 import com.libre.security.constant.SecurityConstants;
 import com.libre.security.service.OAuth2UserDetailsService;
 import com.libre.toolkit.core.StringUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.Ordered;
@@ -24,7 +25,7 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.web.authentication.www.BasicAuthenticationConverter;
 import org.springframework.util.Assert;
 
-import javax.servlet.http.HttpServletRequest;
+
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Objects;

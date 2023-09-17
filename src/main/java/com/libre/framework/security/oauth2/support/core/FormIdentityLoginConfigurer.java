@@ -20,9 +20,13 @@ public final class FormIdentityLoginConfigurer
 			formLogin.loginPage("/");
 			formLogin.loginProcessingUrl("/api/auth/token");
 			formLogin.failureHandler(new FormAuthenticationFailureHandler());
-		}).logout() // SSO登出成功处理
-				.logoutUrl("/api/auth/logout").logoutSuccessHandler(new SsoLogoutSuccessHandler())
-				.deleteCookies("JSESSIONID").invalidateHttpSession(true).and().csrf().disable();
+		}).logout(l -> l.logoutUrl("/api/auth/logout")
+				.logoutSuccessHandler(new SsoLogoutSuccessHandler())
+				.deleteCookies("JSESSIONID")
+				.invalidateHttpSession(true))
+				.csrf(AbstractHttpConfigurer::disable);
+		// SSO登出成功处理
+
 	}
 
 }

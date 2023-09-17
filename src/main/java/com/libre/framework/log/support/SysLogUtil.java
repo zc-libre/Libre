@@ -7,7 +7,7 @@ import com.libre.toolkit.core.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.CollectionUtils;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Objects;
 

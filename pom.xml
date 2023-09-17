@@ -9,13 +9,13 @@
     <version>1.0.0</version>
 
     <properties>
-        <java.version>11</java.version>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
 
         <libre.version>1.0.0</libre.version>
-        <springboot.version>2.7.8</springboot.version>
-        <libre.dependencies.version>2.7.8</libre.dependencies.version>
+        <springboot.version>3.1.1</springboot.version>
+        <libre.dependencies.version>3.1.1</libre.dependencies.version>
 
         <bitwalker.version>1.21</bitwalker.version>
         <oshi.version>6.2.2</oshi.version>
@@ -25,6 +25,7 @@
         <druid.version>1.2.15</druid.version>
         <p6spy.version>3.9.1</p6spy.version>
         <mica.version>3.0.5</mica.version>
+        <netty.version>4.1.90.Final</netty.version>
     </properties>
 
     <dependencyManagement>
@@ -36,10 +37,19 @@
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
+
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${springboot.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-bom</artifactId>
+                <version>${netty.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -81,12 +91,22 @@
         <dependency>
             <groupId>net.dreamlu</groupId>
             <artifactId>mica-http</artifactId>
-            <version>2.7.6</version>
+            <version>${mica.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.20.3</version>
         </dependency>
 
         <dependency>
             <groupId>com.zclibre</groupId>
             <artifactId>libre-ip2region-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
         <dependency>
@@ -133,13 +153,31 @@
 
         <dependency>
             <groupId>com.zclibre</groupId>
-            <artifactId>libre-swagger-boot-starter</artifactId>
+            <artifactId>libre-captcha-boot-starter</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.zclibre</groupId>
-            <artifactId>libre-captcha-boot-starter</artifactId>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>${netty.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.8.11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+        </dependency>
+        
         <!-- protostuff -->
         <dependency>
             <groupId>io.protostuff</groupId>
@@ -160,13 +198,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-            <version>2.4.7</version>
-        </dependency>
-
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -176,6 +207,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

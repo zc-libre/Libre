@@ -28,7 +28,7 @@ public class GlobalExceptionAdvice {
 	@ExceptionHandler(LibreException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public R<Object> handle(LibreException e) {
-		ErrorUtil.publishEvent(e);
+	//	ErrorUtil.publishEvent(e);
 		return R.fail(ResultCode.FAILURE, e.getMessage());
 	}
 

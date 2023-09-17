@@ -2,7 +2,6 @@ package com.libre.framework.system.pojo.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.libre.framework.common.base.BaseEntity;
-import io.swagger.annotations.ApiModel;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,7 +12,7 @@ import lombok.ToString;
  *
  * @author zhao.cheng
  */
-@ApiModel(value = "用户表")
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
