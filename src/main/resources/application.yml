@@ -144,6 +144,11 @@ libre:
   chat:
     token: Bearer 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
 
+
+logging:
+  level:
+    org.springframework.security: trace
+
 ---
 spring:
   config:

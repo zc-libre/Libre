@@ -1,12 +1,12 @@
 package com.libre.framework.security.config;
 
 import com.google.common.collect.Lists;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
-import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
@@ -19,7 +19,6 @@ import java.util.List;
  * @date 2021/7/12 10:42
  */
 @Data
-@Component
 @Validated
 @ConfigurationProperties("libre.security")
 public class LibreSecurityProperties {
@@ -86,7 +85,7 @@ public class LibreSecurityProperties {
 		/**
 		 * 秘钥的签名算法
 		 */
-		private SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.ES256;
+		private SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS512;
 
 		/**
 		 * jwt token 接受者

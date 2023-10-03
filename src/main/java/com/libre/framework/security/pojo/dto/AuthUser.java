@@ -1,33 +1,76 @@
 package com.libre.framework.security.pojo.dto;
 
+import com.libre.framework.common.security.dto.JwtUser;
 import com.libre.framework.common.security.dto.RoleInfo;
-import com.libre.framework.system.pojo.entity.SysRole;
-import com.libre.security.pojo.OAuth2User;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * @author: Libre
- * @Date: 2023/3/18 12:59 AM
+ * security 用户
+ *
+ * @author L.cm
  */
-@EqualsAndHashCode(callSuper = true)
-public class AuthUser extends OAuth2User {
+@Getter
+@Setter
+public class AuthUser extends User {
 
-    @Getter
-    @Setter
-    private List<SysRole> roleList;
+    private Long id;
 
-    @Getter
-    @Setter
+    private Long userId;
+
+    private String nickName;
+
+    private Integer gender;
+
     private Integer isAdmin;
 
-    public AuthUser(Long id, String username, String password, String phone, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
-        super(id, username, password, phone, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+    private String avatar;
+
+    private String email;
+
+    private String phone;
+
+    private List<RoleInfo> roleList;
+
+    public AuthUser(String username, String password, boolean enabled, boolean accountNonLocked,
+                    Collection<? extends GrantedAuthority> authorities) {
+        super(username, password, enabled, true, true, accountNonLocked, authorities);
     }
+
+    public JwtUser toJwtUser() {
+        JwtUser jwtUser = new JwtUser();
+        jwtUser.setId(this.getUserId());
+        jwtUser.setUsername(this.getUsername());
+        jwtUser.setNickName(this.getNickName());
+        jwtUser.setGender(this.getGender());
+        jwtUser.setAvatar(this.getAvatar());
+        jwtUser.setEmail(this.getEmail());
+        jwtUser.setPhone(this.getPhone());
+        jwtUser.setIsAdmin(this.getIsAdmin());
+
+        jwtUser.setRoles(this.getRoleList());
+        jwtUser.setRoleList(this.getRoleList().stream().map(RoleInfo::getPermission).collect(Collectors.toList()));
+        return jwtUser;
+    }
+
+    public static AuthUser formMicaUser(AuthUser user, String newPassword) {
+        AuthUser authUser = new AuthUser(user.getUsername(), newPassword, user.isEnabled(), user.isAccountNonLocked(),
+                user.getAuthorities());
+        authUser.setUserId(user.getUserId());
+        authUser.setNickName(user.getNickName());
+        authUser.setIsAdmin(user.getIsAdmin());
+        authUser.setGender(user.getGender());
+        authUser.setAvatar(user.getAvatar());
+        authUser.setEmail(user.getEmail());
+        authUser.setPhone(user.getPhone());
+        authUser.setRoleList(user.getRoleList());
+        return authUser;
+    }
+
 }

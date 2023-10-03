@@ -50,7 +50,7 @@ public class SysUserController {
 	@PutMapping("/save")
 	public R<Boolean> save(@RequestBody UserDTO user) {
 		String password = passwordEncoder.encode("123456");
-		user.setPassword(password.replace(SecurityConstant.PASSWORD_PREFIX, StringPool.EMPTY));
+		user.setPassword(password.replace(SecurityConstant.BCRYPT, StringPool.EMPTY));
 		boolean res = sysUserService.createUser(user);
 		return R.status(res);
 	}

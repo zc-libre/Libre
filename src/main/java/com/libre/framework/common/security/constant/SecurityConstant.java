@@ -6,7 +6,7 @@ package com.libre.framework.common.security.constant;
  */
 public interface SecurityConstant {
 
-	String PASSWORD_PREFIX = "{bcrypt}";
+	String BCRYPT = "{bcrypt}";
 
 	/**
 	 * 是否管理员
