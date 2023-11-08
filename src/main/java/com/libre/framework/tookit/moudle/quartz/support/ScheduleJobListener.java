@@ -47,21 +47,26 @@ public class ScheduleJobListener implements JobListener {
 
 	@Override
 	public void jobWasExecuted(JobExecutionContext jobExecutionContext, JobExecutionException e) {
-		SysJob sysJob = (SysJob) jobExecutionContext.getMergedJobDataMap().get(SysJob.JOB_KEY);
-		SysJobLog sysJobLog = new SysJobLog();
-		sysJobLog.setJobName(sysJob.getJobName());
-		sysJobLog.setBeanName(sysJobLog.getBeanName());
-		sysJobLog.setMethodName(sysJobLog.getMethodName());
-		sysJobLog.setParams(sysJob.getParams());
-		sysJobLog.setCronExpression(sysJobLog.getCronExpression());
-		sysJobLog.setCreateTime(LocalDateTime.now());
-		sysJobLog.setLastExecuteTime(LocalDateTime.now());
-		sysJobLog.setSuccess(SysJobConstant.JOB_SUCCESS);
-		Optional.ofNullable(e).ifPresent(exception -> {
-			sysJobLog.setExceptionDetail(Throwables.getStackTraceAsString(exception));
-			sysJobLog.setSuccess(SysJobConstant.JOB_FAILED);
-		});
-		sysJobLogMapper.insert(sysJobLog);
+		try {
+			SysJob sysJob = (SysJob) jobExecutionContext.getMergedJobDataMap().get(SysJob.JOB_KEY);
+			SysJobLog sysJobLog = new SysJobLog();
+			sysJobLog.setJobName(sysJob.getJobName());
+			sysJobLog.setBeanName(sysJobLog.getBeanName());
+			sysJobLog.setMethodName(sysJobLog.getMethodName());
+			sysJobLog.setParams(sysJob.getParams());
+			sysJobLog.setCronExpression(sysJobLog.getCronExpression());
+			sysJobLog.setCreateTime(LocalDateTime.now());
+			sysJobLog.setLastExecuteTime(LocalDateTime.now());
+			sysJobLog.setSuccess(SysJobConstant.JOB_SUCCESS);
+			Optional.ofNullable(e).ifPresent(exception -> {
+				sysJobLog.setExceptionDetail(Throwables.getStackTraceAsString(exception));
+				sysJobLog.setSuccess(SysJobConstant.JOB_FAILED);
+			});
+			sysJobLogMapper.insert(sysJobLog);
+		}
+		catch (Exception ex) {
+		   log.error("quartz job log save error: ", Throwables.getRootCause(e));
+		}
 	}
 
 	// 注册 JobListener 到 Quartz 中

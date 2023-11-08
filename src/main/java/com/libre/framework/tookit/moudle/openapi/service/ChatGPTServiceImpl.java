@@ -57,6 +57,7 @@ public class ChatGPTServiceImpl implements ChatGPTService, SmartInitializingSing
 	@Override
 	public void afterSingletonsInstantiated() {
 		headers.put("Authorization", properties.getToken());
+		headers.put("OpenAI-Organization", properties.getOrganization());
 		headers.put("Content-Type", MimeTypeUtils.APPLICATION_JSON_VALUE);
 	}
 

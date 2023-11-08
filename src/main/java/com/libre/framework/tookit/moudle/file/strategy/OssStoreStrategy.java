@@ -10,13 +10,10 @@ import com.libre.oss.config.OssProperties;
 import com.libre.oss.support.OssTemplate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,8 +51,7 @@ public class OssStoreStrategy extends AbstractFileStoreStrategy {
 
 	@Override
 	public List<SysFile> getAllFiles() {
-	//	List<S3ObjectSummary> allObjects = ossTemplate.getAllObjects(ossProperties.getBucketName());
-		List<S3ObjectSummary> allObjects = Lists.newArrayList();
+		List<S3ObjectSummary> allObjects = ossTemplate.listAllObjects(ossProperties.getBucketName());
 		List<SysFile> sysFileList = Lists.newArrayList();
 		for (S3ObjectSummary object : allObjects) {
 			SysFile sysFile = new SysFile();

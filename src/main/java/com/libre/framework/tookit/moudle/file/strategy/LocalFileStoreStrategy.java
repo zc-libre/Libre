@@ -2,20 +2,17 @@ package com.libre.framework.tookit.moudle.file.strategy;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.google.common.collect.Lists;
-import com.libre.framework.common.config.LibreFileProperties;
+import com.libre.framework.common.configuration.LibreFileProperties;
 import com.libre.framework.tookit.moudle.file.pojo.FileSaveType;
 import com.libre.framework.tookit.moudle.file.pojo.SysFile;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 

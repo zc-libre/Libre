@@ -95,7 +95,7 @@ public class ChatRequest {
 
 	public ChatRequest(String prompt) {
 		this.prompt = prompt;
-		this.model = ChatModel.TEXT_DAVINCI_003.getType();
+		this.model = ChatModel.GPT_3_TURBO.getType();
 	}
 
 	public ChatRequest(String model, String prompt) {

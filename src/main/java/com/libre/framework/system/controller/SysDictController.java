@@ -36,7 +36,6 @@ public class SysDictController {
 
 	private final SysDictService dictService;
 
-	@ApiLog("查询字典")
 	@Operation(summary = "查询字典")
 	@GetMapping
 	public R<IPage<SysDict>> query(Page<SysDict> page, DictCriteria query) {

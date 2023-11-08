@@ -10,9 +10,13 @@ import io.jsonwebtoken.impl.crypto.RsaProvider;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.server.ServerHttpRequest;
+import org.springframework.web.servlet.function.ServerRequest;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -23,6 +27,7 @@ import java.security.PrivateKey;
 import java.security.spec.RSAPrivateKeySpec;
 import java.time.Duration;
 import java.util.Date;
+import java.util.List;
 
 /**
  * token 验证处理
@@ -63,6 +68,23 @@ public class JwtTokenService implements SmartInitializingSingleton {
 		// 4. 如果为空返回
 		if (StringUtil.isBlank(token)) {
 			return null;
+		}
+		return token;
+	}
+
+	public String getToken(ServerHttpRequest request) {
+		LibreSecurityProperties.JwtToken jwtToken = properties.getJwtToken();
+		// 1. 获取请求头携带的令牌
+		String tokenHeaderKey = jwtToken.getHeader();
+		HttpHeaders headers = request.getHeaders();
+		List<String> tokens = headers.get(tokenHeaderKey);
+		if (CollectionUtils.isEmpty(tokens)) {
+			return null;
+		}
+		String token = tokens.get(0);
+		// 3. 解析 Bearer token
+		if (StringUtil.isNotBlank(token) && token.startsWith(TOKEN_PREFIX)) {
+			token = token.substring(TOKEN_PREFIX.length());
 		}
 		return token;
 	}
@@ -108,15 +130,15 @@ public class JwtTokenService implements SmartInitializingSingleton {
 		// 加密 key
 		Key keySpec = new SecretKeySpec(secret.getBytes(Charsets.UTF_8), algorithm.getJcaName());
 		return Jwts.builder()
-				.setId(IdWorker.get32UUID())
-				.setAudience(jwtToken.getAudience())
-				.setIssuer(jwtToken.getIssuer())
-				.setIssuedAt(now)
-				.setSubject(authUser.getUsername())
-				.setNotBefore(now)
-				.setExpiration(DateUtils.addMilliseconds(now, (int) expireTime.toMillis()))
-				.signWith(keySpec)
-				.compact();
+			.setId(IdWorker.get32UUID())
+			.setAudience(jwtToken.getAudience())
+			.setIssuer(jwtToken.getIssuer())
+			.setIssuedAt(now)
+			.setSubject(authUser.getUsername())
+			.setNotBefore(now)
+			.setExpiration(DateUtils.addMilliseconds(now, (int) expireTime.toMillis()))
+			.signWith(keySpec)
+			.compact();
 	}
 
 	@Override

@@ -3,7 +3,7 @@ package com.libre.framework.security.jwt;
 import com.google.common.base.Throwables;
 import com.libre.boot.toolkit.RequestUtils;
 import com.libre.framework.common.security.support.SecurityUtil;
-import com.libre.framework.security.auth.SecWebAuthDetailsSource;
+import com.libre.framework.security.auth.LibreWebAuthDetailsSource;
 import com.libre.framework.security.pojo.dto.AuthUser;
 import com.libre.framework.security.pojo.vo.TokenVo;
 import com.libre.framework.security.service.UserDetailServiceImpl;
@@ -71,7 +71,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 			AuthUser authUser = userDetailsService.loadUserByUsername(subject);
 			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(authUser,
 					null, authUser.getAuthorities());
-			authenticationToken.setDetails(new SecWebAuthDetailsSource().buildDetails(request));
+			authenticationToken.setDetails(new LibreWebAuthDetailsSource().buildDetails(request));
 			SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 		}
 		chain.doFilter(request, response);

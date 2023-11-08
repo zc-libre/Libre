@@ -15,7 +15,7 @@ public interface FileService extends IService<SysFile> {
 
 	PageDTO<SysFile> findByPage(PageDTO<SysFile> page, SysFileCriteria criteria);
 
-	void createFile(MultipartFile file, Integer saveType);
+	String createFile(MultipartFile file, Integer saveType);
 
 	String getFilePath(Long id);
 

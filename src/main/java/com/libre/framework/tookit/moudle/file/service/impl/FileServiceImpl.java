@@ -40,7 +40,7 @@ public class FileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impleme
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public void createFile(MultipartFile file, Integer saveType) {
+	public String createFile(MultipartFile file, Integer saveType) {
 		SysFile sysFile = new SysFile();
 		String originalFilename = file.getOriginalFilename();
 		String fileName = Clock.systemDefaultZone().millis() + StringPool.DASH + originalFilename;
@@ -54,15 +54,18 @@ public class FileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impleme
 		sysFile.setSaveType(saveType);
 		FileStoreStrategy fileStoreStrategy = FileStoreFactory.getFileStoreStrategy(saveType);
 
+		String path;
 		try {
 			fileStoreStrategy.createFile(file, sysFile);
 			this.save(sysFile);
+			path = sysFile.getRealName();
 		}
 		catch (Exception e) {
 			fileStoreStrategy.delete(sysFile);
 			log.info("文件上传失败", e);
 			throw new LibreException("文件上传失败");
 		}
+		return path;
 	}
 
 	@Override

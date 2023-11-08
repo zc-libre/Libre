@@ -25,9 +25,9 @@ public class SysFileController {
 	private final FileService fileService;
 
 	@PostMapping
-	public R<Boolean> upload(@RequestPart("file") MultipartFile file, Integer type) {
-		fileService.createFile(file, type);
-		return R.status(true);
+	public R<String> upload(@RequestPart("file") MultipartFile file, Integer type) {
+		String path = fileService.createFile(file, type);
+		return R.data(path);
 	}
 
 	@GetMapping

@@ -14,7 +14,7 @@
 //
 //	public static void main(String[] args) throws Exception {
 //        GroovyRunner groovyRunner = new GroovyRunner();
-//        String code = Files.readString(Paths.get("/Users/libre/code/java/libre/src/test/resources/Test.groovy"));
+//        String code = Files.readString(Paths.get("/Users/libre/code/java/libre/src/test/resources/TestTask.groovy"));
 //        groovyRunner.setCodeSource(code);
 //        groovyRunner.setParam(null);
 //

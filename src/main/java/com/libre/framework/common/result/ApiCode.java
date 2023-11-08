@@ -11,7 +11,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public enum ApiCode implements IResultCode {
 
-	USER_NOT_EXIST(20001, "用户不存在"), USER_ALREADY_EXIST(20002, "用户已经存在");
+	USER_NOT_EXIST(20001, "用户不存在"),
+
+	USER_ALREADY_EXIST(20002, "用户已经存在");
+
 
 	private final Integer code;
 

@@ -7,6 +7,7 @@ import com.libre.toolkit.exception.LibreException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import java.lang.reflect.Method;
@@ -16,7 +17,7 @@ import java.util.Objects;
 public class ScheduleJob extends QuartzJobBean {
 
 	@Override
-	protected void executeInternal(JobExecutionContext context) {
+	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		SysJob scheduleJob = (SysJob) context.getMergedJobDataMap().get(SysJob.JOB_KEY);
 
 		Object bean = SpringContext.getBean(scheduleJob.getBeanName());
@@ -40,8 +41,8 @@ public class ScheduleJob extends QuartzJobBean {
 				ReflectionUtil.invokeMethod(method, bean);
 			}
 		}
-		catch (NoSuchMethodException e) {
-			throw new RuntimeException(e);
+		catch (Exception e) {
+			throw new JobExecutionException(e);
 		}
 
 	}

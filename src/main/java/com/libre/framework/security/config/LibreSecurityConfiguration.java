@@ -1,8 +1,8 @@
 package com.libre.framework.security.config;
 
-import com.libre.framework.security.auth.SecAuthHandler;
-import com.libre.framework.security.auth.SecAuthenticationProvider;
-import com.libre.framework.security.auth.SecWebAuthDetailsSource;
+import com.libre.framework.security.auth.LibreAuthHandler;
+import com.libre.framework.security.auth.LibreAuthenticationProvider;
+import com.libre.framework.security.auth.LibreWebAuthDetailsSource;
 import com.libre.framework.security.jwt.JwtAuthenticationTokenFilter;
 import com.libre.framework.security.service.UserDetailServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -39,9 +39,9 @@ public class LibreSecurityConfiguration implements SmartInitializingSingleton {
 
 	private final UserDetailServiceImpl userDetailsService;
 
-	private final SecAuthHandler authHandler;
+	private final LibreAuthHandler authHandler;
 
-	private final SecWebAuthDetailsSource authDetailsSource;
+	private final LibreWebAuthDetailsSource authDetailsSource;
 
 	private final LibreSecurityProperties properties;
 
@@ -60,7 +60,6 @@ public class LibreSecurityConfiguration implements SmartInitializingSingleton {
 
 	@Bean
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-
 		http.csrf(AbstractHttpConfigurer::disable)
 						.headers(header -> header.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
 				        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -95,8 +94,8 @@ public class LibreSecurityConfiguration implements SmartInitializingSingleton {
 	}
 
 	@Bean
-	public SecAuthenticationProvider authProvider() {
-		final SecAuthenticationProvider authProvider = new SecAuthenticationProvider();
+	public LibreAuthenticationProvider authProvider() {
+		final LibreAuthenticationProvider authProvider = new LibreAuthenticationProvider();
 		authProvider.setUserDetailsService(userDetailsService);
 		authProvider.setUserDetailsPasswordService(userDetailsService);
 
@@ -114,7 +113,7 @@ public class LibreSecurityConfiguration implements SmartInitializingSingleton {
 	@Override
 	public void afterSingletonsInstantiated() {
 		authenticationManagerBuilder
-				.authenticationProvider(applicationContext.getBean(SecAuthenticationProvider.class));
+				.authenticationProvider(applicationContext.getBean(LibreAuthenticationProvider.class));
 		authenticationManagerBuilder.eraseCredentials(false);
 	}
 

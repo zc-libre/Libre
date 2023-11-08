@@ -5,8 +5,9 @@ spring:
     startup-delay: 3s
     job-store-type: jdbc #数据库方式
     wait-for-jobs-to-complete-on-shutdown: true
+    overwrite-existing-jobs: true
     jdbc:
-      initialize-schema: always # 首次可以采用 always, never 不初始化表结构
+      initialize-schema: never # 首次可以采用 always, never 不初始化表结构
     properties:
       org:
         quartz:
@@ -34,7 +35,3 @@ spring:
             shutdownhook:
               class: org.quartz.plugins.management.ShutdownHookPlugin
               cleanShutdown: true
-
-logging:
-  level:
-    org.quartz: error
