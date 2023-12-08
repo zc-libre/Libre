@@ -7,6 +7,14 @@
     <groupId>com.libre</groupId>
     <artifactId>libre</artifactId>
     <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>libre-toolkit</module>
+        <module>libre-common</module>
+        <module>libre-system</module>
+        <module>libre-video</module>
+        <module>libre-blog</module>
+    </modules>
 
     <properties>
         <java.version>21</java.version>
@@ -14,7 +22,7 @@
         <maven.compiler.target>21</maven.compiler.target>
 
         <libre.version>1.0.0</libre.version>
-        <springboot.version>3.1.5</springboot.version>
+        <springboot.version>3.2.0</springboot.version>
         <libre.dependencies.version>3.1.5</libre.dependencies.version>
 
         <bitwalker.version>1.21</bitwalker.version>
@@ -65,16 +73,23 @@
         <dependency>
             <groupId>com.zclibre</groupId>
             <artifactId>libre-mybatis-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mybatis.spring.boot</groupId>
+                    <artifactId>mybatis-spring-boot-starter</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>3.0.3</version>
         </dependency>
 
         <dependency>
             <groupId>com.zclibre</groupId>
             <artifactId>libre-redisson-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
         <dependency>
