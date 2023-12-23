@@ -2,7 +2,6 @@ package com.libre.framework.security.service;
 
 import com.libre.framework.common.security.dto.AuthUser;
 
-
 public interface UserLockService {
 
 	/**

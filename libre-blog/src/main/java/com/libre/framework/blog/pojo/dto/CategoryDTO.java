@@ -11,12 +11,11 @@ import java.io.Serializable;
 @Data
 public class CategoryDTO implements Serializable {
 
+	@NotNull(groups = UpdateGroup.class)
+	private Long id;
 
-    @NotNull(groups = UpdateGroup.class)
-    private Long id;
-
-    @NotBlank
-    @Size(max = 32)
-    private String categoryName;
+	@NotBlank
+	@Size(max = 32)
+	private String categoryName;
 
 }

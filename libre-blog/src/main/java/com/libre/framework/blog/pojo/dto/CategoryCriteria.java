@@ -13,6 +13,6 @@ import java.util.Collection;
 @AllArgsConstructor
 public class CategoryCriteria extends BaseCriteria {
 
+	private Collection<Long> categoryIds;
 
-    private Collection<Long> categoryIds;
 }

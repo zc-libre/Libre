@@ -37,6 +37,6 @@ public class ArticleDTO {
 	private Long categoryId;
 
 	@NotNull
-    private List<Long> tagIds;
+	private List<Long> tagIds;
 
 }

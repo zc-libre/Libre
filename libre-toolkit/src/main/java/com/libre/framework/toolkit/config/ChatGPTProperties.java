@@ -16,4 +16,5 @@ public class ChatGPTProperties {
 	private String token;
 
 	private String organization;
+
 }

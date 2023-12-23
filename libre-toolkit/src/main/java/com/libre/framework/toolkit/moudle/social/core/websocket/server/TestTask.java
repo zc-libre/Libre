@@ -10,11 +10,12 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class TestTask {
 
-    private final SimpMessagingTemplate simpMessagingTemplate;
+	private final SimpMessagingTemplate simpMessagingTemplate;
 
-   // @Scheduled(fixedRate = 5000)
-    public void test() {
-        log.info("开始发送数据");
-        simpMessagingTemplate.convertAndSend("/topic/reply","测试数据");
-    }
+	// @Scheduled(fixedRate = 5000)
+	public void test() {
+		log.info("开始发送数据");
+		simpMessagingTemplate.convertAndSend("/topic/reply", "测试数据");
+	}
+
 }

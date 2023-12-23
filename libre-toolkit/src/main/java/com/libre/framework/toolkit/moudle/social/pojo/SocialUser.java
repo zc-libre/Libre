@@ -5,6 +5,6 @@ import lombok.ToString;
 
 @Data
 @ToString(callSuper = true)
-public class SocialUser  {
+public class SocialUser {
 
 }

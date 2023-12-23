@@ -15,18 +15,13 @@ import org.springframework.context.annotation.Configuration;
  * @author L.cm
  */
 @ConditionalOnClass(Redisson.class)
-@ConditionalOnProperty(
-	name = "enabled",
-	prefix = WebSocketClientClusterProperties.PREFIX,
-	havingValue = "true",
-	matchIfMissing = true
-)
+@ConditionalOnProperty(name = "enabled", prefix = WebSocketClientClusterProperties.PREFIX, havingValue = "true",
+		matchIfMissing = true)
 @Configuration(proxyBeanMethods = false)
 public class RedissonWsClientConfiguration {
 
 	@Bean
-	public WsClient wsClient(RedissonClient redisson,
-                             WebSocketClientClusterProperties properties) {
+	public WsClient wsClient(RedissonClient redisson, WebSocketClientClusterProperties properties) {
 		return new RedissonWsClientImpl(redisson, properties);
 	}
 

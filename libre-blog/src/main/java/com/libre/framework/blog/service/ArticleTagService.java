@@ -8,7 +8,8 @@ import java.util.Set;
 
 public interface ArticleTagService extends IService<ArticleTag> {
 
-    void deleteByArticleIds(List<Long> ids);
+	void deleteByArticleIds(List<Long> ids);
 
-    List<ArticleTag> findByArticleIds(Set<Long> articleIds);
+	List<ArticleTag> findByArticleIds(Set<Long> articleIds);
+
 }

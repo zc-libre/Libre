@@ -1,4 +1,4 @@
-package com.libre.framework.blog.controller;
+package com.libre.framework.blog.controller.admin;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.libre.framework.blog.pojo.Category;

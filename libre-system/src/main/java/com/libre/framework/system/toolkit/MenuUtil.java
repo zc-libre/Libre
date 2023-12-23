@@ -67,8 +67,10 @@ public class MenuUtil {
 	}
 
 	private static List<MenuVO> getChildren(MenuVO menuVO, List<MenuVO> menus) {
-		return menus.stream().filter(item -> Objects.equals(item.getParentId(), menuVO.getId()))
-				.peek(menu -> menu.setChildren(getChildren(menu, menus))).collect(Collectors.toList());
+		return menus.stream()
+			.filter(item -> Objects.equals(item.getParentId(), menuVO.getId()))
+			.peek(menu -> menu.setChildren(getChildren(menu, menus)))
+			.collect(Collectors.toList());
 	}
 
 }

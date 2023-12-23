@@ -14,7 +14,6 @@ public interface WebSocketPrincipalResolve {
 
 	/**
 	 * 解析 Principal
-	 *
 	 * @param request ServerHttpRequest
 	 * @return Principal
 	 */

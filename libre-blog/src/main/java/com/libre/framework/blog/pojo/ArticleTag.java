@@ -14,10 +14,10 @@ import java.time.LocalDateTime;
 @TableName("blog_article_tag")
 public class ArticleTag extends BaseEntity {
 
-    private Long id;
+	private Long id;
 
-    private Long articleId;
+	private Long articleId;
 
-    private Long tagId;
+	private Long tagId;
 
 }

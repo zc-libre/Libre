@@ -97,8 +97,8 @@ public class FileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impleme
 
 	private LambdaQueryWrapper<SysFile> getQueryWrapper(SysFileCriteria criteria) {
 		return Wrappers.<SysFile>lambdaQuery()
-				.nested(criteria.isBlurryQuery(), q -> q.like(SysFile::getName, criteria.getBlurry()))
-				.eq(SysFile::getSaveType, criteria.getSaveType());
+			.nested(criteria.isBlurryQuery(), q -> q.like(SysFile::getName, criteria.getBlurry()))
+			.eq(SysFile::getSaveType, criteria.getSaveType());
 	}
 
 }

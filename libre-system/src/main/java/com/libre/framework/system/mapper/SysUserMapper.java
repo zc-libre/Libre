@@ -11,6 +11,6 @@ import java.util.Collection;
  */
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
+	void saveBatch(Collection<SysUser> sysUsers);
 
-    void saveBatch(Collection<SysUser> sysUsers);
 }

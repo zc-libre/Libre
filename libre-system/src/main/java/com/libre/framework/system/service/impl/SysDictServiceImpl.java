@@ -38,8 +38,12 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 		String queryBlurry = query.getBlurry();
 		LambdaQueryWrapper<SysDict> wrapper = new LambdaQueryWrapper<>();
 		// name,description
-		wrapper.and(StringUtil.isNotBlank(queryBlurry), w -> w.like(SysDict::getName, queryBlurry).or()
-				.like(SysDict::getDescription, queryBlurry).or().like(SysDict::getRemark, queryBlurry));
+		wrapper.and(StringUtil.isNotBlank(queryBlurry),
+				w -> w.like(SysDict::getName, queryBlurry)
+					.or()
+					.like(SysDict::getDescription, queryBlurry)
+					.or()
+					.like(SysDict::getRemark, queryBlurry));
 		return wrapper;
 	}
 

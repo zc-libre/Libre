@@ -23,9 +23,8 @@ public class WebSocketServerConfiguration {
 
 	@Bean
 	public WebSocketServerConfigurer webSocketConfigurer(PrincipalHandshakeHandler handshakeHandler,
-														 WebSocketAuthHandshakeInterceptor authHandshakeInterceptor,
-														 ObjectMapper objectMapper,
-														 WebSocketServerProperties properties) {
+			WebSocketAuthHandshakeInterceptor authHandshakeInterceptor, ObjectMapper objectMapper,
+			WebSocketServerProperties properties) {
 		return new WebSocketServerConfigurer(handshakeHandler, authHandshakeInterceptor, objectMapper, properties);
 	}
 

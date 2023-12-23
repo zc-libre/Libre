@@ -9,19 +9,14 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 
-
 /**
  * websocket 账号管理
  *
  * @author L.cm
  */
 @AutoConfiguration
-@ConditionalOnProperty(
-	name = "enable-account-store",
-	prefix = WebSocketServerProperties.PREFIX,
-	havingValue = "true",
-	matchIfMissing = true
-)
+@ConditionalOnProperty(name = "enable-account-store", prefix = WebSocketServerProperties.PREFIX, havingValue = "true",
+		matchIfMissing = true)
 public class WebSocketAccountManageConfiguration {
 
 	@Bean

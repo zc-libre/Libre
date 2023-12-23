@@ -11,12 +11,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
  * @author L.cm
  */
 @AutoConfiguration
-@ConditionalOnProperty(
-	name = "enabled",
-	prefix = ClusterWebSocketProperties.PREFIX,
-	havingValue = "true",
-	matchIfMissing = true
-)
+@ConditionalOnProperty(name = "enabled", prefix = ClusterWebSocketProperties.PREFIX, havingValue = "true",
+		matchIfMissing = true)
 public class ClusterWebSocketConfiguration {
 
 	@Bean

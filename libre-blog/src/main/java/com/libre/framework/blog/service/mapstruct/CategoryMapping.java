@@ -8,6 +8,7 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface CategoryMapping extends BaseMapping<CategoryDTO, Category> {
-    CategoryMapping INSTANCE = Mappers.getMapper(CategoryMapping.class);
+
+	CategoryMapping INSTANCE = Mappers.getMapper(CategoryMapping.class);
 
 }

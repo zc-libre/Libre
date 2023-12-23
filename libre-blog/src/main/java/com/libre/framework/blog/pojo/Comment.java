@@ -12,17 +12,18 @@ import lombok.ToString;
 @TableName("blog_comment")
 public class Comment extends BaseEntity {
 
-    private Long topicId;
+	private Long topicId;
 
-    private String userId;
+	private Long userId;
 
-    private Long parentId;
+	private Long parentId;
 
-    private String commentContent;
+	private String commentContent;
 
-    private Integer commentType;
+	private Integer commentType;
 
-    private Integer review;
+	private Integer review;
 
-    private Long replyUserId;
+	private Long replyUserId;
+
 }

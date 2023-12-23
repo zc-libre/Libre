@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface ArticleTagMapper extends BaseMapper<ArticleTag> {
 
-    void deleteByArticleIds(List<Long> ids);
+	void deleteByArticleIds(List<Long> ids);
+
 }

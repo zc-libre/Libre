@@ -28,7 +28,6 @@ public class AuthTokenController {
 
 	private final JwtTokenStore tokenStore;
 
-
 	@Operation(summary = "查询列表")
 	@GetMapping
 	@PreAuthorize("@sec.isAuthenticated()")

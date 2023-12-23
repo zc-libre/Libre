@@ -70,8 +70,10 @@ public class AuthenticationHandler {
 			return true;
 		}
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-		return authorities.stream().map(GrantedAuthority::getAuthority).filter(StringUtil::isNotBlank)
-				.anyMatch(x -> PatternMatchUtils.simpleMatch(permissions, x));
+		return authorities.stream()
+			.map(GrantedAuthority::getAuthority)
+			.filter(StringUtil::isNotBlank)
+			.anyMatch(x -> PatternMatchUtils.simpleMatch(permissions, x));
 	}
 
 }

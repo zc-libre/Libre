@@ -6,16 +6,20 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.libre.framework.blog.pojo.Category;
 import com.libre.framework.blog.pojo.dto.CategoryCriteria;
 import com.libre.framework.blog.pojo.dto.CategoryDTO;
+import com.libre.framework.blog.pojo.vo.CategoryVO;
 
 import java.util.List;
 
 public interface CategoryService extends IService<Category> {
 
-    PageDTO<Category> findByPage(PageDTO<Category> page, CategoryCriteria criteria);
+	PageDTO<Category> findByPage(PageDTO<Category> page, CategoryCriteria criteria);
 
-    void add(CategoryDTO category);
+	void add(CategoryDTO category);
 
-    void edit(CategoryDTO category);
+	void edit(CategoryDTO category);
 
-    List<Category> findList(CategoryCriteria criteria);
+	List<Category> findList(CategoryCriteria criteria);
+
+	List<CategoryVO> findVoList();
+
 }

@@ -14,4 +14,5 @@ public class AbstractMessage implements Message {
 	private Object message;
 
 	private LocalDate sendTime;
+
 }

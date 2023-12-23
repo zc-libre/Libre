@@ -15,7 +15,6 @@ public enum ApiCode implements IResultCode {
 
 	USER_ALREADY_EXIST(20002, "用户已经存在");
 
-
 	private final Integer code;
 
 	private final String message;

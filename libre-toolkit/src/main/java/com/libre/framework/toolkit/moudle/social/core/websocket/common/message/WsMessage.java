@@ -21,14 +21,17 @@ public class WsMessage implements Message<Object>, Serializable {
 	 * 账号信息
 	 */
 	private String user;
+
 	/**
 	 * topic destination
 	 */
 	private String destination;
+
 	/**
 	 * headers
 	 */
 	private MessageHeaders headers;
+
 	/**
 	 * payload
 	 */

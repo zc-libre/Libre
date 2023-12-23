@@ -89,8 +89,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 		if (CollectionUtils.isEmpty(path)) {
 			return menuList;
 		}
-		return menuList.stream().filter(menu -> path.contains(menu.getId()) && !ids.contains(menu.getId()))
-				.collect(Collectors.toList());
+		return menuList.stream()
+			.filter(menu -> path.contains(menu.getId()) && !ids.contains(menu.getId()))
+			.collect(Collectors.toList());
 	}
 
 	@Override
@@ -128,8 +129,12 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	private LambdaQueryWrapper<SysMenu> getQueryWrapper(MenuCriteria criteria) {
 		String blurry = criteria.getBlurry();
 
-		LambdaQueryWrapper<SysMenu> wrapper = Wrappers.<SysMenu>lambdaQuery().and(StringUtil.isNotBlank(blurry),
-				w -> w.like(SysMenu::getTitle, blurry).or().like(SysMenu::getComponent, blurry).or()
+		LambdaQueryWrapper<SysMenu> wrapper = Wrappers.<SysMenu>lambdaQuery()
+			.and(StringUtil.isNotBlank(blurry),
+					w -> w.like(SysMenu::getTitle, blurry)
+						.or()
+						.like(SysMenu::getComponent, blurry)
+						.or()
 						.like(SysMenu::getPermission, blurry));
 		if (criteria.haveTime()) {
 			wrapper.between(SysMenu::getGmtCreate, criteria.getStartTime(), criteria.getEndTime());
@@ -143,9 +148,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	 */
 	private static LambdaQueryWrapper<SysMenu> getQueryWrapper() {
 		return Wrappers.<SysMenu>lambdaQuery()
-				.in(SysMenu::getType, MenuType.DIRECTORY.getType(), MenuType.MENU.getType())
-				.eq(SysMenu::getHidden, MenuConstants.IS_HIDDEN_NO).eq(SysMenu::getStatus, LibreConstants.STATUS_ON)
-				.orderByAsc(SysMenu::getSeq);
+			.in(SysMenu::getType, MenuType.DIRECTORY.getType(), MenuType.MENU.getType())
+			.eq(SysMenu::getHidden, MenuConstants.IS_HIDDEN_NO)
+			.eq(SysMenu::getStatus, LibreConstants.STATUS_ON)
+			.orderByAsc(SysMenu::getSeq);
 	}
 
 	private void findPath(Long parentId, List<Long> path) {
@@ -162,8 +168,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	}
 
 	private List<SysMenu> getByParentId(List<SysMenu> menuList, Long parentId) {
-		return menuList.stream().filter(menu -> Objects.equals(menu.getParentId(), parentId))
-				.collect(Collectors.toList());
+		return menuList.stream()
+			.filter(menu -> Objects.equals(menu.getParentId(), parentId))
+			.collect(Collectors.toList());
 	}
 
 }

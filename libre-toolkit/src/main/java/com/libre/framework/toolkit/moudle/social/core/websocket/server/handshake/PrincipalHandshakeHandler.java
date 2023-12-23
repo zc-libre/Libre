@@ -24,7 +24,9 @@ public class PrincipalHandshakeHandler extends DefaultHandshakeHandler {
 
 	@Nullable
 	@Override
-	protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
+	protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler,
+			Map<String, Object> attributes) {
 		return (Principal) attributes.get(WebSocketAuthHandshakeInterceptor.WS_PRINCIPAL_ATTR_NAME);
 	}
+
 }

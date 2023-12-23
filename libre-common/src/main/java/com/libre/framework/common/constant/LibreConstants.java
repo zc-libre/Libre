@@ -15,4 +15,8 @@ public interface LibreConstants {
 
 	Integer ENABLE = 1;
 
+	Integer YES = 1;
+
+	Integer NO = 0;
+
 }

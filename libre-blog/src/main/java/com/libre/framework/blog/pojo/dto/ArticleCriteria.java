@@ -1,6 +1,7 @@
 package com.libre.framework.blog.pojo.dto;
 
 import com.libre.framework.common.base.BaseCriteria;
+import com.libre.framework.common.constant.LibreConstants;
 import lombok.*;
 
 import java.util.Collection;
@@ -13,8 +14,18 @@ import java.util.Collection;
 @AllArgsConstructor
 public class ArticleCriteria extends BaseCriteria {
 
+	private Long categoryId;
 
-    private Long categoryId;
+	private Integer top;
 
-    private Collection<Long> articleIds;
+	private Integer featured;
+
+	private Integer isAbout = LibreConstants.NO;
+
+	private Long tagId;
+
+	private Integer status;
+
+	private Collection<Long> articleIds;
+
 }

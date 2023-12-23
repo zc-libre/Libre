@@ -75,8 +75,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 		Map<Long, SysRole> roleMap = Maps.newHashMap();
 		if (CollectionUtils.isNotEmpty(roleIdSet)) {
-			Map<Long, SysRole> map = roleService.listByIds(roleIdSet).stream()
-					.collect(Collectors.toMap(SysRole::getId, Function.identity()));
+			Map<Long, SysRole> map = roleService.listByIds(roleIdSet)
+				.stream()
+				.collect(Collectors.toMap(SysRole::getId, Function.identity()));
 			roleMap.putAll(map);
 		}
 
@@ -139,7 +140,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Cacheable(key = "'info-'+ #username")
 	public UserInfo findUserInfoByUsername(String username) {
 		SysUser sysUser = Optional.ofNullable(this.getByUsername(username))
-				.orElseThrow(() -> new LibreException(String.format("用户不存在, username,: [%s]", username)));
+			.orElseThrow(() -> new LibreException(String.format("用户不存在, username,: [%s]", username)));
 
 		List<SysRole> roles = roleService.getListByUserId(sysUser.getId());
 		List<String> permissions = Lists.newArrayList();
@@ -220,8 +221,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 	private Wrapper<SysUser> getQueryWrapper(UserCriteria param) {
 		String blurry = param.getBlurry();
-		LambdaQueryWrapper<SysUser> wrapper = Wrappers.<SysUser>lambdaQuery().nested(param.isBlurryQuery(),
-				q -> q.like(SysUser::getEmail, blurry).or().like(SysUser::getEmail, blurry).or()
+		LambdaQueryWrapper<SysUser> wrapper = Wrappers.<SysUser>lambdaQuery()
+			.nested(param.isBlurryQuery(),
+					q -> q.like(SysUser::getEmail, blurry)
+						.or()
+						.like(SysUser::getEmail, blurry)
+						.or()
 						.like(SysUser::getNickName, blurry));
 		if (param.haveTime()) {
 			wrapper.between(SysUser::getGmtCreate, param.getStartTime(), param.getEndTime());

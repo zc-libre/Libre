@@ -18,16 +18,17 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class ArticleTagServiceImpl extends ServiceImpl<ArticleTagMapper, ArticleTag> implements ArticleTagService {
 
-    @Override
-    public void deleteByArticleIds(List<Long> ids) {
-       baseMapper.deleteByArticleIds(ids);
-    }
+	@Override
+	public void deleteByArticleIds(List<Long> ids) {
+		baseMapper.deleteByArticleIds(ids);
+	}
 
-    @Override
-    public List<ArticleTag> findByArticleIds(Set<Long> articleIds) {
-        if (CollectionUtils.isEmpty(articleIds)) {
-            return Collections.emptyList();
-        }
-        return this.list(Wrappers.<ArticleTag>lambdaQuery().in(ArticleTag::getArticleId, articleIds));
-    }
+	@Override
+	public List<ArticleTag> findByArticleIds(Set<Long> articleIds) {
+		if (CollectionUtils.isEmpty(articleIds)) {
+			return Collections.emptyList();
+		}
+		return this.list(Wrappers.<ArticleTag>lambdaQuery().in(ArticleTag::getArticleId, articleIds));
+	}
+
 }

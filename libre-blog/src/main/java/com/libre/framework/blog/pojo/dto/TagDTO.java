@@ -9,10 +9,11 @@ import lombok.Data;
 @Data
 public class TagDTO {
 
-    @NotNull(groups = UpdateGroup.class)
-    private Long id;
+	@NotNull(groups = UpdateGroup.class)
+	private Long id;
 
-    @NotBlank
-    @Size(max = 32)
-    private String tagName;
+	@NotBlank
+	@Size(max = 32)
+	private String tagName;
+
 }

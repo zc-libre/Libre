@@ -76,10 +76,10 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 		boolean accountNonLocked = ObjectUtils.nullSafeEquals(sysUser.getLocked(), UserConstants.USER_UNLOCK);
 
 		Collection<? extends GrantedAuthority> authorities = AuthorityUtils
-				.createAuthorityList(dbAuthSet.toArray(new String[0]));
+			.createAuthorityList(dbAuthSet.toArray(new String[0]));
 
-		AuthUser authuser = new AuthUser(username, SecurityConstant.BCRYPT + password, enabled,
-				accountNonLocked, authorities);
+		AuthUser authuser = new AuthUser(username, SecurityConstant.BCRYPT + password, enabled, accountNonLocked,
+				authorities);
 		authuser.setUserId(sysUser.getId());
 		authuser.setNickName(sysUser.getNickName());
 		authuser.setIsAdmin(sysUser.getIsAdmin());
@@ -114,8 +114,10 @@ public class UserDetailServiceImpl implements UserDetailsService, UserDetailsPas
 	}
 
 	private void loadRoleAuthorities(List<SysRole> roleList, Set<String> dbAuthsSet) {
-		roleList.stream().map(SysRole::getPermission).filter(StringUtil::isNotBlank)
-				.forEach(x -> dbAuthsSet.add(SecurityUtil.SECURITY_ROLE_PREFIX + x));
+		roleList.stream()
+			.map(SysRole::getPermission)
+			.filter(StringUtil::isNotBlank)
+			.forEach(x -> dbAuthsSet.add(SecurityUtil.SECURITY_ROLE_PREFIX + x));
 	}
 
 	private void loadUserAuthorities(List<SysRole> roleList, Set<String> dbAuthSet, Integer isAdmin) {

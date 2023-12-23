@@ -61,8 +61,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 			return Collections.emptyList();
 		}
 		Set<Long> roleIds = userRoleList.stream().map(SysUserRole::getRoleId).collect(Collectors.toSet());
-		return this.list(Wrappers.<SysRole>lambdaQuery().in(SysRole::getId, roleIds).eq(SysRole::getStatus,
-				RoleConstants.ROLE_ENABLE));
+		return this.list(Wrappers.<SysRole>lambdaQuery()
+			.in(SysRole::getId, roleIds)
+			.eq(SysRole::getStatus, RoleConstants.ROLE_ENABLE));
 	}
 
 	@Override
@@ -112,8 +113,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
 	private Wrapper<SysRole> getQueryWrapper(RoleCriteria roleCriteria) {
 		String blurry = roleCriteria.getBlurry();
-		LambdaQueryWrapper<SysRole> wrapper = Wrappers.<SysRole>lambdaQuery().nested(roleCriteria.isBlurryQuery(),
-				q -> q.like(SysRole::getRoleName, blurry));
+		LambdaQueryWrapper<SysRole> wrapper = Wrappers.<SysRole>lambdaQuery()
+			.nested(roleCriteria.isBlurryQuery(), q -> q.like(SysRole::getRoleName, blurry));
 		if (roleCriteria.haveTime()) {
 			wrapper.between(SysRole::getGmtCreate, roleCriteria.getStartTime(), roleCriteria.getEndTime());
 		}

@@ -17,12 +17,10 @@ import org.springframework.util.StringUtils;
 @RequiredArgsConstructor
 public class ClusterWebSocketSender {
 
-
 	private final SimpMessagingTemplate messagingTemplate;
 
 	/**
 	 * 发送消息到 websocket 前端
-	 *
 	 * @param wsMessage WsMessage
 	 */
 	public void send(WsMessage wsMessage) {

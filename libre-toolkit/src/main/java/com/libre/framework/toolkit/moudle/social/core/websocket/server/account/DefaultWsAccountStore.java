@@ -11,6 +11,7 @@ import java.util.Set;
  * @author L.cm
  */
 public class DefaultWsAccountStore implements IWsAccountStore {
+
 	/**
 	 * 可能会堆满内存，尽量不要使用这种方式
 	 */
@@ -35,4 +36,5 @@ public class DefaultWsAccountStore implements IWsAccountStore {
 	public void remove(String accountId) {
 		data.remove(accountId);
 	}
+
 }

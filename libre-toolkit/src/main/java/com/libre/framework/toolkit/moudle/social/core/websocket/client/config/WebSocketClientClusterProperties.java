@@ -24,10 +24,12 @@ public class WebSocketClientClusterProperties {
 	 * 是否使用 websocket 集群，默认：true
 	 */
 	private boolean enabled = true;
+
 	/**
 	 * redis sub topic prefix
 	 */
 	private String redisSubTopicPrefix = "websocket:cluster:";
+
 	/**
 	 * 集群的服务名，必须
 	 */

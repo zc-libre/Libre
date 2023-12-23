@@ -8,6 +8,7 @@ import java.util.List;
  * @author L.cm
  */
 public interface IWsAccountStore {
+
 	/**
 	 * redis 缓存 key
 	 */
@@ -15,14 +16,12 @@ public interface IWsAccountStore {
 
 	/**
 	 * 获取所有账号
-	 *
 	 * @return 账号列表
 	 */
 	List<String> listAll();
 
 	/**
 	 * 判断账号是否存在
-	 *
 	 * @param accountId 账号
 	 * @return 是否存在
 	 */
@@ -30,14 +29,12 @@ public interface IWsAccountStore {
 
 	/**
 	 * 存储账号
-	 *
 	 * @param accountId 账号id
 	 */
 	void put(String accountId);
 
 	/**
 	 * 删除账号
-	 *
 	 * @param accountId
 	 */
 	void remove(String accountId);

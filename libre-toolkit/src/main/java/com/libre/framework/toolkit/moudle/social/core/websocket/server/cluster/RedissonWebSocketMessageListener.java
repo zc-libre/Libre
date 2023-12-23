@@ -21,29 +21,30 @@ import org.springframework.core.env.Environment;
 @RequiredArgsConstructor
 public class RedissonWebSocketMessageListener implements SmartInitializingSingleton, MessageListener<WsMessage> {
 
-    private final Environment environment;
+	private final Environment environment;
 
-    private final RedissonClient redisson;
+	private final RedissonClient redisson;
 
-    private final ClusterWebSocketProperties properties;
+	private final ClusterWebSocketProperties properties;
 
-    private final ClusterWebSocketSender webSocketSender;
+	private final ClusterWebSocketSender webSocketSender;
 
-    @Override
-    public void onMessage(CharSequence charSequence, WsMessage wsMessage) {
-        log.info("Redisson sub onMessage channel:{}", charSequence);
-        webSocketSender.send(wsMessage);
-    }
+	@Override
+	public void onMessage(CharSequence charSequence, WsMessage wsMessage) {
+		log.info("Redisson sub onMessage channel:{}", charSequence);
+		webSocketSender.send(wsMessage);
+	}
 
-    @Override
-    public void afterSingletonsInstantiated() {
-        // 拼接 topic name
-        String redisSubTopic = getRedisSubTopic(environment, properties);
-        RTopic topic = redisson.getTopic(redisSubTopic);
-        topic.addListener(WsMessage.class, this);
-    }
+	@Override
+	public void afterSingletonsInstantiated() {
+		// 拼接 topic name
+		String redisSubTopic = getRedisSubTopic(environment, properties);
+		RTopic topic = redisson.getTopic(redisSubTopic);
+		topic.addListener(WsMessage.class, this);
+	}
 
-    private static String getRedisSubTopic(Environment environment, ClusterWebSocketProperties properties) {
-        return properties.getRedisSubTopicPrefix() + environment.getProperty(MicaConstant.SPRING_APP_NAME_KEY);
-    }
+	private static String getRedisSubTopic(Environment environment, ClusterWebSocketProperties properties) {
+		return properties.getRedisSubTopicPrefix() + environment.getProperty(MicaConstant.SPRING_APP_NAME_KEY);
+	}
+
 }

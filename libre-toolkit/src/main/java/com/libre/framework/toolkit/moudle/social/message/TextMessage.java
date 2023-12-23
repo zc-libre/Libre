@@ -7,8 +7,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class TextMessage extends AbstractMessage {
 
-    @Override
-    public String getMessage() {
-        return (String) super.getMessage();
-    }
+	@Override
+	public String getMessage() {
+		return (String) super.getMessage();
+	}
+
 }

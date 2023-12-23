@@ -10,12 +10,13 @@ import java.time.LocalDateTime;
 @TableName("social_friend")
 public class SocialFriend {
 
-    @TableId
-    private Long id;
+	@TableId
+	private Long id;
 
-    private Long userId;
+	private Long userId;
 
-    private Long friendId;
+	private Long friendId;
 
-    private LocalDateTime createTime;
+	private LocalDateTime createTime;
+
 }

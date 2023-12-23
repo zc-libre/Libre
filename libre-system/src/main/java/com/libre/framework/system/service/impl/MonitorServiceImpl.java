@@ -69,7 +69,7 @@ public class MonitorServiceImpl implements MonitorService {
 	public Map<String, Object> getRedisStat() {
 		Properties info = (Properties) redisTemplate.execute((RedisCallback<Object>) RedisServerCommands::info);
 		Properties commandStats = (Properties) redisTemplate
-				.execute((RedisCallback<Object>) connection -> connection.info("commandstats"));
+			.execute((RedisCallback<Object>) connection -> connection.info("commandstats"));
 		Assert.notNull(commandStats, "commandStats not be null");
 
 		Object dbSize = redisTemplate.execute((RedisCallback<Object>) RedisServerCommands::dbSize);
@@ -110,9 +110,9 @@ public class MonitorServiceImpl implements MonitorService {
 		swapInfo.put("total", FormatUtil.formatBytes(memory.getVirtualMemory().getSwapTotal()));
 		swapInfo.put("used", FormatUtil.formatBytes(memory.getVirtualMemory().getSwapUsed()));
 		swapInfo.put("available", FormatUtil
-				.formatBytes(memory.getVirtualMemory().getSwapTotal() - memory.getVirtualMemory().getSwapUsed()));
-		swapInfo.put("usageRate", df.format(
-				memory.getVirtualMemory().getSwapUsed() / (double) memory.getVirtualMemory().getSwapTotal() * 100));
+			.formatBytes(memory.getVirtualMemory().getSwapTotal() - memory.getVirtualMemory().getSwapUsed()));
+		swapInfo.put("usageRate", df
+			.format(memory.getVirtualMemory().getSwapUsed() / (double) memory.getVirtualMemory().getSwapTotal() * 100));
 		return swapInfo;
 	}
 

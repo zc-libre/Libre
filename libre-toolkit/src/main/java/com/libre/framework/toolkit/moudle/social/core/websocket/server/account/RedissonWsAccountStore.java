@@ -18,6 +18,7 @@ import java.util.List;
 @AutoConfiguration
 @ConditionalOnClass(Redisson.class)
 public class RedissonWsAccountStore implements IWsAccountStore {
+
 	private final RSet<String> rSet;
 
 	@Autowired
@@ -44,4 +45,5 @@ public class RedissonWsAccountStore implements IWsAccountStore {
 	public void remove(String accountId) {
 		rSet.remove(accountId);
 	}
+
 }

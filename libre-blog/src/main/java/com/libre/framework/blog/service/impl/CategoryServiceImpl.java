@@ -9,6 +9,7 @@ import com.libre.framework.blog.mapper.CategoryMapper;
 import com.libre.framework.blog.pojo.Category;
 import com.libre.framework.blog.pojo.dto.CategoryCriteria;
 import com.libre.framework.blog.pojo.dto.CategoryDTO;
+import com.libre.framework.blog.pojo.vo.CategoryVO;
 import com.libre.framework.blog.service.CategoryService;
 import com.libre.framework.blog.service.mapstruct.CategoryMapping;
 import lombok.RequiredArgsConstructor;
@@ -22,38 +23,44 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
 
-    @Override
-    public PageDTO<Category> findByPage(PageDTO<Category> page, CategoryCriteria criteria) {
-        return this.page(page, buildQueryWrapper(criteria));
-    }
+	@Override
+	public PageDTO<Category> findByPage(PageDTO<Category> page, CategoryCriteria criteria) {
+		return this.page(page, buildQueryWrapper(criteria));
+	}
 
-    @Override
-    public void add(CategoryDTO categoryDTO) {
-        CategoryMapping mapping = CategoryMapping.INSTANCE;
-        Category category = mapping.sourceToTarget(categoryDTO);
-        this.save(category);
-    }
+	@Override
+	public void add(CategoryDTO categoryDTO) {
+		CategoryMapping mapping = CategoryMapping.INSTANCE;
+		Category category = mapping.sourceToTarget(categoryDTO);
+		this.save(category);
+	}
 
-    @Override
-    public void edit(CategoryDTO categoryDTO) {
-        CategoryMapping mapping = CategoryMapping.INSTANCE;
-        Category category = mapping.sourceToTarget(categoryDTO);
-        this.updateById(category);
-    }
+	@Override
+	public void edit(CategoryDTO categoryDTO) {
+		CategoryMapping mapping = CategoryMapping.INSTANCE;
+		Category category = mapping.sourceToTarget(categoryDTO);
+		this.updateById(category);
+	}
 
-    @Override
-    public List<Category> findList(CategoryCriteria criteria) {
-        return this.list(buildQueryWrapper(criteria));
-    }
+	@Override
+	public List<Category> findList(CategoryCriteria criteria) {
+		return this.list(buildQueryWrapper(criteria));
+	}
 
-    private static LambdaQueryWrapper<Category> buildQueryWrapper(CategoryCriteria criteria) {
-        LambdaQueryWrapper<Category> wrapper = Wrappers.<Category>lambdaQuery()
-                .nested(criteria.isBlurryQuery(), k -> k.like(Category::getCategoryName, criteria.getBlurry()))
-                .in(CollectionUtils.isNotEmpty(criteria.getCategoryIds()), Category::getId, criteria.getCategoryIds());
+	@Override
+	public List<CategoryVO> findVoList() {
+		return baseMapper.findList();
+	}
 
-        if (criteria.haveTime()) {
-            wrapper.between(Category::getGmtCreate, criteria.getStartTime(), criteria.getEndTime());
-        }
-        return wrapper;
-    }
+	private static LambdaQueryWrapper<Category> buildQueryWrapper(CategoryCriteria criteria) {
+		LambdaQueryWrapper<Category> wrapper = Wrappers.<Category>lambdaQuery()
+			.nested(criteria.isBlurryQuery(), k -> k.like(Category::getCategoryName, criteria.getBlurry()))
+			.in(CollectionUtils.isNotEmpty(criteria.getCategoryIds()), Category::getId, criteria.getCategoryIds());
+
+		if (criteria.haveTime()) {
+			wrapper.between(Category::getGmtCreate, criteria.getStartTime(), criteria.getEndTime());
+		}
+		return wrapper;
+	}
+
 }

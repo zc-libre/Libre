@@ -2,6 +2,7 @@ package com.libre.framework.blog.pojo.vo;
 
 import com.libre.framework.blog.pojo.Category;
 import com.libre.framework.blog.pojo.Tag;
+import com.libre.framework.blog.pojo.dto.Author;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -31,6 +32,16 @@ public class ArticleVO {
 	private List<Tag> tags;
 
 	private Category category;
+
+	private Author author;
+
+	private CreateDate date;
+
+	private Integer enableComment;
+
+	private Integer isAbout;
+
+	private ArticleCount count;
 
 	/**
 	 * 创建时间

@@ -17,14 +17,13 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class DefaultWebSocketPrincipalResolve implements WebSocketPrincipalResolve {
 
-	//private final JwtTokenService jwtTokenService;
-
+	// private final JwtTokenService jwtTokenService;
 
 	@Nullable
 	@Override
 	public Principal resolve(ServerHttpRequest request) {
-//		String token = jwtTokenService.getToken(request);
-//		String accountId = jwtTokenService.getSubject(token);
+		// String token = jwtTokenService.getToken(request);
+		// String accountId = jwtTokenService.getSubject(token);
 		return new WsPrincipal("accountId");
 	}
 

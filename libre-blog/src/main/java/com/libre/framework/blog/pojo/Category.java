@@ -12,6 +12,6 @@ import lombok.ToString;
 @TableName("blog_category")
 public class Category extends BaseEntity {
 
-    private String categoryName;
+	private String categoryName;
 
 }

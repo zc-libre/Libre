@@ -18,57 +18,57 @@ import java.util.stream.Collectors;
 @Setter
 public class AuthUser extends User {
 
-    private Long id;
+	private Long id;
 
-    private Long userId;
+	private Long userId;
 
-    private String nickName;
+	private String nickName;
 
-    private Integer gender;
+	private Integer gender;
 
-    private Integer isAdmin;
+	private Integer isAdmin;
 
-    private String avatar;
+	private String avatar;
 
-    private String email;
+	private String email;
 
-    private String phone;
+	private String phone;
 
-    private List<RoleInfo> roleList;
+	private List<RoleInfo> roleList;
 
-    public AuthUser(String username, String password, boolean enabled, boolean accountNonLocked,
-                    Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, enabled, true, true, accountNonLocked, authorities);
-    }
+	public AuthUser(String username, String password, boolean enabled, boolean accountNonLocked,
+			Collection<? extends GrantedAuthority> authorities) {
+		super(username, password, enabled, true, true, accountNonLocked, authorities);
+	}
 
-    public JwtUser toJwtUser() {
-        JwtUser jwtUser = new JwtUser();
-        jwtUser.setId(this.getUserId());
-        jwtUser.setUsername(this.getUsername());
-        jwtUser.setNickName(this.getNickName());
-        jwtUser.setGender(this.getGender());
-        jwtUser.setAvatar(this.getAvatar());
-        jwtUser.setEmail(this.getEmail());
-        jwtUser.setPhone(this.getPhone());
-        jwtUser.setIsAdmin(this.getIsAdmin());
+	public JwtUser toJwtUser() {
+		JwtUser jwtUser = new JwtUser();
+		jwtUser.setId(this.getUserId());
+		jwtUser.setUsername(this.getUsername());
+		jwtUser.setNickName(this.getNickName());
+		jwtUser.setGender(this.getGender());
+		jwtUser.setAvatar(this.getAvatar());
+		jwtUser.setEmail(this.getEmail());
+		jwtUser.setPhone(this.getPhone());
+		jwtUser.setIsAdmin(this.getIsAdmin());
 
-        jwtUser.setRoles(this.getRoleList());
-        jwtUser.setRoleList(this.getRoleList().stream().map(RoleInfo::getPermission).collect(Collectors.toList()));
-        return jwtUser;
-    }
+		jwtUser.setRoles(this.getRoleList());
+		jwtUser.setRoleList(this.getRoleList().stream().map(RoleInfo::getPermission).collect(Collectors.toList()));
+		return jwtUser;
+	}
 
-    public static AuthUser formMicaUser(AuthUser user, String newPassword) {
-        AuthUser authUser = new AuthUser(user.getUsername(), newPassword, user.isEnabled(), user.isAccountNonLocked(),
-                user.getAuthorities());
-        authUser.setUserId(user.getUserId());
-        authUser.setNickName(user.getNickName());
-        authUser.setIsAdmin(user.getIsAdmin());
-        authUser.setGender(user.getGender());
-        authUser.setAvatar(user.getAvatar());
-        authUser.setEmail(user.getEmail());
-        authUser.setPhone(user.getPhone());
-        authUser.setRoleList(user.getRoleList());
-        return authUser;
-    }
+	public static AuthUser formMicaUser(AuthUser user, String newPassword) {
+		AuthUser authUser = new AuthUser(user.getUsername(), newPassword, user.isEnabled(), user.isAccountNonLocked(),
+				user.getAuthorities());
+		authUser.setUserId(user.getUserId());
+		authUser.setNickName(user.getNickName());
+		authUser.setIsAdmin(user.getIsAdmin());
+		authUser.setGender(user.getGender());
+		authUser.setAvatar(user.getAvatar());
+		authUser.setEmail(user.getEmail());
+		authUser.setPhone(user.getPhone());
+		authUser.setRoleList(user.getRoleList());
+		return authUser;
+	}
 
 }

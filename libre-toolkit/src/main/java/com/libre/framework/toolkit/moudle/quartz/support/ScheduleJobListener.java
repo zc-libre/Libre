@@ -34,7 +34,6 @@ public class ScheduleJobListener implements JobListener {
 		return this.getClass().getSimpleName();
 	}
 
-
 	@Override
 	public void jobToBeExecuted(JobExecutionContext jobExecutionContext) {
 
@@ -65,7 +64,7 @@ public class ScheduleJobListener implements JobListener {
 			sysJobLogMapper.insert(sysJobLog);
 		}
 		catch (Exception ex) {
-		   log.error("quartz job log save error: ", Throwables.getRootCause(e));
+			log.error("quartz job log save error: ", Throwables.getRootCause(e));
 		}
 	}
 

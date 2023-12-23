@@ -12,23 +12,24 @@ import java.security.Principal;
 @Controller
 public class WebsocketEndpoint {
 
-    private final SimpMessagingTemplate messagingTemplate;
+	private final SimpMessagingTemplate messagingTemplate;
 
-    public WebsocketEndpoint(SimpMessagingTemplate messagingTemplate) {
-        this.messagingTemplate = messagingTemplate;
-    }
+	public WebsocketEndpoint(SimpMessagingTemplate messagingTemplate) {
+		this.messagingTemplate = messagingTemplate;
+	}
 
-    @MessageMapping("/message")
-    public void processMessageFromClient(@Payload String message, SimpMessageHeaderAccessor headerAccessor) {
-        // 获取消息发送者
-        Principal principal = headerAccessor.getUser();
-        // 理论上握手成功之后就不会为 null，但是还是建议做一下判断
-        if (principal == null) {
-             throw new BusinessException("用户为空");
-        }
-        // 获取消息发送的账号id
-        String accountId = principal.getName();
-        // 回消息给某个用户
-        messagingTemplate.convertAndSendToUser(accountId, "/topic/reply", message);
-    }
+	@MessageMapping("/message")
+	public void processMessageFromClient(@Payload String message, SimpMessageHeaderAccessor headerAccessor) {
+		// 获取消息发送者
+		Principal principal = headerAccessor.getUser();
+		// 理论上握手成功之后就不会为 null，但是还是建议做一下判断
+		if (principal == null) {
+			throw new BusinessException("用户为空");
+		}
+		// 获取消息发送的账号id
+		String accountId = principal.getName();
+		// 回消息给某个用户
+		messagingTemplate.convertAndSendToUser(accountId, "/topic/reply", message);
+	}
+
 }

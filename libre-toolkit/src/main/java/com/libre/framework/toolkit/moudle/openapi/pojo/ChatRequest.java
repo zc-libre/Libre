@@ -2,9 +2,12 @@ package com.libre.framework.toolkit.moudle.openapi.pojo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.collect.Lists;
 import com.libre.framework.toolkit.moudle.openapi.ChatModel;
 import lombok.Data;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +31,6 @@ public class ChatRequest {
 	 * model will generate as if from the beginning of a new document.
 	 */
 	private String prompt;
-
 
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private List<Message> messages;
@@ -93,8 +95,11 @@ public class ChatRequest {
 	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private String stop;
 
+	public ChatRequest() {
+		this.model = ChatModel.GPT_3_TURBO.getType();
+	}
+
 	public ChatRequest(String prompt) {
-		this.prompt = prompt;
 		this.model = ChatModel.GPT_3_TURBO.getType();
 	}
 

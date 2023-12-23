@@ -61,22 +61,22 @@ public class LibreSecurityConfiguration implements SmartInitializingSingleton {
 	@Bean
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(AbstractHttpConfigurer::disable)
-						.headers(header -> header.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-				        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				        .authorizeHttpRequests(request -> {
-											request.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
-											request.requestMatchers(properties.getPermitAll().toArray(new String[0])).permitAll();
-											request.anyRequest().authenticated();
-						})
-				        .exceptionHandling(exception -> exception.accessDeniedHandler(authHandler));
-
+			.headers(header -> header.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+			.authorizeHttpRequests(request -> {
+				request.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
+				request.requestMatchers(properties.getPermitAll().toArray(new String[0])).permitAll();
+				request.anyRequest().authenticated();
+			})
+			.exceptionHandling(exception -> exception.accessDeniedHandler(authHandler));
 
 		http.formLogin(login -> login.loginPage("/")
-				.loginProcessingUrl("/api/auth/token")
-				.failureHandler(authHandler)
-				.successHandler(authHandler)
-				.authenticationDetailsSource(authDetailsSource)
-				.permitAll()).logout(logout -> logout.logoutUrl("/api/auth/logout")
+			.loginProcessingUrl("/api/auth/token")
+			.failureHandler(authHandler)
+			.successHandler(authHandler)
+			.authenticationDetailsSource(authDetailsSource)
+			.permitAll())
+			.logout(logout -> logout.logoutUrl("/api/auth/logout")
 				.clearAuthentication(true)
 				.logoutSuccessHandler(authHandler)
 				.logoutSuccessUrl("/"));
@@ -113,7 +113,7 @@ public class LibreSecurityConfiguration implements SmartInitializingSingleton {
 	@Override
 	public void afterSingletonsInstantiated() {
 		authenticationManagerBuilder
-				.authenticationProvider(applicationContext.getBean(LibreAuthenticationProvider.class));
+			.authenticationProvider(applicationContext.getBean(LibreAuthenticationProvider.class));
 		authenticationManagerBuilder.eraseCredentials(false);
 	}
 

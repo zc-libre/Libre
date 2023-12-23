@@ -28,9 +28,18 @@ public class ChatResponse {
 
 		private int index;
 
-		private String text;
+		private ResponseMessage message;
 
 		private Object logprobs;
+
+	}
+
+	@Data
+	public static class ResponseMessage {
+
+		private String role;
+
+		private String content;
 
 	}
 

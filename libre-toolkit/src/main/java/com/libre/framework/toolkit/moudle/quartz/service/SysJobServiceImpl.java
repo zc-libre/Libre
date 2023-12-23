@@ -40,8 +40,8 @@ public class SysJobServiceImpl extends ServiceImpl<SysJobMapper, SysJob> impleme
 	}
 
 	private LambdaQueryWrapper<SysJob> getQueryWrapper(SysJobCriteria criteria) {
-		return Wrappers.<SysJob>lambdaQuery().eq(Objects.nonNull(criteria.getJobStatus()), SysJob::getJobStatus,
-				criteria);
+		return Wrappers.<SysJob>lambdaQuery()
+			.eq(Objects.nonNull(criteria.getJobStatus()), SysJob::getJobStatus, criteria);
 	}
 
 	@Override
@@ -54,8 +54,10 @@ public class SysJobServiceImpl extends ServiceImpl<SysJobMapper, SysJob> impleme
 			JobDetail jobDetail = JobBuilder.newJob(ScheduleJob.class).withIdentity(JOB_NAME + job.getId()).build();
 
 			// 通过触发器名和cron 表达式创建 Trigger
-			Trigger cronTrigger = newTrigger().withIdentity(JOB_NAME + job.getId()).startNow()
-					.withSchedule(CronScheduleBuilder.cronSchedule(job.getCronExpression())).build();
+			Trigger cronTrigger = newTrigger().withIdentity(JOB_NAME + job.getId())
+				.startNow()
+				.withSchedule(CronScheduleBuilder.cronSchedule(job.getCronExpression()))
+				.build();
 
 			cronTrigger.getJobDataMap().put(SysJob.JOB_KEY, job);
 

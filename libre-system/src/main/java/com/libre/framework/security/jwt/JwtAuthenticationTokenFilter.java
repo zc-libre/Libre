@@ -21,7 +21,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-
 import java.io.IOException;
 
 /**
@@ -46,8 +45,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 		String token = jwtTokenService.getToken(request);
 		if (StringUtil.isBlank(token)) {
 			chain.doFilter(request, response);
-		return;
-	}
+			return;
+		}
 		TokenVo tokenVo = jwtTokenStore.get(token);
 		if (tokenVo == null) {
 			// jwt token 解析错误 401
