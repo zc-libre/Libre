@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface BlogUserService extends IService<BlogUser> {
 
-	Author getBlogAuthor();
+	Author getBlogAuthor(String authorKey);
 
 	List<BlogUser> findCriteria(BlogUserCriteria criteria);
 

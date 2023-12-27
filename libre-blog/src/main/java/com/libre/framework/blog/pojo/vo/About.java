@@ -1,4 +1,4 @@
-package com.libre.framework.blog.pojo;
+package com.libre.framework.blog.pojo.vo;
 
 import com.libre.framework.blog.pojo.vo.ArticleCount;
 import lombok.Data;

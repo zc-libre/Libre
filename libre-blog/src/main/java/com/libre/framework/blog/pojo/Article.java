@@ -1,6 +1,5 @@
 package com.libre.framework.blog.pojo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.libre.framework.common.base.BaseEntity;
 import lombok.Data;
@@ -31,9 +30,6 @@ public class Article extends BaseEntity {
 
 	private Integer enableComment;
 
-	private Integer isAbout;
-
-	@TableField(exist = false)
-	private Long tagId;
+	private Integer articleType;
 
 }

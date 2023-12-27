@@ -39,9 +39,13 @@ public class ArticleVO {
 
 	private Integer enableComment;
 
-	private Integer isAbout;
+	private Integer articleType;
 
 	private ArticleCount count;
+
+	private ArticleVO preArticle;
+
+	private ArticleVO nextArticle;
 
 	/**
 	 * 创建时间

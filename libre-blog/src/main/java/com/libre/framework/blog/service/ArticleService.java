@@ -2,7 +2,7 @@ package com.libre.framework.blog.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.libre.framework.blog.pojo.About;
+import com.libre.framework.blog.pojo.vo.About;
 import com.libre.framework.blog.pojo.Article;
 import com.libre.framework.blog.pojo.dto.ArticleCriteria;
 import com.libre.framework.blog.pojo.dto.ArticleDTO;

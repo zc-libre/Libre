@@ -6,8 +6,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.*;
 import com.libre.boot.exception.BusinessException;
+import com.libre.framework.blog.common.CacheConstants;
+import com.libre.framework.blog.enums.ArticleType;
 import com.libre.framework.blog.mapper.ArticleMapper;
-import com.libre.framework.blog.pojo.*;
+import com.libre.framework.blog.pojo.Article;
+import com.libre.framework.blog.pojo.ArticleTag;
+import com.libre.framework.blog.pojo.Category;
+import com.libre.framework.blog.pojo.Tag;
 import com.libre.framework.blog.pojo.dto.*;
 import com.libre.framework.blog.pojo.vo.*;
 import com.libre.framework.blog.service.*;
@@ -27,6 +32,7 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -79,11 +85,34 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 	@Override
 	public ArticleVO getArticleById(Long id) {
 		Article article = baseMapper.selectById(id);
-		List<ArticleVO> voList = buildVoList(ImmutableList.of(article));
-		if (CollectionUtils.isEmpty(voList)) {
-			return null;
+		if (Objects.isNull(article)) {
+			return new ArticleVO();
 		}
-		return voList.get(0);
+		Article nextArticle = baseMapper.selectOne(
+				buildGetOneWrapper(ArticleType.BLOG.getType()).gt(Article::getGmtCreate, article.getGmtCreate()));
+		Article preArticle = baseMapper.selectOne(
+				buildGetOneWrapper(ArticleType.BLOG.getType()).lt(Article::getGmtCreate, article.getGmtCreate()));
+		List<Article> articleList = Lists.newArrayList();
+		articleList.add(article);
+		Optional.ofNullable(preArticle).ifPresent(articleList::add);
+		Optional.ofNullable(nextArticle).ifPresent(articleList::add);
+		List<ArticleVO> voList = buildVoList(articleList);
+		if (CollectionUtils.isEmpty(voList)) {
+			return new ArticleVO();
+		}
+
+		Map<Long, ArticleVO> articleMap = voList.stream()
+			.filter(Objects::nonNull)
+			.collect(Collectors.toMap(ArticleVO::getId, Function.identity()));
+		ArticleVO articleVO = articleMap.get(article.getId());
+
+		if (Objects.nonNull(preArticle) && articleMap.containsKey(preArticle.getId())) {
+			articleVO.setPreArticle(articleMap.get(preArticle.getId()));
+		}
+		if (Objects.nonNull(nextArticle) && articleMap.containsKey(nextArticle.getId())) {
+			articleVO.setNextArticle(articleMap.get(nextArticle.getId()));
+		}
+		return articleVO;
 	}
 
 	@Override
@@ -98,7 +127,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
 	@Override
 	public PageDTO<ArticleVO> findByPage(PageDTO<Article> page, ArticleCriteria criteria) {
-		criteria.setIsAbout(LibreConstants.NO);
+		criteria.setArticleType(ArticleType.BLOG.getType());
 		PageDTO<Article> res = this.page(page, buildQueryWrapper(criteria));
 		List<Article> records = res.getRecords();
 		if (CollectionUtils.isEmpty(records)) {
@@ -159,7 +188,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
 	@Override
 	public About findAboutMe() {
-		ArticleCriteria criteria = ArticleCriteria.builder().isAbout(LibreConstants.YES).build();
+		ArticleCriteria criteria = ArticleCriteria.builder().articleType(ArticleType.ABOUT.getType()).build();
 		Article article = this.getOne(buildQueryWrapper(criteria));
 		About about = new About();
 		if (Objects.isNull(article)) {
@@ -177,7 +206,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
 	@Override
 	public PageDTO<ArticleVO> findPageByTagId(PageDTO<ArticleVO> page, ArticleCriteria criteria) {
-		criteria.setIsAbout(LibreConstants.NO);
+		criteria.setArticleType(ArticleType.BLOG.getType());
 		PageDTO<ArticleVO> result = baseMapper.findPageByTagId(page, criteria);
 		List<ArticleVO> voList = result.getRecords();
 		if (CollectionUtils.isEmpty(voList)) {
@@ -217,8 +246,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 		Set<Long> categoryIds = voList.stream().map(ArticleVO::getCategoryId).collect(Collectors.toSet());
 		Map<Long, Tag> tagMap = findTagsAsMap(tagIds);
 		Map<Long, Category> categoryMap = findCategoryAsMap(categoryIds);
-
-		Author author = blogUserService.getBlogAuthor();
+		Author author = blogUserService.getBlogAuthor(CacheConstants.BLOG_USER_AUTHOR_KEY);
 		for (ArticleVO articleVO : voList) {
 			if (!categoryMap.containsKey(articleVO.getCategoryId())) {
 				continue;
@@ -289,13 +317,21 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 			.eq(Objects.nonNull(criteria.getCategoryId()), Article::getCategoryId, criteria.getCategoryId())
 			.eq(Objects.nonNull(criteria.getTop()), Article::getTop, criteria.getTop())
 			.eq(Objects.nonNull(criteria.getFeatured()), Article::getFeatured, criteria.getFeatured())
-			.eq(Objects.nonNull(criteria.getIsAbout()), Article::getIsAbout, criteria.getIsAbout())
+			.eq(Objects.nonNull(criteria.getArticleType()), Article::getArticleType, criteria.getArticleType())
 			.in(CollectionUtils.isNotEmpty(criteria.getArticleIds()), Article::getId, criteria.getArticleIds());
 		if (criteria.haveTime()) {
 			wrapper.between(Article::getGmtCreate, criteria.getStartTime(), criteria.getEndTime());
 		}
 		wrapper.orderByDesc(Article::getGmtCreate);
 		return wrapper;
+	}
+
+	private static LambdaQueryWrapper<Article> buildGetOneWrapper(Integer articleType) {
+		LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
+		queryWrapper.eq(Article::getArticleType, articleType);
+		queryWrapper.orderByDesc(Article::getGmtCreate);
+		queryWrapper.last("LIMIT 1");
+		return queryWrapper;
 	}
 
 }
