@@ -13,8 +13,8 @@
         <result column="top" property="top"/>
         <result column="featured" property="featured"/>
         <result column="category_id" property="categoryId"/>
+        <result column="article_type" property="articleType"/>
         <result column="enable_comment" property="enableComment"/>
-        <result column="is_about" property="isAbout"/>
         <result column="gmt_create" property="gmtCreate"/>
         <result column="gmt_modified" property="gmtModified"/>
     </resultMap>
@@ -35,7 +35,7 @@
                featured,
                category_id,
                enable_comment,
-               is_about,
+               article_type,
                a.gmt_create,
                a.gmt_modified
         FROM blog_article a
@@ -48,11 +48,11 @@
             <if test="criteria.tagId != null">
                 and at.tag_id = #{criteria.tagId, jdbcType=BIGINT}
             </if>
-            <if test="criteria.isAbout != null">
-                and a.is_about = #{criteria.isAbout, jdbcType=INTEGER}
-            </if>
             <if test="criteria.status != null">
                 and a.status = #{criteria.status, jdbcType=INTEGER}
+            </if>
+            <if test="criteria.articleType != null">
+                and a.article_type = #{criteria.articleType, jdbcType=INTEGER}
             </if>
         </where>
     </select>

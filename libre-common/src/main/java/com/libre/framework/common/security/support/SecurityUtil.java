@@ -3,11 +3,11 @@ package com.libre.framework.common.security.support;
 import com.libre.boot.toolkit.RequestUtils;
 import com.libre.framework.common.security.constant.SecurityConstant;
 import com.libre.framework.common.security.dto.AuthUser;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Libre
@@ -35,8 +35,18 @@ public class SecurityUtil {
 		if (principal instanceof AuthUser) {
 			return ((AuthUser) principal);
 		}
+
 		return null;
 	}
+
+	public static OAuth2User getOauth2User(Authentication authentication) {
+		Object principal = authentication.getPrincipal();
+		if (principal instanceof OAuth2User) {
+			return (OAuth2User) principal;
+		}
+		return null;
+	}
+
 
 	/**
 	 * 获取用户

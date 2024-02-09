@@ -1,0 +1,186 @@
+server:
+  port: 9876
+
+spring:
+  application:
+    name: Libre
+  profiles:
+    active: dev
+    include: quartz
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+  mail:
+    protocol: smtp
+    test-connection: false
+    default-encoding: UTF-8
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
+      mail.smtp.ssl.enable: true
+      mail.display.sendmail: Libre
+  flyway:
+    enabled: true
+    locations:
+      - classpath:db/postgres
+    baseline-on-migrate: true
+    clean-disabled: true
+    baseline-version: 0
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  global-config:
+    db-config:
+      id-type: assign_id
+      insert-strategy: not_null
+      update-strategy: not_null
+      where-strategy: not_null
+      table-underline: true
+      logic-delete-field: isDeleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+    banner: false
+
+logging:
+  file:
+    path: './logs/'
+#  level:
+#    org.springframework.web: trace
+#    org.springframework.security: trace
+#    tracer: trace
+#    org.elasticsearch.client: trace
+libre:
+  security:
+    permit-all:
+      - /**
+      - test
+      - /api/auth/token
+      - /favicon.ico
+      - /error
+      - /oauth2/**
+      - /login/**
+      - /static/**
+      - /webjars*
+      - /webjars/**
+      - /websocket/**
+      - /**.html
+      - /**.css
+      - /**.js
+      - /file/**
+      - /swagger-resources/**
+      - /v3/api-docs
+      - /v3/api-docs/swagger-config
+      - /doc.html
+      - /swagger-ui/**
+      - /web/**
+      - /callback/**
+      - /test/**
+      - /error/**
+      - /error**
+  websocket:
+    server:
+      allowed-origins:
+        - http://127.0.0.1:63342
+        - http://localhost:63342
+management:
+  health:
+    elasticsearch:
+      enabled: false
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://127.0.0.1:5432/libre?reWriteBatchedInserts=true
+#    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+#    url: jdbc:p6spy:postgresql://127.0.0.1:5432/libre?reWriteBatchedInserts=true
+    username: libre
+    password: 123456
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      connection-timeout: 1000000
+      maximum-pool-size: 5
+      max-lifetime: 0
+      minimum-idle: 1
+      connection-test-query: SELECT 1
+  cache:
+    redis:
+      time-to-live: 2h
+      key-prefix: "libre:"
+  mail:
+    host: smtp.163.com
+    password: ESAHXBZHJYQRYLAR
+    username: librezc@163.com
+    port: 465
+  security:
+    oauth2:
+      client:
+        registration:
+          gitee:
+            client-id: a68c4d56b49de8552d00ffa6b3f92abd1f3b3ddba1385519fb2783a176d91489
+            client-secret: 6b86072e72502531b9ccb9f3cd15392c6a3d7bfe6e6b3547a558d70a7f7c8e7c
+            redirect-uri: http://vpn.zclibre.com/login/oauth2/code/gitee
+            authorization-grant-type: authorization_code
+            scope:
+              - user_info
+          github:
+            client-id: 8d045b700136923af9ed
+            client-secret: 64bbab0395a10c34aa3d75f7e7464b00f771fb6a
+            redirect-uri: http://vpn.zclibre.com/login/oauth2/code/github
+        provider:
+          gitee:
+            authorization-uri: https://gitee.com/oauth/authorize
+            token-uri: https://gitee.com/oauth/token
+            user-info-uri: https://gitee.com/api/v5/user
+            user-name-attribute: name
+
+libre:
+  redisson:
+    single:
+      address: 127.0.0.1:6379
+  xss:
+    enabled: true
+  redis:
+    serializer-type: json
+  oss:
+    endpoint: https://oss.zclibre.com
+    bucket-name: libre
+    access-key: libre
+    secret-key: zc504879189..
+  file:
+    upload-path: /Users/libre/video/
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://127.0.0.1:5432/libre
+    username: xxxxxxx
+    password: xxxxxxx
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      connection-timeout: 1000000
+      maximum-pool-size: 5
+      max-lifetime: 1800000
+      minimum-idle: 1
+      connection-test-query: SELECT 1
+  cache:
+    redis:
+      time-to-live: 2h
+      key-prefix: "libre:"
+  data:
+    redis:
+      host: 127.0.0.1
+libre:
+  redis:
+    serializer-type: json

@@ -26,4 +26,10 @@ public class Comment extends BaseEntity {
 
 	private Long replyUserId;
 
+	private String os;
+
+	private String browser;
+
+	private String address;
+
 }

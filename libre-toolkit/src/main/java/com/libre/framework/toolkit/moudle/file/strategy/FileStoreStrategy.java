@@ -11,12 +11,31 @@ import java.util.List;
  */
 public interface FileStoreStrategy {
 
+	/**
+	 * 保存文件
+	 * @param sourceFile 文件
+	 * @param sysFile 文件实体
+	 * @throws Exception e
+	 */
 	void createFile(MultipartFile sourceFile, SysFile sysFile) throws Exception;
 
+	/**
+	 * 删除文件
+	 * @param sysFile 文件
+	 */
 	void delete(SysFile sysFile);
 
+	/**
+	 * 获取文件地址
+	 * @param sysFile 文件
+	 * @return 文件外链
+	 */
 	String getFileUrl(SysFile sysFile);
 
+	/**
+	 * 获取所有文件
+	 * @return 文件列表
+	 */
 	List<SysFile> getAllFiles();
 
 }

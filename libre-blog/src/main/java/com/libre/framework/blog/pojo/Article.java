@@ -5,11 +5,13 @@ import com.libre.framework.common.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @TableName("blog_article")
+@Document(indexName = "video", createIndex = false)
 public class Article extends BaseEntity {
 
 	private String cover;

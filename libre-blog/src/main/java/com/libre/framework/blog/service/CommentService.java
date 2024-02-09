@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.libre.framework.blog.pojo.Comment;
 import com.libre.framework.blog.pojo.dto.CommentCriteria;
 import com.libre.framework.blog.pojo.dto.CommentDTO;
+import com.libre.framework.blog.pojo.vo.CommentPage;
 import com.libre.framework.blog.pojo.vo.CommentVO;
 
 import java.util.List;
@@ -13,8 +14,8 @@ public interface CommentService extends IService<Comment> {
 
 	List<CommentVO> findRecentComments();
 
-	void add(CommentDTO comment);
+	Long add(CommentDTO comment);
 
-	PageDTO<CommentVO> findByPage(PageDTO<Comment> page, CommentCriteria criteria);
+	CommentPage findByPage(PageDTO<Comment> page, CommentCriteria criteria);
 
 }

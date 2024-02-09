@@ -22,13 +22,7 @@
         <dependency>
             <groupId>com.libre</groupId>
             <artifactId>libre-toolkit</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.libre</groupId>
-            <artifactId>libre-blog</artifactId>
-            <version>1.0.0</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

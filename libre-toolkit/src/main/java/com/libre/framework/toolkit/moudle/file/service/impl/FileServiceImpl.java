@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.google.common.collect.Lists;
-import com.google.common.io.Files;
 import com.libre.framework.toolkit.moudle.file.mapper.SysFileMapper;
 import com.libre.framework.toolkit.moudle.file.pojo.SysFile;
 import com.libre.framework.toolkit.moudle.file.pojo.SysFileCriteria;
@@ -16,6 +14,8 @@ import com.libre.framework.toolkit.moudle.file.strategy.FileStoreStrategy;
 import com.libre.toolkit.core.StringUtil;
 import com.libre.toolkit.exception.LibreException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,31 +40,22 @@ public class FileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impleme
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public String createFile(MultipartFile file, Integer saveType) {
+	public String createFile(MultipartFile file, Integer saveType) throws Exception {
 		SysFile sysFile = new SysFile();
 		String originalFilename = file.getOriginalFilename();
 		String fileName = Clock.systemDefaultZone().millis() + StringPool.DASH + originalFilename;
 		sysFile.setRealName(fileName);
 		sysFile.setName(originalFilename);
 		if (StringUtil.isNotBlank(originalFilename)) {
-			String fileExtension = Files.getFileExtension(originalFilename);
-			sysFile.setSuffix(fileExtension);
+			String extension = FilenameUtils.getExtension(originalFilename);
+			sysFile.setSuffix(extension);
 		}
 		sysFile.setSize(file.getSize());
 		sysFile.setSaveType(saveType);
 		FileStoreStrategy fileStoreStrategy = FileStoreFactory.getFileStoreStrategy(saveType);
-		String path;
-		try {
-			fileStoreStrategy.createFile(file, sysFile);
-			this.save(sysFile);
-			path = sysFile.getPath();
-		}
-		catch (Exception e) {
-			fileStoreStrategy.delete(sysFile);
-			log.info("文件上传失败", e);
-			throw new LibreException("文件上传失败");
-		}
-		return path;
+		fileStoreStrategy.createFile(file, sysFile);
+		this.save(sysFile);
+		return sysFile.getPath();
 	}
 
 	@Override
@@ -87,12 +78,13 @@ public class FileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impleme
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void sync(Integer saveType) {
-		baseMapper.deleteBySaveType(saveType);
 		FileStoreStrategy fileStoreStrategy = FileStoreFactory.getFileStoreStrategy(saveType);
-		List<SysFile> allFiles = Lists.newArrayList();
+		baseMapper.deleteBySaveType(saveType);
 		List<SysFile> fileList = fileStoreStrategy.getAllFiles();
-		allFiles.addAll(fileList);
-		this.saveBatch(allFiles);
+
+		if (CollectionUtils.isNotEmpty(fileList)) {
+			this.saveBatch(fileList);
+		}
 	}
 
 	private LambdaQueryWrapper<SysFile> getQueryWrapper(SysFileCriteria criteria) {

@@ -15,6 +15,7 @@ import com.libre.framework.blog.pojo.Category;
 import com.libre.framework.blog.pojo.Tag;
 import com.libre.framework.blog.pojo.dto.*;
 import com.libre.framework.blog.pojo.vo.*;
+import com.libre.framework.blog.search.ElasticSearchHandler;
 import com.libre.framework.blog.service.*;
 import com.libre.framework.blog.service.mapstruct.ArticleMapping;
 import com.libre.framework.common.constant.LibreConstants;
@@ -24,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -46,6 +48,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 	private final TagService tagService;
 
 	private final BlogUserService blogUserService;
+
+	private final ElasticSearchHandler elasticSearchHandler;
+
+	private final ElasticsearchOperations elasticsearchOperations;
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -138,6 +144,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 	}
 
 	@Override
+	public List<ArticleIndex> search(PageDTO<Article> page, ArticleCriteria criteria) {
+		return elasticSearchHandler.search(page, criteria);
+	}
+
+	@Override
 	public List<Article> findList(ArticleCriteria criteria) {
 		return this.list(buildQueryWrapper(criteria));
 	}
@@ -169,6 +180,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
 	@Override
 	public PageDTO<Archive> findArchives(PageDTO<Article> page, ArticleCriteria criteria) {
+		criteria.setArticleType(ArticleType.BLOG.getType());
+		criteria.setStatus(LibreConstants.ENABLE);
 		PageDTO<Article> result = this.page(page, buildQueryWrapper(criteria));
 		List<Article> records = result.getRecords();
 		if (CollectionUtils.isEmpty(records)) {
@@ -216,6 +229,38 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 		return PageUtil.toPage(page, voList);
 	}
 
+	@Override
+	public MessageBoard messageBoard() {
+		MessageBoard messageBoard = new MessageBoard();
+		ArticleCriteria criteria = ArticleCriteria.builder().articleType(ArticleType.COMMENT.getType()).build();
+		Article article = this.getOne(buildQueryWrapper(criteria));
+		if (Objects.isNull(article)) {
+			return messageBoard;
+		}
+		messageBoard.setId(article.getId());
+		messageBoard.setContent(article.getContent());
+		messageBoard.setCreateTime(article.getGmtCreate());
+		ArticleCount count = buildArticleCount(article.getContent());
+		messageBoard.setCount(count);
+		return messageBoard;
+	}
+
+	@Override
+	public void syncElasticsearch() {
+		ArticleCriteria criteria = new ArticleCriteria();
+		criteria.setArticleType(ArticleType.BLOG.getType());
+		criteria.setStatus(LibreConstants.ENABLE);
+		List<Article> articleList = this.findList(criteria);
+		if (CollectionUtils.isNotEmpty(articleList)) {
+			for (Article article : articleList) {
+				article.setContent(Jsoup.clean(article.getContent(), Safelist.none()));
+			}
+			ArticleMapping mapping = ArticleMapping.INSTANCE;
+			List<ArticleIndex> articleIndices = mapping.convertToArticleIndexList(articleList);
+			elasticsearchOperations.save(articleIndices);
+		}
+	}
+
 	private static ArticleCount buildArticleCount(String content) {
 		String cleanText = Jsoup.clean(content, Safelist.none());
 		ArticleCount count = new ArticleCount();
@@ -224,7 +269,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 		}
 		double length = cleanText.length();
 		count.setSymbolsCount(Math.round(length / 100D) / 10 + "k");
-		count.setSymbolsTime(Math.round(length / 40D) / 10 + "min");
+		count.setSymbolsTime(Math.round(length / 40D) / 10 + "mins");
 		return count;
 	}
 
@@ -311,13 +356,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 		return tagMap;
 	}
 
-	private static LambdaQueryWrapper<Article> buildQueryWrapper(ArticleCriteria criteria) {
+	public LambdaQueryWrapper<Article> buildQueryWrapper(ArticleCriteria criteria) {
 		LambdaQueryWrapper<Article> wrapper = Wrappers.<Article>lambdaQuery()
 			.nested(criteria.isBlurryQuery(), k -> k.like(Article::getArticleName, criteria.getBlurry()))
 			.eq(Objects.nonNull(criteria.getCategoryId()), Article::getCategoryId, criteria.getCategoryId())
 			.eq(Objects.nonNull(criteria.getTop()), Article::getTop, criteria.getTop())
 			.eq(Objects.nonNull(criteria.getFeatured()), Article::getFeatured, criteria.getFeatured())
 			.eq(Objects.nonNull(criteria.getArticleType()), Article::getArticleType, criteria.getArticleType())
+			.eq(Objects.nonNull(criteria.getStatus()), Article::getStatus, criteria.getStatus())
 			.in(CollectionUtils.isNotEmpty(criteria.getArticleIds()), Article::getId, criteria.getArticleIds());
 		if (criteria.haveTime()) {
 			wrapper.between(Article::getGmtCreate, criteria.getStartTime(), criteria.getEndTime());

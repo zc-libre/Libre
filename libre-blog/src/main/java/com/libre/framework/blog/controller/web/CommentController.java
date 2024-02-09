@@ -1,6 +1,10 @@
 package com.libre.framework.blog.controller.web;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
+import com.libre.framework.blog.pojo.Comment;
+import com.libre.framework.blog.pojo.dto.CommentCriteria;
 import com.libre.framework.blog.pojo.dto.CommentDTO;
+import com.libre.framework.blog.pojo.vo.CommentPage;
 import com.libre.framework.blog.pojo.vo.CommentVO;
 import com.libre.framework.blog.service.CommentService;
 import com.libre.toolkit.result.R;
@@ -22,15 +26,17 @@ public class CommentController {
 		return R.data(recentComments);
 	}
 
+	@GetMapping("/page")
+	public R<CommentPage> page(PageDTO<Comment> page, CommentCriteria criteria) {
+		CommentPage commentPage = commentService.findByPage(page, criteria);
+		return R.data(commentPage);
+	}
+
 	@PostMapping("/save")
-	public R<Boolean> save(@RequestBody CommentDTO comment) {
-		commentService.add(comment);
-		return R.status(true);
+	public R<Long> save(@RequestBody CommentDTO comment) {
+		Long commentId = commentService.add(comment);
+		return R.data(commentId);
 	}
 
-	@GetMapping("")
-	public void page() {
-
-	}
 
 }

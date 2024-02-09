@@ -1,13 +1,10 @@
 package com.libre.framework.blog.controller.web;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
-import com.libre.framework.blog.pojo.vo.About;
 import com.libre.framework.blog.pojo.Article;
 import com.libre.framework.blog.pojo.dto.ArticleCriteria;
-import com.libre.framework.blog.pojo.vo.Archive;
-import com.libre.framework.blog.pojo.vo.ArticleVO;
-import com.libre.framework.blog.pojo.vo.Statistic;
-import com.libre.framework.blog.pojo.vo.TopAndFeaturedArticleVO;
+import com.libre.framework.blog.pojo.dto.ArticleIndex;
+import com.libre.framework.blog.pojo.vo.*;
 import com.libre.framework.blog.service.ArticleService;
 import com.libre.framework.blog.service.StatisticService;
 import com.libre.toolkit.result.R;
@@ -16,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,6 +34,12 @@ public class ArticleController {
 	@GetMapping("/page")
 	public R<PageDTO<ArticleVO>> page(PageDTO<Article> page, ArticleCriteria criteria) {
 		PageDTO<ArticleVO> result = articleService.findByPage(page, criteria);
+		return R.data(result);
+	}
+
+	@GetMapping("/search")
+	public R<List<ArticleIndex>> search(PageDTO<Article> page, ArticleCriteria criteria) {
+		List<ArticleIndex> result = articleService.search(page, criteria);
 		return R.data(result);
 	}
 
@@ -66,6 +71,18 @@ public class ArticleController {
 	public R<About> archives() {
 		About about = articleService.findAboutMe();
 		return R.data(about);
+	}
+
+	@GetMapping("/messageBoard")
+	public R<MessageBoard> messageBoard() {
+		MessageBoard messageBoard = articleService.messageBoard();
+		return R.data(messageBoard);
+	}
+
+	@GetMapping("/sync")
+	public R<Boolean> sync() {
+		articleService.syncElasticsearch();
+		return R.status(true);
 	}
 
 }

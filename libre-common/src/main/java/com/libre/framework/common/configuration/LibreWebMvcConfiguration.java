@@ -39,6 +39,7 @@ public class LibreWebMvcConfiguration implements WebMvcConfigurer {
 			.allowedOriginPatterns("*")
 			.allowedMethods("PUT", "DELETE", "GET", "POST", "OPTIONS")
 			.allowedHeaders("*")
+			.allowCredentials(true)
 			.exposedHeaders("access-control-allow-headers", "access-control-allow-methods",
 					"access-control-allow-origin", "access-control-max-age", "X-Frame-Options")
 			.maxAge(3600);

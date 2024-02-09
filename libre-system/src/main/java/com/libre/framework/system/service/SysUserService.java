@@ -3,7 +3,7 @@ package com.libre.framework.system.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.libre.framework.security.pojo.dto.UserInfo;
+import com.libre.framework.system.security.pojo.dto.UserInfo;
 import com.libre.framework.system.pojo.dto.UserCriteria;
 import com.libre.framework.system.pojo.dto.UserDTO;
 import com.libre.framework.system.pojo.entity.SysUser;

@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.libre.framework.common.constant.LibreConstants;
 import com.libre.framework.common.security.constant.SecurityConstant;
-import com.libre.framework.security.pojo.dto.UserInfo;
+import com.libre.framework.system.security.pojo.dto.UserInfo;
 import com.libre.framework.system.constant.MenuConstants;
 import com.libre.framework.system.enums.MenuType;
 import com.libre.framework.system.mapper.SysMenuMapper;

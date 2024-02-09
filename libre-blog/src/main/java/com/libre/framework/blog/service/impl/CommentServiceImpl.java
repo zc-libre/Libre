@@ -6,21 +6,31 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.libre.boot.toolkit.RequestUtils;
 import com.libre.framework.blog.mapper.CommentMapper;
 import com.libre.framework.blog.pojo.BlogUser;
 import com.libre.framework.blog.pojo.Comment;
 import com.libre.framework.blog.pojo.dto.BlogUserCriteria;
 import com.libre.framework.blog.pojo.dto.CommentCriteria;
 import com.libre.framework.blog.pojo.dto.CommentDTO;
+import com.libre.framework.blog.pojo.vo.CommentPage;
 import com.libre.framework.blog.pojo.vo.CommentVO;
 import com.libre.framework.blog.service.BlogUserService;
 import com.libre.framework.blog.service.CommentService;
 import com.libre.framework.blog.service.mapstruct.CommentMapping;
 import com.libre.framework.common.constant.LibreConstants;
+import com.libre.ip2region.core.Ip2regionSearcher;
 import com.libre.mybatis.util.PageUtil;
+import com.libre.toolkit.core.INetUtil;
+import com.libre.toolkit.core.StringUtil;
+import eu.bitwalker.useragentutils.Browser;
+import eu.bitwalker.useragentutils.OperatingSystem;
+import eu.bitwalker.useragentutils.UserAgent;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -33,33 +43,52 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
 	private final BlogUserService blogUserService;
 
+	private final Ip2regionSearcher searcher;
+
 	@Override
 	public List<CommentVO> findRecentComments() {
 		CommentCriteria criteria = new CommentCriteria();
 		criteria.setParentId(0L);
 		criteria.setLimit(6);
 		List<Comment> commentList = this.list(buildQueryWrapper(criteria));
+		if (CollectionUtils.isEmpty(commentList)) {
+			return Collections.emptyList();
+		}
 		return buildVoList(commentList);
 	}
 
 	@Override
-	public void add(CommentDTO comment) {
-
+	public Long add(CommentDTO commentDTO) {
+		CommentMapping mapping = CommentMapping.INSTANCE;
+		Comment comment = mapping.convertToComment(commentDTO);
+		if (Objects.isNull(comment.getParentId())) {
+			comment.setParentId(0L);
+		}
+		// 获取操作系统和浏览器信息
+		setRequestInfo(comment);
+		this.save(comment);
+		return comment.getId();
 	}
 
 	@Override
-	public PageDTO<CommentVO> findByPage(PageDTO<Comment> page, CommentCriteria criteria) {
+	public CommentPage findByPage(PageDTO<Comment> page, CommentCriteria criteria) {
 		if (Objects.isNull(criteria)) {
 			criteria = new CommentCriteria();
 		}
 		criteria.setParentId(0L);
 		PageDTO<Comment> result = this.page(page, buildQueryWrapper(criteria));
 		List<Comment> records = result.getRecords();
+		CommentPage commentPage = new CommentPage();
 		if (CollectionUtils.isEmpty(records)) {
-			return PageUtil.toPage(result, Lists.newArrayList());
+			return commentPage;
 		}
 		List<CommentVO> voList = buildVoList(records);
-		return PageUtil.toPage(result, voList);
+		PageDTO<CommentVO> res = PageUtil.toPage(result, voList);
+		commentPage.setSize(res.getSize());
+		commentPage.setRecords(res.getRecords());
+		commentPage.setCurrent(res.getCurrent());
+		commentPage.setTotal(res.getTotal());
+		return commentPage;
 	}
 
 	private List<Comment> findReply(Collection<Long> parentIds) {
@@ -71,9 +100,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 	private List<CommentVO> buildVoList(List<Comment> commentList) {
 		CommentMapping mapping = CommentMapping.INSTANCE;
 		List<CommentVO> voList = mapping.sourceToTarget(commentList);
-		if (CollectionUtils.isEmpty(voList)) {
-			return voList;
-		}
+
 		Set<Long> parentIds = voList.stream().map(CommentVO::getId).collect(Collectors.toSet());
 		List<Comment> replyComments = this.findReply(parentIds);
 
@@ -89,7 +116,10 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 		for (CommentVO vo : voList) {
 			List<CommentVO> replyList = replyMap.get(vo.getId());
 			if (CollectionUtils.isNotEmpty(replyList)) {
-				vo.setReply(replyList);
+				CommentVO.ReplyComment replyComment = new CommentVO.ReplyComment();
+				replyComment.setTotal(replyList.size());
+				replyComment.setList(replyList);
+				vo.setReply(replyComment);
 			}
 		}
 		return voList;
@@ -137,11 +167,27 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 		return paths;
 	}
 
-	private List<CommentVO> getChildren(CommentVO root, List<CommentVO> all) {
-		return all.stream()
-			.filter(comment -> Objects.equals(comment.getParentId(), root.getId()))
-			.peek(comment -> comment.setReply(getChildren(comment, all)))
-			.collect(Collectors.toList());
+	private void setRequestInfo(Comment comment) {
+		HttpServletRequest request = RequestUtils.getRequest();
+		String userAgentStr = request.getHeader(HttpHeaders.USER_AGENT);
+		UserAgent userAgent = UserAgent.parseUserAgentString(userAgentStr);
+		OperatingSystem system = userAgent.getOperatingSystem();
+		Browser browser = userAgent.getBrowser();
+		String requestIp = RequestUtils.getIp();
+		String requestAddress = getRequestAddress(requestIp);
+		comment.setAddress(requestAddress);
+		comment.setOs(system.getName());
+		comment.setBrowser(browser.getName());
+	}
+
+	private String getRequestAddress(String requestIp) {
+		if (StringUtil.isBlank(requestIp)) {
+			return null;
+		}
+		if (INetUtil.isInternalIp(requestIp)) {
+			return "内网IP";
+		}
+		return searcher.getAddress(requestIp);
 	}
 
 	private LambdaQueryWrapper<Comment> buildQueryWrapper(CommentCriteria criteria) {

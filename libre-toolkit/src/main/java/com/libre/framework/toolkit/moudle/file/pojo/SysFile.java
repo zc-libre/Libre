@@ -35,4 +35,5 @@ public class SysFile extends BaseEntity {
 	@ApiModelProperty(value = "大小")
 	private Long size;
 
+	private String bucket;
 }
