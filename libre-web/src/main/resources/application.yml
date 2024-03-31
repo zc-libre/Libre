@@ -11,6 +11,31 @@ spring:
     multipart:
       max-file-size: 500MB
       max-request-size: 500MB
+  cache:
+    redis:
+      time-to-live: 2h
+      key-prefix: "libre:"
+  security:
+    oauth2:
+      client:
+        registration:
+          gitee:
+            client-id: a68c4d56b49de8552d00ffa6b3f92abd1f3b3ddba1385519fb2783a176d91489
+            client-secret: 6b86072e72502531b9ccb9f3cd15392c6a3d7bfe6e6b3547a558d70a7f7c8e7c
+            redirect-uri: http://localhost:9800
+            authorization-grant-type: authorization_code
+            scope:
+              - user_info
+          github:
+            client-id: 8d045b700136923af9ed
+            client-secret: 64bbab0395a10c34aa3d75f7e7464b00f771fb6a
+            redirect-uri: http://localhost:9800
+        provider:
+          gitee:
+            authorization-uri: https://gitee.com/oauth/authorize
+            token-uri: https://gitee.com/oauth/token
+            user-info-uri: https://gitee.com/api/v5/user
+            user-name-attribute: name
   mail:
     protocol: smtp
     test-connection: false
@@ -21,6 +46,10 @@ spring:
       mail.smtp.starttls.required: true
       mail.smtp.ssl.enable: true
       mail.display.sendmail: Libre
+    host: smtp.163.com
+    password: ESAHXBZHJYQRYLAR
+    username: librezc@163.com
+    port: 465
   flyway:
     enabled: true
     locations:
@@ -51,13 +80,11 @@ logging:
 #  level:
 #    org.springframework.web: trace
 #    org.springframework.security: trace
-#    tracer: trace
-#    org.elasticsearch.client: trace
+   # tracer: trace
+   # org.elasticsearch.client: trace
 libre:
   security:
     permit-all:
-      - /**
-      - test
       - /api/auth/token
       - /favicon.ico
       - /error
@@ -81,6 +108,7 @@ libre:
       - /test/**
       - /error/**
       - /error**
+      - /mqtt/**
   websocket:
     server:
       allowed-origins:
@@ -90,17 +118,16 @@ management:
   health:
     elasticsearch:
       enabled: false
-
 ---
 spring:
   config:
     activate:
       on-profile: dev
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://127.0.0.1:5432/libre?reWriteBatchedInserts=true
-#    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-#    url: jdbc:p6spy:postgresql://127.0.0.1:5432/libre?reWriteBatchedInserts=true
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://127.0.0.1:5432/libre?reWriteBatchedInserts=true
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    url: jdbc:p6spy:postgresql://127.0.0.1:5432/libre?reWriteBatchedInserts=true
     username: libre
     password: 123456
     type: com.zaxxer.hikari.HikariDataSource
@@ -110,37 +137,6 @@ spring:
       max-lifetime: 0
       minimum-idle: 1
       connection-test-query: SELECT 1
-  cache:
-    redis:
-      time-to-live: 2h
-      key-prefix: "libre:"
-  mail:
-    host: smtp.163.com
-    password: ESAHXBZHJYQRYLAR
-    username: librezc@163.com
-    port: 465
-  security:
-    oauth2:
-      client:
-        registration:
-          gitee:
-            client-id: a68c4d56b49de8552d00ffa6b3f92abd1f3b3ddba1385519fb2783a176d91489
-            client-secret: 6b86072e72502531b9ccb9f3cd15392c6a3d7bfe6e6b3547a558d70a7f7c8e7c
-            redirect-uri: http://vpn.zclibre.com/login/oauth2/code/gitee
-            authorization-grant-type: authorization_code
-            scope:
-              - user_info
-          github:
-            client-id: 8d045b700136923af9ed
-            client-secret: 64bbab0395a10c34aa3d75f7e7464b00f771fb6a
-            redirect-uri: http://vpn.zclibre.com/login/oauth2/code/github
-        provider:
-          gitee:
-            authorization-uri: https://gitee.com/oauth/authorize
-            token-uri: https://gitee.com/oauth/token
-            user-info-uri: https://gitee.com/api/v5/user
-            user-name-attribute: name
-
 libre:
   redisson:
     single:
@@ -156,7 +152,12 @@ libre:
     secret-key: zc504879189..
   file:
     upload-path: /Users/libre/video/
-
+  mqtt:
+    username: admin
+    password: public
+    urls: tcp://127.0.0.1:1883
+    producer:
+      async: true
 ---
 spring:
   config:
@@ -164,9 +165,9 @@ spring:
       on-profile: prod
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://127.0.0.1:5432/libre
-    username: xxxxxxx
-    password: xxxxxxx
+    url: jdbc:postgresql://database-1.cr6saacm68mo.ap-southeast-1.rds.amazonaws.com:5432/postgres
+    username: postgres
+    password: zc504879189..
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       connection-timeout: 1000000
@@ -174,13 +175,31 @@ spring:
       max-lifetime: 1800000
       minimum-idle: 1
       connection-test-query: SELECT 1
-  cache:
-    redis:
-      time-to-live: 2h
-      key-prefix: "libre:"
   data:
     redis:
-      host: 127.0.0.1
+      host: libre-redis
+  elasticsearch:
+    username: elastic
+    password: zc504879189~~
+    uris: http://13.230.110.72:9201
 libre:
+  redisson:
+    single:
+      address: libre-redis:6379
+  xss:
+    enabled: true
   redis:
     serializer-type: json
+  oss:
+    endpoint: https://oss.zclibre.com
+    bucket-name: libre
+    access-key: libre
+    secret-key: zc504879189..
+  file:
+    upload-path: /libre/file
+logging:
+  config: /libre/conf/logback-spring.xml
+
+apikey: AIzaSyDTHzXD6c_xWLpZON-GKLnmz7vvTElg-80
+
+

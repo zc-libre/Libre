@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 @CacheConfig(cacheNames = CacheConstants.STATISTIC_CACHE_KEY)
 public class StatisticServiceImpl implements StatisticService {
 
-
 	private final ArticleMapper articleMapper;
 
 	private final TagService tagService;

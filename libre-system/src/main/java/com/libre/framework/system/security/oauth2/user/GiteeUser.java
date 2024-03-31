@@ -11,6 +11,8 @@ import java.util.Map;
 @Setter
 public class GiteeUser extends DefaultOAuth2User {
 
+	private String clientId;
+
 	private String nickName;
 
 	private String email;
@@ -19,12 +21,14 @@ public class GiteeUser extends DefaultOAuth2User {
 
 	private Boolean isAuthor;
 
+	private String token;
+
 	/**
 	 * Constructs a {@code DefaultOAuth2User} using the provided parameters.
 	 * @param attributes the attributes about the user {@link #getAttributes()}
 	 */
 	public GiteeUser(Map<String, Object> attributes) {
-		super(Collections.emptyList(), attributes, "name");
+		super(Collections.emptyList(), attributes, "login");
 		this.avatar = (String) attributes.get("avatar_url");
 		this.nickName = (String) attributes.get("name");
 		this.email = (String) attributes.get("email");

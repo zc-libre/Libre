@@ -3,6 +3,9 @@ package com.libre.framework.system.security.auth;
 import com.google.common.base.Throwables;
 import com.libre.boot.exception.BusinessException;
 import com.libre.boot.toolkit.RequestUtils;
+import com.libre.framework.common.security.dto.AuthUser;
+import com.libre.framework.common.security.dto.JwtUser;
+import com.libre.framework.common.security.support.SecurityUtil;
 import com.libre.framework.system.security.configuration.LibreSecurityProperties;
 import com.libre.framework.system.security.jwt.JwtTokenService;
 import com.libre.framework.system.security.jwt.JwtTokenStore;
@@ -19,11 +22,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+
+import java.time.Duration;
+import java.util.Date;
+import java.util.Objects;
 
 /**
  * 成功、失败的处理器
@@ -56,7 +65,7 @@ public class LibreAuthHandler extends AccessDeniedHandlerImpl
 
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException e) {
+										AuthenticationException e) {
 		log.error("登录失败：", Throwables.getRootCause(e));
 		// 转换异常并且抛出给统一异常工具处理
 		throw new BusinessException(e.getMessage());
@@ -75,7 +84,7 @@ public class LibreAuthHandler extends AccessDeniedHandlerImpl
 //		if (Objects.isNull(authUser)) {
 //			throw new BadCredentialsException("用户不存在");
 //		}
-//		String token = tokenService.createToken(authUser, now, expireTime);
+//		String token = tokenService.createToken(authUser.getUsername(), now, expireTime);
 //		// token 管理
 //		tokenStore.save(request, authUser, token, expireTime);
 //
@@ -94,11 +103,11 @@ public class LibreAuthHandler extends AccessDeniedHandlerImpl
 
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
-			Authentication authentication) {
+								Authentication authentication) {
 		String token = tokenService.getToken(request);
 		// 删除 token
 		if (StringUtil.isBlank(token)) {
-			log.warn("token为空, {}",request.getRequestURI());
+			log.warn("token为空, {}", request.getRequestURI());
 			return;
 		}
 		tokenStore.removeByToken(token);
@@ -118,4 +127,5 @@ public class LibreAuthHandler extends AccessDeniedHandlerImpl
 		// 发送 spring event 事件
 		publisher.publishEvent(event);
 	}
+
 }

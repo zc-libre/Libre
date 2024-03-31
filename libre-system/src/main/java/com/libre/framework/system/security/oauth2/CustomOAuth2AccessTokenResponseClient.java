@@ -15,9 +15,7 @@ import org.springframework.stereotype.Component;
 public class CustomOAuth2AccessTokenResponseClient
 		implements OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> {
 
-
 	private final DefaultAuthorizationCodeTokenResponseClient proxy = new DefaultAuthorizationCodeTokenResponseClient();
-
 
 	@Override
 	public OAuth2AccessTokenResponse getTokenResponse(OAuth2AuthorizationCodeGrantRequest authorizationGrantRequest) {

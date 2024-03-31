@@ -11,6 +11,6 @@ public interface CommentMapping extends BaseMapping<Comment, CommentVO> {
 
 	CommentMapping INSTANCE = org.mapstruct.factory.Mappers.getMapper(CommentMapping.class);
 
-
 	Comment convertToComment(CommentDTO comment);
+
 }

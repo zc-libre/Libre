@@ -8,10 +8,15 @@ public class Oauth2UserFactory {
 	public static OAuth2User buildOauth2User(SerializableToken serializableToken) {
 		Oauth2ClientEnum clientEnum = Oauth2ClientEnum.findByName(serializableToken.getRegistrationId());
 		if (Oauth2ClientEnum.GITHUB.equals(clientEnum)) {
-			return new GithubUser(serializableToken.getAttributes());
+			GithubUser githubUser = new GithubUser(serializableToken.getAttributes());
+			githubUser.setToken(serializableToken.getToken());
+			return githubUser;
 		}
 		else if (Oauth2ClientEnum.GITEE.equals(clientEnum)) {
-			return new GiteeUser(serializableToken.getAttributes());
+			GiteeUser giteeUser = new GiteeUser(serializableToken.getAttributes());
+			giteeUser.setToken(serializableToken.getToken());
+			giteeUser.setClientId(serializableToken.getRegistrationId());
+			return giteeUser;
 		}
 		throw new RuntimeException("不支持的客户端类型");
 	}

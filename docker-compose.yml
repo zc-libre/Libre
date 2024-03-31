@@ -1,0 +1,31 @@
+version: '3'
+services:
+  libre-redis:
+    image: redis:7.0.0
+    ports:
+      - "6379:6379"
+    restart: always
+    container_name: libre-redis
+    hostname: libre-redis
+    networks:
+      - libre_default
+
+  libre-app:
+    environment:
+      ACTIVE: prod
+      LOCALTION: /libre/conf
+    volumes:
+      - ~/docker/app:/libre/conf
+      - ~/docker/logs:/libre/logs
+    restart: always
+    ports:
+      - "9876:9876"
+    container_name: app
+    hostname: libre-app
+    image: libre/app:1.0
+    networks:
+      - libre_default
+
+networks:
+  libre_default:
+    driver: bridge

@@ -64,7 +64,6 @@ public class AuthorizationController {
 	@PostMapping("token")
 	@ApiLog(value = "登录成功", type = SysLogType.Login)
 	public R<Object> login(AuthUserDTO loginUser, HttpServletRequest request) {
-
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
 				loginUser.getUsername(), loginUser.getPassword());
 		WebAuthenticationDetails webAuthenticationDetails = webAuthDetailsSource.buildDetails(request);
@@ -92,7 +91,6 @@ public class AuthorizationController {
 		return R.data(jwtUser);
 	}
 
-
 	@ApiOperation("获取用户信息")
 	@GetMapping("/info")
 	public R<JwtUser> getUserInfo(AuthUser authUser) {
@@ -100,9 +98,9 @@ public class AuthorizationController {
 		return R.data(jwtUser);
 	}
 
-
 	@GetMapping("/menus")
-	public R<List<MenuVO>> getMenus(AuthUser user) { // 1. 超级管理员
+	public R<List<MenuVO>> getMenus(AuthUser user) {
+		// 1. 超级管理员
 		if (SecurityConstant.IS_ADMIN_YES.equals(user.getIsAdmin())) {
 			List<SysMenu> menuList = menuService.getAllMenu();
 			return R.data(MenuUtil.transformList(menuList));

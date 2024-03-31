@@ -13,6 +13,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -28,6 +29,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Collections;
 
 /**
  * Spring Security 权限控制
@@ -69,9 +75,11 @@ public class LibreSecurityConfiguration implements SmartInitializingSingleton {
 	}
 
 	@Bean
+	@Order(1)
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 		// @formatter:off
 		http.csrf(AbstractHttpConfigurer::disable)
+			//	.cors(cors -> cors.configurationSource(corsFilter.))
 			.headers(header -> header.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
 			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.authorizeHttpRequests(request -> {
@@ -96,13 +104,9 @@ public class LibreSecurityConfiguration implements SmartInitializingSingleton {
 			.failureHandler(authHandler)
 			.authorizationEndpoint(authorization -> authorization
 				.authorizationRequestRepository(redisOauth2AuthorizationRequestRepository))
-			.redirectionEndpoint(redirect -> redirect.baseUri("/login/oauth2/code/*")))
-		// .tokenEndpoint(token -> token.accessTokenResponseClient())
-		// .userInfoEndpoint(user -> user.userService())
-		// .authorizedClientService());
-		;
+			.redirectionEndpoint(redirect -> redirect.baseUri("/login/oauth2/code/*")));
 
-		http.addFilterBefore(new BearerTokenAuthenticationFilter(jwtAuthenticationEntryPoint, bearerTokenResolver,
+		http.addFilterBefore(new Oauth2BearerTokenAuthenticationFilter(jwtAuthenticationEntryPoint, bearerTokenResolver,
 				jwtAuthenticationManager, authHandler), OAuth2AuthorizationRequestRedirectFilter.class);
 		return http.build();
 	}
@@ -128,6 +132,17 @@ public class LibreSecurityConfiguration implements SmartInitializingSingleton {
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+	}
+
+	private CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration corsConfiguration = new CorsConfiguration();
+		corsConfiguration.setAllowedOriginPatterns(Collections.singletonList("*"));
+		corsConfiguration.addAllowedHeader(CorsConfiguration.ALL);
+		corsConfiguration.addAllowedMethod(CorsConfiguration.ALL);
+		corsConfiguration.setAllowCredentials(false);
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", corsConfiguration);
+		return source;
 	}
 
 	@Override

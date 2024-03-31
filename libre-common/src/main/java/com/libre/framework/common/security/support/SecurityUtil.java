@@ -47,7 +47,6 @@ public class SecurityUtil {
 		return null;
 	}
 
-
 	/**
 	 * 获取用户
 	 */

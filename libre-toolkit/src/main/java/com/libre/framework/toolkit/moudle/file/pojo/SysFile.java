@@ -36,4 +36,5 @@ public class SysFile extends BaseEntity {
 	private Long size;
 
 	private String bucket;
+
 }

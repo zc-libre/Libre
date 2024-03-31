@@ -23,8 +23,8 @@
         <maven.compiler.target>21</maven.compiler.target>
 
         <libre.version>1.0.0</libre.version>
-        <springboot.version>3.2.0</springboot.version>
-        <libre.dependencies.version>3.2.0</libre.dependencies.version>
+        <springboot.version>3.2.3</springboot.version>
+        <libre.dependencies.version>3.2.3</libre.dependencies.version>
 
         <bitwalker.version>1.21</bitwalker.version>
         <oshi.version>6.2.2</oshi.version>
@@ -33,12 +33,14 @@
         <lombok.mapstruct.binding.version>0.2.0</lombok.mapstruct.binding.version>
         <druid.version>1.2.15</druid.version>
         <p6spy.version>3.9.1</p6spy.version>
-        <mica.version>3.1.3</mica.version>
+        <mica.version>3.2.3</mica.version>
         <netty.version>4.1.90.Final</netty.version>
         <jjwt.version>0.11.5</jjwt.version>
         <spring.statemachine.version>3.2.1</spring.statemachine.version>
         <justAuth.version>1.16.6</justAuth.version>
         <spring-authorization-server.version>1.2.1</spring-authorization-server.version>
+        <protostuff.version>1.8.0</protostuff.version>
+        <guava.version>33.1.0-jre</guava.version>
     </properties>
 
     <dependencyManagement>
@@ -58,6 +60,12 @@
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -66,17 +74,17 @@
        <!-- libre-dependencies-->
         <dependency>
             <groupId>com.zclibre</groupId>
-            <artifactId>libre-spring-boot-starter</artifactId>
+            <artifactId>libre-boot</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.zclibre</groupId>
-            <artifactId>libre-redis-boot-starter</artifactId>
+            <artifactId>libre-redis</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.zclibre</groupId>
-            <artifactId>libre-mybatis-boot-starter</artifactId>
+            <artifactId>libre-mybatis</artifactId>
             <exclusions>
                 <exclusion>
                     <groupId>org.mybatis.spring.boot</groupId>
@@ -93,12 +101,12 @@
 
         <dependency>
             <groupId>com.zclibre</groupId>
-            <artifactId>libre-redisson-boot-starter</artifactId>
+            <artifactId>libre-redisson</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.zclibre</groupId>
-            <artifactId>libre-ip2region-boot-starter</artifactId>
+            <artifactId>libre-ip2region</artifactId>
         </dependency>
 
         <dependency>
@@ -108,13 +116,12 @@
 
         <dependency>
             <groupId>com.zclibre</groupId>
-            <artifactId>libre-oss-boot-starter</artifactId>
+            <artifactId>libre-oss</artifactId>
         </dependency>
-
 
         <dependency>
             <groupId>com.zclibre</groupId>
-            <artifactId>libre-captcha-boot-starter</artifactId>
+            <artifactId>libre-captcha</artifactId>
         </dependency>
 
         <dependency>
@@ -206,12 +213,13 @@
         <dependency>
             <groupId>io.protostuff</groupId>
             <artifactId>protostuff-core</artifactId>
-            <version>1.8.0</version>
+            <version>${protostuff.version}</version>
         </dependency>
+
         <dependency>
             <groupId>io.protostuff</groupId>
             <artifactId>protostuff-runtime</artifactId>
-            <version>1.8.0</version>
+            <version>${protostuff.version}</version>
         </dependency>
 
         <!-- 解析客户端操作系统、浏览器等 -->
@@ -333,12 +341,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <!-- 用于排除jar中依赖包 -->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${springboot.version}</version>
             </plugin>
 
             <!-- 打包时跳过测试 -->

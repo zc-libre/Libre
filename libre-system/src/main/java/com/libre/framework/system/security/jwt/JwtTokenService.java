@@ -17,6 +17,7 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
@@ -31,7 +32,7 @@ import java.util.List;
  * @author L.cm
  */
 @RequiredArgsConstructor
-@Configuration(proxyBeanMethods = false)
+@Component
 public class JwtTokenService implements SmartInitializingSingleton {
 
 	/**
@@ -69,7 +70,6 @@ public class JwtTokenService implements SmartInitializingSingleton {
 		}
 		return token;
 	}
-
 
 	public String getToken(ServerHttpRequest request) {
 		LibreSecurityProperties.JwtToken jwtToken = properties.getJwtToken();
@@ -144,15 +144,14 @@ public class JwtTokenService implements SmartInitializingSingleton {
 		LibreSecurityProperties.JwtToken jwtToken = properties.getJwtToken();
 		Instant now = Instant.now();
 		JwtClaimsSet claims = JwtClaimsSet.builder()
-                .issuer(jwtToken.getIssuer())
-				.issuedAt(now)
-				.subject(serializableToken.getUsername())
-				.expiresAt(now.plusSeconds(expireTime.getSeconds()))
-				.build();
+			.issuer(jwtToken.getIssuer())
+			.issuedAt(now)
+			.subject(serializableToken.getUsername())
+			.expiresAt(now.plusSeconds(expireTime.getSeconds()))
+			.build();
 
 		return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 	}
-
 
 	@Override
 	public void afterSingletonsInstantiated() {

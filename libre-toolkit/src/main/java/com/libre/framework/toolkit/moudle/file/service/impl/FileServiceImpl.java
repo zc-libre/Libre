@@ -40,7 +40,7 @@ public class FileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impleme
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public String createFile(MultipartFile file, Integer saveType) throws Exception {
+	public SysFile createFile(MultipartFile file, Integer saveType) throws Exception {
 		SysFile sysFile = new SysFile();
 		String originalFilename = file.getOriginalFilename();
 		String fileName = Clock.systemDefaultZone().millis() + StringPool.DASH + originalFilename;
@@ -55,7 +55,7 @@ public class FileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impleme
 		FileStoreStrategy fileStoreStrategy = FileStoreFactory.getFileStoreStrategy(saveType);
 		fileStoreStrategy.createFile(file, sysFile);
 		this.save(sysFile);
-		return sysFile.getPath();
+		return sysFile;
 	}
 
 	@Override

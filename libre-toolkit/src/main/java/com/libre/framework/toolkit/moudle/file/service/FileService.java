@@ -27,7 +27,7 @@ public interface FileService extends IService<SysFile> {
 	 * @return 文件连接
 	 * @throws Exception e
 	 */
-	String createFile(MultipartFile file, Integer saveType) throws Exception;
+	SysFile createFile(MultipartFile file, Integer saveType) throws Exception;
 
 	/**
 	 * 获取文件外链

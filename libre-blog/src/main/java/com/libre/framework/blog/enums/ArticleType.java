@@ -11,8 +11,7 @@ public enum ArticleType {
 
 	ABOUT(2),
 
-	COMMENT(3),
-	;
+	COMMENT(3),;
 
 	private final Integer type;
 

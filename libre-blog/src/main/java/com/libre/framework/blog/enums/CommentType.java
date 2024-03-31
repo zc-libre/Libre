@@ -7,12 +7,12 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum CommentType {
 
-    BLOG(1),
+	BLOG(1),
 
-    ABOUT(2),
+	ABOUT(2),
 
-    COMMENT(3),
-    ;
+	COMMENT(3),;
 
-    private final Integer value;
+	private final Integer value;
+
 }

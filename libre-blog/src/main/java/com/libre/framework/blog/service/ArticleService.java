@@ -32,9 +32,19 @@ public interface ArticleService extends IService<Article> {
 
 	PageDTO<ArticleVO> findPageByTagId(PageDTO<ArticleVO> page, ArticleCriteria criteria);
 
-    MessageBoard messageBoard();
+	MessageBoard messageBoard();
 
 	List<ArticleIndex> search(PageDTO<Article> page, ArticleCriteria criteria);
 
 	void syncElasticsearch();
+
+	/**
+	 * 修改文章状态
+	 * @param article 文章
+	 */
+	void changeStatus(Article article);
+
+
+	void changeTop(Article article);
+
 }

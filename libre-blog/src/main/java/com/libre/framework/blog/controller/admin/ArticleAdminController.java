@@ -48,6 +48,20 @@ public class ArticleAdminController {
 		return R.status(true);
 	}
 
+	@ApiLog("修改状态")
+	@PostMapping("/changeStatus")
+	public R<Boolean> changeStatus(@Validated(UpdateGroup.class) @RequestBody Article article) {
+		articleService.changeStatus(article);
+		return R.status(true);
+	}
+
+	@ApiLog("修改状态")
+	@PostMapping("/changeTop")
+	public R<Boolean> changeTop(@Validated(UpdateGroup.class) @RequestBody Article article) {
+		articleService.changeTop(article);
+		return R.status(true);
+	}
+
 	@DeleteMapping
 	public R<Boolean> delete(@RequestBody List<Long> ids) {
 		articleService.deleteByIds(ids);

@@ -64,6 +64,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 		if (Objects.isNull(comment.getParentId())) {
 			comment.setParentId(0L);
 		}
+		comment.setReview(LibreConstants.YES);
 		// 获取操作系统和浏览器信息
 		setRequestInfo(comment);
 		this.save(comment);

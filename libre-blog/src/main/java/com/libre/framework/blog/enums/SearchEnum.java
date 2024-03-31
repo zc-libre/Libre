@@ -9,8 +9,7 @@ public enum SearchEnum {
 
 	SQL(1),
 
-	ES(2),
-	;
+	ES(2),;
 
 	private final Integer value;
 

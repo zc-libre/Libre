@@ -30,7 +30,6 @@ public class BlogOauth2User implements OAuth2User {
 	 */
 	private String avatar;
 
-
 	@Override
 	public Map<String, Object> getAttributes() {
 		return null;

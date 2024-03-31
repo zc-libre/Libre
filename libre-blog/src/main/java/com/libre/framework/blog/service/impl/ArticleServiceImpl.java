@@ -155,11 +155,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
 	@Override
 	public TopAndFeaturedArticleVO findTopAndFeaturedArticles() {
-		ArticleCriteria criteria = ArticleCriteria.builder()
-			.top(LibreConstants.ENABLE)
-			.featured(LibreConstants.ENABLE)
-			.build();
-		List<Article> articleList = this.list(buildQueryWrapper(criteria));
+		List<Article> articleList = this.list(Wrappers.<Article>lambdaQuery()
+			.eq(Article::getFeatured, LibreConstants.ENABLE)
+			.or(wrapper -> wrapper.eq(Article::getTop, LibreConstants.ENABLE))
+			.eq(Article::getArticleType, ArticleType.BLOG.getType())
+			.eq(Article::getStatus, LibreConstants.ENABLE));
 		if (CollectionUtils.isEmpty(articleList)) {
 			return new TopAndFeaturedArticleVO();
 		}
@@ -258,6 +258,46 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 			ArticleMapping mapping = ArticleMapping.INSTANCE;
 			List<ArticleIndex> articleIndices = mapping.convertToArticleIndexList(articleList);
 			elasticsearchOperations.save(articleIndices);
+		}
+	}
+
+	@Transactional(rollbackFor = Throwable.class)
+	@Override
+	public void changeTop(Article article) {
+		Article dbArticle = baseMapper.selectById(article.getId());
+		if (Objects.isNull(dbArticle)) {
+			throw new BusinessException("文章不存在");
+		}
+		if (ObjectUtils.nullSafeEquals(article.getTop(), dbArticle.getTop())) {
+			return;
+		}
+		Optional.ofNullable(article.getTop()).ifPresent(top -> {
+			Long topCount = baseMapper
+				.selectCount(Wrappers.<Article>lambdaQuery().eq(Article::getTop, LibreConstants.YES));
+			if (Objects.nonNull(topCount) && topCount != 0
+					&& !ObjectUtils.nullSafeEquals(dbArticle.getTop(), LibreConstants.YES)) {
+				throw new BusinessException("已存在置顶文章");
+			}
+			baseMapper.update(Wrappers.<Article>lambdaUpdate()
+				.set(Article::getTop, article.getTop())
+				.eq(Article::getId, article.getId()));
+		});
+	}
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void changeStatus(Article article) {
+		this.changeTop(article);
+		if (Objects.nonNull(article.getFeatured())) {
+			baseMapper.update(Wrappers.<Article>lambdaUpdate()
+				.set(Article::getFeatured, article.getFeatured())
+				.eq(Article::getId, article.getId()));
+		}
+
+		if (Objects.nonNull(article.getStatus())) {
+			baseMapper.update(Wrappers.<Article>lambdaUpdate()
+				.set(Article::getStatus, article.getStatus())
+				.eq(Article::getId, article.getId()));
 		}
 	}
 

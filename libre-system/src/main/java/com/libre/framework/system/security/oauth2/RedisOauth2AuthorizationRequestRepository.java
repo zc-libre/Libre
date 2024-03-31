@@ -5,6 +5,7 @@ import com.libre.toolkit.core.StringUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
@@ -13,7 +14,7 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 @Component
 @RequiredArgsConstructor
@@ -22,13 +23,10 @@ public class RedisOauth2AuthorizationRequestRepository
 
 	public static final String DEFAULT_INFLIGHT_REQUEST_REDIS_KEY_PREFIX = "OAUTH2_INFLIGHT_REQUEST:";
 
+	@Setter
 	private String redisKeyPrefix = DEFAULT_INFLIGHT_REQUEST_REDIS_KEY_PREFIX;
 
 	private final RedisTemplate<String, Object> redisTemplate;
-
-	public void setRedisKeyPrefix(String redisKeyPrefix) {
-		this.redisKeyPrefix = redisKeyPrefix;
-	}
 
 	private String createRedisKey(String state) {
 		return this.redisKeyPrefix + state;
@@ -66,7 +64,7 @@ public class RedisOauth2AuthorizationRequestRepository
 			.adapt(authorizationRequest);
 
 		try {
-			redisTemplate.opsForValue().set(createRedisKey(state), adapt, 5, TimeUnit.MINUTES);
+			redisTemplate.opsForValue().set(createRedisKey(state), adapt, Duration.ofMinutes(5));
 		}
 		catch (Exception e) {
 			throw new SessionAuthenticationException("In-flight Authorization Request store failed");

@@ -14,5 +14,7 @@ public interface ArticleMapper extends BaseMapper<Article> {
 	PageDTO<Archive> findArchiveByPage(@Param("page") PageDTO<Archive> page,
 			@Param(Constants.WRAPPER) ArticleCriteria criteria);
 
-	PageDTO<ArticleVO> findPageByTagId(@Param("page") PageDTO<ArticleVO> page, @Param("criteria") ArticleCriteria criteria);
+	PageDTO<ArticleVO> findPageByTagId(@Param("page") PageDTO<ArticleVO> page,
+			@Param("criteria") ArticleCriteria criteria);
+
 }

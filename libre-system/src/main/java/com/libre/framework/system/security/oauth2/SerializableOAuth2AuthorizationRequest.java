@@ -39,7 +39,6 @@ public class SerializableOAuth2AuthorizationRequest implements Serializable {
 
 	private Map<String, Object> attributes;
 
-
 	public static SerializableOAuth2AuthorizationRequest adapt(OAuth2AuthorizationRequest request) {
 		SerializableOAuth2AuthorizationRequest serializable = new SerializableOAuth2AuthorizationRequest();
 		serializable.setAuthorizationUri(request.getAuthorizationUri());
