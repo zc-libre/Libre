@@ -1,0 +1,176 @@
+<template>
+  <li class="article-container" @click="handleCardClick(post?.id)">
+    <div class="article">
+      <div class="article-thumbnail">
+        <img v-if="post.cover" v-lazy="post.cover" alt=""/>
+        <img v-else src="@/assets/default-cover.jpg"/>
+        <span class="thumbnail-screen" :style="gradientBackground"/>
+      </div>
+      <div class="article-content">
+        <span>
+          <b v-if="post.featured === 1" class="article-tag">
+            <span>
+              <SvgIcon
+                icon-class="hot"
+                width="1.05rem"
+                height="1.05rem"
+                class="-mb-0.5"
+                stroke="currentColor"
+              />
+              <span>{{ t('settings.featured') }}</span>
+            </span>
+          </b>
+          <b
+            v-if="post.category"
+            @click="navigateToCategory(post.category.id)"
+          >
+            {{ post.category.categoryName }}
+          </b>
+          <b v-else-if="post.categories && post.categories.length <= 0">
+            {{ t('settings.default-category') }}
+          </b>
+          <ob-skeleton v-else tag="b" height="20px" width="35px"/>
+        </span>
+
+        <span class="flex flex-wrap">
+          <ul v-if="post.tags && post.tags.length > 0">
+            <li
+              v-for="tag in post.min_tags"
+              :key="tag.id"
+              @click="navigateToTag(tag.id)"
+            >
+              <em># </em><span>{{ tag.tagName }}</span>
+            </li>
+          </ul>
+          <ul v-else-if="post.tags && post.tags.length <= 0">
+            <li>
+              <em>#</em><span>{{ t('settings.default-tag') }}</span>
+            </li>
+          </ul>
+          <ul v-else>
+            <ob-skeleton
+              v-if="!post.tags"
+              :count="2"
+              tag="li"
+              height="16px"
+              width="35px"
+            />
+          </ul>
+        </span>
+
+        <div
+          v-if="post.articleName" @click='handleCardClick(post.id)'
+        >
+          <h1 data-dia="article-link">{{ post.articleName }}</h1>
+        </div>
+        <ob-skeleton v-else tag="h1" height="3rem"/>
+
+        <p v-if="post.summary">{{ post.summary }}</p>
+        <ob-skeleton v-else tag="p" :count="4" height="16px"/>
+
+        <div class="article-footer" v-if="post.author && post.date">
+          <div class="flex flex-row items-center">
+            <img
+              :class="avatarClasses"
+              :src="post.author.avatar"
+              :alt="`avatar-${post.author.name}`"
+              @click="handleAuthorClick(post.author.link)"
+            />
+            <span class="text-ob-dim">
+              <strong
+                class="text-ob-normal pr-1.5 hover:text-ob hover:opacity-50 cursor-pointer"
+                @click="handleAuthorClick(post.author.link)"
+              >
+                {{ post.author.name }}
+              </strong>
+              {{ t('settings.shared-on') }} {{ t(post.date.month) }}
+              {{ post.date.day }}, {{ post.date.year }}
+            </span>
+          </div>
+        </div>
+
+        <div class="article-footer" v-else>
+          <div class="flex flex-row items-center mt-6">
+            <ob-skeleton
+              class="mr-2"
+              height="28px"
+              width="28px"
+              :circle="true"
+            />
+            <span class="text-ob-dim mt-1">
+              <ob-skeleton height="20px" width="150px"/>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </li>
+</template>
+
+<script lang="ts">
+import {useAppStore} from '@/stores/app'
+import {computed, defineComponent} from 'vue'
+import {useI18n} from 'vue-i18n'
+import SvgIcon from '@/components/SvgIcon/index.vue'
+import {useRouter} from 'vue-router'
+import {useFileStore} from '@/stores/file'
+
+export default defineComponent({
+  name: 'ARArticleCard',
+  components: {SvgIcon},
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
+  setup(props) {
+    const router = useRouter()
+    const appStore = useAppStore()
+    const {t} = useI18n()
+    const {getLocalFileApi} = useFileStore()
+    const handleCardClick = (id?: string) => {
+      if (!id) return
+      router.push({name: 'article', params: {articleId: id}})
+    }
+
+    const handleAuthorClick = (link: string) => {
+      if (link === '') link = window.location.href
+      window.location.href = link
+    }
+
+    const navigateToTag = (id: string) => {
+      router.push({name: 'search', query: {tag: id}})
+    }
+
+    const navigateToCategory = (id: string) => {
+      router.push({name: 'search', query: {category: id}})
+    }
+
+    return {
+      avatarClasses: computed(() => ({
+        'hover:opacity-50 cursor-pointer': true,
+        [appStore.themeConfig.theme.profile_shape]: true
+      })),
+      gradientBackground: computed(() => {
+        return {background: appStore.themeConfig.theme.header_gradient_css}
+      }),
+      post: computed(() => props.data),
+      navigateToTag,
+      navigateToCategory,
+      handleAuthorClick,
+      handleCardClick,
+      t,
+      getLocalFileApi
+    }
+  }
+})
+</script>
+
+<style lang="scss" scoped>
+.feature-sign {
+  width: calc(100% - 0.5rem);
+  height: calc(100% - 0.5rem);
+  margin: 0.25rem;
+}
+</style>
